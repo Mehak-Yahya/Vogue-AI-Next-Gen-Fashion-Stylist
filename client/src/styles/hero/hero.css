@@ -1,0 +1,902 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap");
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+* {
+  box-sizing: border-box;
+  font-family: "DM Sans", sans-serif;
+}
+
+:root {
+  --brand-display: "Playfair Display", serif;
+  --brand-body: "DM Sans", sans-serif;
+  --brand-meta: "DM Mono", monospace;
+  --brand-ink: #20171a;
+  --brand-ink-soft: rgba(32, 23, 26, 0.72);
+  --brand-muted: rgba(32, 23, 26, 0.62);
+  --brand-accent: #7d1f3d;
+  --brand-accent-soft: #a76d5a;
+  --brand-panel: rgba(255, 255, 255, 0.36);
+  --brand-border: rgba(32, 23, 26, 0.08);
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background: #f0e3dc;
+}
+
+body {
+  overflow-x: hidden;
+  background:
+    linear-gradient(180deg, #f0e3dc 0%, #e9d5ca 100%);
+  color: var(--brand-ink);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.page-shell {
+  position: relative;
+  display: block;
+  background: linear-gradient(180deg, #f3e7df 0%, #ebd9cf 100%);
+}
+
+.page-shell > section {
+  position: relative;
+  box-shadow: inset 0 1px 0 rgba(29, 20, 23, 0.05);
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.cyber-hero {
+  position: relative;
+  width: 100%;
+  min-height: 100dvh;
+  background:
+    radial-gradient(circle at top left, rgba(121, 36, 56, 0.16), transparent 28%),
+    linear-gradient(180deg, #f1e4db 0%, #e5c9bb 100%);
+  color: #1d1417;
+  overflow: hidden;
+  box-shadow: 0 30px 90px rgba(55, 29, 31, 0.10);
+}
+
+/* =========================================================
+   HERO STAGE
+========================================================= */
+
+.hero-stage {
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+  min-height: 620px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 70% 20%, rgba(96, 33, 49, 0.14), transparent 20%),
+    linear-gradient(135deg, #f0e1d8 0%, #e4c7b8 36%, #d9b39d 100%);
+  border-bottom: 1px solid rgba(29,20,23,0.08);
+}
+
+/* =========================================================
+   GRID
+========================================================= */
+
+.hero-grid {
+  position: absolute;
+  inset: -30px;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.1;
+
+  transform: translate3d(
+    var(--grid-x, 0px),
+    var(--grid-y, 0px),
+    0
+  );
+
+  transition: transform 0.05s linear;
+}
+
+.hero-grid svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* =========================================================
+   IMAGES
+========================================================= */
+
+.hero-image {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  object-fit: contain;
+}
+
+/* =========================================================
+   FIRST IMAGE
+========================================================= */
+
+.base-image {
+  position: absolute;
+  z-index: 5;
+
+  width: 108%;
+  height: 108%;
+
+  left: 12%;
+  top: 10%;
+
+  object-fit: contain;
+  object-position: center center;
+
+  transform: none;
+  opacity: 1;
+  filter: none;
+  image-rendering: auto;
+
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+
+  animation: none;
+}
+
+/* =========================================================
+   RED OVERLAY
+========================================================= */
+
+.hero-red-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 15;
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(30, 0, 0, 0.18),
+      rgba(130, 0, 0, 0.06),
+      rgba(0, 0, 0, 0.04)
+    ),
+    linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.18),
+      transparent 60%,
+      rgba(0, 0, 0, 0.04)
+    );
+
+  mix-blend-mode: normal;
+}
+
+/* =========================================================
+   VIGNETTE
+========================================================= */
+
+.hero-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at center,
+      transparent 45%,
+      rgba(0, 0, 0, 0.12) 100%
+    );
+}
+
+/* =========================================================
+   CURSOR REVEAL
+========================================================= */
+
+.hero-reveal {
+  position: absolute;
+  inset: 0;
+  z-index: 25;
+
+  pointer-events: none;
+  overflow: hidden;
+
+  opacity: 0;
+
+  -webkit-mask-image: none;
+  mask-image: none;
+
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
+/* =========================================================
+   SECOND IMAGE
+========================================================= */
+
+.hero-reveal .hero-image {
+  position: absolute;
+
+  width: 108%;
+  height: 108%;
+
+  left: 12%;
+  top: 10%;
+
+  object-fit: contain;
+  object-position: center center;
+
+  pointer-events: none;
+  user-select: none;
+
+  opacity: 1;
+  filter: none;
+  image-rendering: auto;
+  transform: none;
+}
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.stats-container {
+  position: absolute;
+
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  z-index: 50;
+
+  width: 54%;
+
+  pointer-events: none;
+}
+
+.stats-container svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.arc-line {
+  fill: none;
+  stroke-width: 1.1;
+
+  stroke-dasharray: var(--arc-length);
+  stroke-dashoffset: var(--arc-length);
+
+  animation:
+    arcDraw
+    1.6s
+    cubic-bezier(0.65, 0, 0.35, 1)
+    forwards;
+}
+
+.arc-dot {
+  fill: #fff;
+
+  transform-box: fill-box;
+  transform-origin: center;
+
+  opacity: 0;
+
+  animation:
+    popIn
+    0.55s
+    cubic-bezier(0.34, 1.56, 0.64, 1)
+    forwards;
+}
+
+.arc-ring {
+  fill: none;
+
+  stroke: #fff;
+  stroke-width: 1;
+  stroke-opacity: 0.35;
+
+  transform-box: fill-box;
+  transform-origin: center;
+
+  animation:
+    pulseRing
+    2.8s
+    ease-in-out
+    infinite;
+}
+
+.arc-number {
+  fill: #fff;
+
+  font-size: 32px;
+  font-weight: 400;
+  letter-spacing: -1px;
+
+  opacity: 0;
+
+  animation:
+    fadeIn
+    0.7s
+    ease-out
+    forwards;
+}
+
+.arc-label {
+  fill: #fff;
+
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 2px;
+
+  opacity: 0;
+
+  animation:
+    fadeIn
+    0.7s
+    ease-out
+    forwards;
+}
+
+/* =========================================================
+   HERO COPY
+========================================================= */
+
+.hero-copy {
+  position: absolute;
+
+  left: 48px;
+  bottom: 132px;
+
+  z-index: 60;
+
+  width: 700px;
+  max-width: calc(100% - 80px);
+}
+
+/* =========================================================
+   EYEBROW
+========================================================= */
+
+.hero-eyebrow {
+  font-family: var(--brand-meta);
+
+  font-size: 11px;
+  font-weight: 500;
+
+  letter-spacing: 0.15em;
+
+  color: var(--brand-accent);
+
+  text-transform: uppercase;
+}
+
+.hero-eyebrow em {
+  font-weight: 400;
+  font-style: italic;
+}
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.hero-title {
+  font-family: var(--brand-display);
+
+  display: block;
+
+  width: auto;
+  max-width: 700px;
+
+  margin: 14px 0 0;
+
+  color: #4a1727;
+
+  font-size: clamp(52px, 4.2vw, 78px);
+
+  font-weight: 400;
+  line-height: 0.9;
+
+  letter-spacing: -0.06em;
+
+  white-space: normal;
+}
+
+.hero-title span,
+.hero-title em {
+  font-family: var(--brand-display);
+  font-style: normal;
+  font-weight: 400;
+}
+
+.title-line-one {
+  display: block;
+
+  font-family: var(--brand-display);
+
+  white-space: nowrap;
+
+  font-size: 1em;
+  line-height: 0.92;
+
+  letter-spacing: -0.055em;
+}
+
+.title-line-two {
+  display: block;
+
+  font-family: var(--brand-display);
+
+  white-space: nowrap;
+
+  font-size: 0.54em;
+
+  line-height: 1;
+
+  letter-spacing: -0.035em;
+
+  margin-top: 8px;
+}
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.hero-description {
+  width: 390px;
+  max-width: 100%;
+
+  margin-top: 20px;
+
+    color: rgba(43, 26, 29, 0.86);
+
+  font-family: var(--brand-body);
+
+  font-size: 15px;
+  line-height: 1.7;
+
+  letter-spacing: -0.01em;
+}
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.reserve-button {
+  position: relative;
+  overflow: hidden;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 23px;
+
+  border: 0;
+
+  padding: 12px 27px;
+
+  border-radius: 999px;
+
+  background: var(--brand-accent);
+  color: #fff;
+
+  font-family:
+    "JetBrains Mono",
+    monospace;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 12px 30px rgba(125, 31, 61, 0.35);
+
+  transition:
+    transform 0.3s ease,
+    background 0.25s ease;
+}
+
+.reserve-button:hover {
+  transform: scale(1.04);
+  background: #541a2b;
+}
+
+.reserve-button:active {
+  transform: scale(0.95);
+}
+
+.reserve-button span {
+  position: relative;
+  z-index: 2;
+}
+
+.reserve-button i {
+  position: absolute;
+  inset: 0;
+
+  z-index: 1;
+
+  transform:
+    translateX(-120%)
+    skewX(-20deg);
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.8),
+      transparent
+    );
+
+  transition:
+    transform 0.7s ease;
+
+  pointer-events: none;
+}
+
+.reserve-button:hover i {
+  transform:
+    translateX(120%)
+    skewX(-20deg);
+}
+
+/* =========================================================
+   HERO RISE
+========================================================= */
+
+@keyframes heroRise {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(26px);
+
+    filter: blur(8px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+
+    filter: blur(0);
+  }
+}
+
+.hero-rise {
+  opacity: 0;
+
+  animation:
+    heroRise
+    0.95s
+    cubic-bezier(0.22, 1, 0.36, 1)
+    forwards;
+}
+
+/* =========================================================
+   KEN BURNS
+========================================================= */
+
+@keyframes kenBurns {
+  from {
+    transform:
+      scale(1.04);
+  }
+
+  to {
+    transform:
+      scale(1);
+  }
+}
+
+/* =========================================================
+   ARC DRAW
+========================================================= */
+
+@keyframes arcDraw {
+  from {
+    stroke-dashoffset:
+      var(--arc-length);
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* =========================================================
+   DOT POP
+========================================================= */
+
+@keyframes popIn {
+  0% {
+    opacity: 0;
+
+    transform:
+      scale(0.4);
+  }
+
+  65% {
+    opacity: 1;
+
+    transform:
+      scale(1.25);
+  }
+
+  100% {
+    opacity: 1;
+
+    transform:
+      scale(1);
+  }
+}
+
+/* =========================================================
+   RING PULSE
+========================================================= */
+
+@keyframes pulseRing {
+  0% {
+    transform:
+      scale(1);
+
+    opacity: 0.35;
+  }
+
+  70% {
+    transform:
+      scale(1.45);
+
+    opacity: 0;
+  }
+
+  100% {
+    transform:
+      scale(1.45);
+
+    opacity: 0;
+  }
+}
+
+/* =========================================================
+   FADE
+========================================================= */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 767px) {
+  .base-image {
+    width: 112%;
+    height: 112%;
+
+    left: 8%;
+    top: 8%;
+  }
+
+  .hero-reveal .hero-image {
+    width: 112%;
+    height: 112%;
+
+    left: 8%;
+    top: 8%;
+  }
+
+  .hero-copy {
+    left: 20px;
+    bottom: 48px;
+
+    width: calc(100% - 40px);
+    max-width: none;
+  }
+
+  .hero-eyebrow {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+  }
+ 
+
+  .hero-title {
+    width: 100%;
+    max-width: 100%;
+
+    margin-top: 11px;
+
+    font-size: 44px;
+
+    line-height: 0.92;
+    letter-spacing: -0.055em;
+  }
+
+  .title-line-one {
+    white-space: nowrap;
+    font-size: 1em;
+  }
+
+  .title-line-two {
+    white-space: nowrap;
+
+    font-size: 0.48em;
+
+    line-height: 1;
+
+    margin-top: 7px;
+
+    letter-spacing: -0.025em;
+  }
+
+  .hero-description {
+    width: 300px;
+
+    margin-top: 17px;
+
+    font-size: 10px;
+    line-height: 1.55;
+  }
+
+  .reserve-button {
+    margin-top: 20px;
+
+    padding: 11px 23px;
+
+    font-size: 10px;
+  }
+
+  .stats-container {
+    display: none;
+  }
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (min-width: 768px) and (max-width: 1100px) {
+  .base-image,
+  .hero-reveal .hero-image {
+    width: 110%;
+    height: 110%;
+
+    left: 9%;
+    top: 9%;
+  }
+
+  .hero-copy {
+    left: 32px;
+    bottom: 105px;
+
+    width: 620px;
+    max-width: calc(100% - 64px);
+  }
+
+  .hero-title {
+    font-size: 56px;
+    line-height: 0.92;
+  }
+
+  .title-line-one,
+  .title-line-two {
+    white-space: nowrap;
+  }
+
+  .title-line-two {
+    font-size: 0.52em;
+  }
+
+  .hero-description {
+    width: 370px;
+    font-size: 11px;
+  }
+}
+
+/* =========================================================
+   LARGE DESKTOP
+========================================================= */
+
+@media (min-width: 1400px) {
+  .base-image,
+  .hero-reveal .hero-image {
+    width: 112%;
+    height: 112%;
+
+    left: 14%;
+    top: 11%;
+  }
+
+  .hero-copy {
+    left: 58px;
+    bottom: 145px;
+
+    width: 760px;
+  }
+
+  .hero-title {
+    font-size: 68px;
+    max-width: 760px;
+  }
+
+  .title-line-two {
+    font-size: 0.55em;
+  }
+
+  .hero-description {
+    width: 410px;
+    font-size: 12px;
+  }
+}
+
+/* =========================================================
+   VERY LARGE SCREENS
+========================================================= */
+
+@media (min-width: 1800px) {
+  .hero-title {
+    font-size: 72px;
+  }
+
+  .hero-copy {
+    bottom: 155px;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .arc-line {
+    stroke-dashoffset: 0 !important;
+  }
+
+  .hero-rise,
+  .arc-dot,
+  .arc-number,
+  .arc-label {
+    opacity: 1 !important;
+  }
+
+  .base-image {
+    transform: scale(1) !important;
+  }
+}

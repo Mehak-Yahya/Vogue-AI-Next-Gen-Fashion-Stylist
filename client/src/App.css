@@ -1,0 +1,355 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "DM Sans", sans-serif;
+  background: #f3f0ea;
+  color: #111;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.vogue-page {
+  min-height: 100vh;
+  background: #f3f0ea;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 92px;
+
+  padding: 0 6vw;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  z-index: 20;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.8px;
+}
+
+.logo span {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-weight: 400;
+  margin-left: 2px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 42px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #111;
+
+  font-size: 11px;
+  font-weight: 500;
+
+  letter-spacing: 1.5px;
+
+  transition: opacity 0.3s ease;
+}
+
+.nav-links a:hover {
+  opacity: 0.45;
+}
+
+.nav-button {
+  border: 1px solid #111;
+  background: transparent;
+
+  padding: 12px 20px;
+
+  font-size: 10px;
+  letter-spacing: 1.4px;
+
+  transition: all 0.3s ease;
+}
+
+.nav-button:hover {
+  background: #111;
+  color: #f3f0ea;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+  position: relative;
+
+  min-height: 100vh;
+
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+}
+
+/* =========================
+   HERO TEXT
+========================= */
+
+.hero-content {
+  position: relative;
+
+  width: 43%;
+
+  margin-left: 7vw;
+
+  z-index: 10;
+
+  padding-top: 40px;
+}
+
+.eyebrow {
+  font-size: 10px;
+  font-weight: 600;
+
+  letter-spacing: 2.5px;
+
+  margin-bottom: 28px;
+}
+
+.hero h1 {
+  font-family: "Playfair Display", serif;
+
+  font-size: clamp(62px, 7vw, 118px);
+
+  font-weight: 400;
+
+  line-height: 0.88;
+
+  letter-spacing: -5px;
+}
+
+.hero h1 em {
+  font-style: italic;
+  font-weight: 400;
+}
+
+.hero-content p {
+  max-width: 390px;
+
+  margin-top: 38px;
+
+  font-size: 15px;
+
+  line-height: 1.7;
+
+  color: #555;
+}
+
+.discover-button {
+  margin-top: 34px;
+
+  border: none;
+
+  background: #111;
+  color: #fff;
+
+  padding: 17px 24px;
+
+  font-size: 10px;
+
+  letter-spacing: 1.8px;
+
+  display: flex;
+  align-items: center;
+  gap: 30px;
+
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease;
+}
+
+.discover-button span {
+  font-size: 17px;
+}
+
+.discover-button:hover {
+  transform: translateX(5px);
+}
+
+/* =========================
+   3D MODEL
+========================= */
+
+.model-container {
+  position: absolute;
+
+  right: 3vw;
+
+  top: 0;
+
+  width: 58%;
+  height: 100%;
+
+  z-index: 4;
+}
+
+.model-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.model-glow {
+  position: absolute;
+
+  width: 480px;
+  height: 480px;
+
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  background: rgba(210, 201, 187, 0.35);
+
+  filter: blur(90px);
+
+  pointer-events: none;
+}
+
+/* =========================
+   HERO LABEL
+========================= */
+
+.hero-label {
+  position: absolute;
+
+  bottom: 80px;
+  left: 7vw;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  font-size: 9px;
+
+  letter-spacing: 2px;
+
+  z-index: 10;
+}
+
+.hero-label span {
+  font-family: "Playfair Display", serif;
+
+  font-size: 15px;
+}
+
+/* =========================
+   SCROLL
+========================= */
+
+.scroll-indicator {
+  position: absolute;
+
+  bottom: 45px;
+  right: 7vw;
+
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  z-index: 10;
+}
+
+.scroll-indicator span {
+  font-size: 9px;
+
+  letter-spacing: 2px;
+
+  color: #555;
+}
+
+.scroll-line {
+  width: 55px;
+  height: 1px;
+
+  background: #111;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+
+  .nav-links {
+    display: none;
+  }
+
+  .nav-button {
+    display: none;
+  }
+
+  .hero {
+    min-height: 900px;
+    align-items: flex-start;
+  }
+
+  .hero-content {
+    width: 90%;
+
+    margin-left: 6vw;
+
+    padding-top: 170px;
+  }
+
+  .hero h1 {
+    font-size: 65px;
+  }
+
+  .hero-content p {
+    max-width: 300px;
+  }
+
+  .model-container {
+    width: 100%;
+    height: 65%;
+
+    top: 35%;
+    right: 0;
+
+    opacity: 0.8;
+  }
+
+  .hero-label {
+    display: none;
+  }
+
+  .scroll-indicator {
+    right: auto;
+    left: 6vw;
+  }
+}

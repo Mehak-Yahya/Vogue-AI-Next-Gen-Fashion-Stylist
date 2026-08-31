@@ -1,0 +1,255 @@
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.cyber-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  z-index: 100;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 20px;
+
+  pointer-events: none;
+}
+
+.desktop-nav {
+  pointer-events: auto;
+
+  display: flex;
+  align-items: center;
+
+  gap: 4px;
+
+  padding: 8px 8px 8px 12px;
+
+  background: rgba(0, 0, 0, 0.6);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  border-radius: 999px;
+
+  opacity: 0;
+
+  animation:
+    navDrop
+    0.8s
+    cubic-bezier(0.22, 1, 0.36, 1)
+    0.1s
+    forwards;
+}
+
+/* =========================================================
+   NAV LINKS
+========================================================= */
+
+.nav-link {
+  border: 0;
+  outline: none;
+
+  background: transparent;
+  color: #d1d5db;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  padding: 7px 12px;
+
+  border-radius: 999px;
+
+  cursor: pointer;
+  white-space: nowrap;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #fff;
+  background: rgba(125, 31, 61, 0.18);
+}
+
+/* =========================================================
+   GET STYLED
+========================================================= */
+
+.connect-button {
+  border: 0;
+  outline: none;
+
+  background: #7d1f3d;
+  color: #fff;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  padding: 7px 20px;
+
+  border-radius: 999px;
+
+  margin-left: 4px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.connect-button:hover {
+  background: #541a2b;
+}
+
+.connect-button:active {
+  transform: scale(0.96);
+}
+
+/* =========================================================
+   MOBILE NAV
+========================================================= */
+
+.mobile-nav {
+  display: none;
+}
+
+.mobile-logo,
+.mobile-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 46px;
+  height: 46px;
+
+  border: 0;
+  border-radius: 999px;
+
+  color: #fff;
+
+  background: rgba(0, 0, 0, 0.62);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.mobile-toggle {
+  cursor: pointer;
+}
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+.mobile-menu {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  z-index: 90;
+
+  padding: 78px 20px 24px;
+
+  background: #fff;
+
+  transform: translateY(-100%);
+  opacity: 0;
+
+  transition:
+    transform 0.35s ease,
+    opacity 0.35s ease;
+
+  pointer-events: none;
+}
+
+.mobile-menu.open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobile-menu button {
+  display: block;
+
+  width: 100%;
+
+  padding: 15px 0;
+
+  border: 0;
+  border-bottom: 1px solid #eee;
+
+  background: transparent;
+
+  text-align: left;
+
+  color: #111827;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  cursor: pointer;
+}
+
+.mobile-menu .mobile-connect {
+  margin-top: 18px;
+
+  padding: 13px;
+
+  border: 0;
+  border-radius: 999px;
+
+  background: #7d1f3d;
+  color: #fff;
+
+  text-align: center;
+}
+
+/* =========================================================
+   NAV ANIMATION
+========================================================= */
+
+@keyframes navDrop {
+  from {
+    opacity: 0;
+    transform: translateY(-18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 767px) {
+  .cyber-nav {
+    justify-content: space-between;
+    padding: 16px;
+  }
+
+  .desktop-nav {
+    display: none;
+  }
+
+  .mobile-nav {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+  }
+}

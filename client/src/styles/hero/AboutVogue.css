@@ -1,0 +1,662 @@
+
+/* =========================================================
+   VOGUE AI — ABOUT
+========================================================= */
+
+.about-vogue {
+  --burgundy: #4c1728;
+  --burgundy-soft: #7d334b;
+  --cream: #f5eee8;
+  --cream-dark: #eadbd1;
+  --ink: #24191c;
+  --muted: rgba(36, 25, 28, 0.58);
+  --line: rgba(76, 23, 40, 0.14);
+
+  position: relative;
+  width: 100%;
+  min-height: 560px;
+  padding: 22px 4vw 18px;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+  isolation: isolate;
+
+  background:
+    radial-gradient(
+      circle at 72% 22%,
+      rgba(125, 51, 75, 0.08),
+      transparent 26%
+    ),
+    radial-gradient(
+      circle at 12% 80%,
+      rgba(125, 51, 75, 0.04),
+      transparent 24%
+    ),
+    linear-gradient(
+      135deg,
+      #f7f1ee 0%,
+      #f2e5df 48%,
+      #eadbce 100%
+    );
+
+  color: var(--ink);
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.about-bg-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(1px);
+}
+
+.about-bg-orb-one {
+  width: 420px;
+  height: 420px;
+  right: -170px;
+  top: 90px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(125, 31, 61, 0.10),
+      transparent 68%
+    );
+}
+
+.about-bg-orb-two {
+  width: 300px;
+  height: 300px;
+  left: -150px;
+  bottom: -130px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(76, 23, 40, 0.07),
+      transparent 68%
+    );
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.about-header {
+  position: relative;
+
+  width: 100%;
+  padding-bottom: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border-bottom: 1px solid var(--line);
+
+  font-family: "DM Mono", monospace;
+  font-size: 7px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+
+  color: rgba(76, 23, 40, 0.62);
+}
+
+.about-header-left,
+.about-header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.about-index {
+  opacity: 0.42;
+}
+
+.about-status-dot {
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+
+  background: var(--burgundy);
+
+  box-shadow:
+    0 0 0 4px rgba(76, 23, 40, 0.07),
+    0 0 10px rgba(76, 23, 40, 0.22);
+
+  animation: aboutPulse 2s ease-in-out infinite;
+}
+
+@keyframes aboutPulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.about-content {
+  flex: 1;
+
+  display: grid;
+  grid-template-columns: 70px minmax(300px, 1.4fr) minmax(220px, 0.75fr);
+
+  column-gap: 22px;
+  align-items: center;
+
+  padding: 26px 0 18px;
+}
+
+
+/* =========================================================
+   SIDE LABEL
+========================================================= */
+
+.about-side-label {
+  align-self: center;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 13px;
+
+  font-family: "DM Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 0.18em;
+
+  color: rgba(76, 23, 40, 0.52);
+
+  opacity: 0;
+  transform: translateX(-15px);
+
+  transition:
+    opacity 0.8s ease 0.1s,
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
+}
+
+.about-vogue.is-visible .about-side-label {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.about-side-line {
+  width: 38px;
+  height: 1px;
+  background: rgba(76, 23, 40, 0.3);
+}
+
+
+/* =========================================================
+   STATEMENT
+========================================================= */
+
+.about-statement {
+  opacity: 0;
+  transform: translateY(25px);
+
+  transition:
+    opacity 1s ease,
+    transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.about-vogue.is-visible .about-statement {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.about-eyebrow {
+  margin: 0 0 20px;
+
+  font-family: "DM Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+
+  color: var(--burgundy-soft);
+}
+
+.about-statement h2 {
+  margin: 0;
+
+  font-family: "Playfair Display", serif;
+  font-size: clamp(44px, 4.8vw, 82px);
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: -0.055em;
+
+  color: var(--burgundy);
+}
+
+.about-statement h2 em {
+  display: block;
+
+  font-style: italic;
+  font-weight: 400;
+
+  padding-left: 0.16em;
+
+  color: #713048;
+}
+
+.about-statement h3 {
+  margin: 12px 0 0;
+
+  font-family: "Playfair Display", serif;
+  font-size: clamp(28px, 2.6vw, 40px);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1;
+
+  letter-spacing: -0.04em;
+
+  color: rgba(76, 23, 40, 0.76);
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.about-description {
+  max-width: 320px;
+  align-self: center;
+
+  padding-left: 0;
+  border-left: none;
+
+  opacity: 0;
+  transform: translateX(18px);
+
+  transition:
+    opacity 0.9s ease 0.25s,
+    transform 1s cubic-bezier(0.22, 1, 0.36, 1) 0.25s;
+}
+
+.about-vogue.is-visible .about-description {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.about-description p {
+  margin: 0 0 18px;
+
+  font-family: "DM Sans", sans-serif;
+  font-size: 14px;
+  line-height: 1.65;
+
+  color: var(--muted);
+}
+
+.about-description p:first-child {
+  font-size: 15px;
+  line-height: 1.55;
+  color: rgba(36, 25, 28, 0.76);
+}
+
+.about-description p:last-child {
+  margin-bottom: 0;
+}
+
+
+/* =========================================================
+   INTELLIGENCE
+========================================================= */
+
+.about-intelligence {
+  width: 100%;
+
+  border-top: 1px solid var(--line);
+}
+
+.about-intelligence-heading {
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  font-family: "DM Mono", monospace;
+  font-size: 7px;
+  letter-spacing: 0.15em;
+
+  color: rgba(76, 23, 40, 0.48);
+}
+
+.about-intelligence-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  padding-top: 18px;
+}
+
+.about-intelligence-item {
+  position: relative;
+
+  min-height: 150px;
+  padding: 18px 18px 16px;
+
+  display: grid;
+  grid-template-columns: 32px 1fr 18px;
+  align-items: start;
+
+  gap: 12px;
+  border: 1px solid rgba(76, 23, 40, 0.12);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.08);
+
+  opacity: 0;
+  transform: translateY(18px);
+
+  transition:
+    opacity 0.7s ease,
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.about-intelligence-item:nth-child(2),
+.about-intelligence-item:nth-child(3) {
+  padding-left: 18px;
+}
+
+.about-vogue.is-visible .about-intelligence-item:nth-child(1) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.35s;
+}
+
+.about-vogue.is-visible .about-intelligence-item:nth-child(2) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.48s;
+}
+
+.about-vogue.is-visible .about-intelligence-item:nth-child(3) {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.61s;
+}
+
+.about-item-number {
+  padding-top: 2px;
+
+  font-family: "DM Mono", monospace;
+  font-size: 8px;
+
+  color: rgba(76, 23, 40, 0.42);
+}
+
+.about-item-content h4 {
+  margin: 0 0 8px;
+
+  font-family: "DM Sans", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+
+  color: var(--burgundy);
+}
+
+.about-item-content p {
+  max-width: 330px;
+
+  margin: 0;
+
+  font-family: "DM Sans", sans-serif;
+  font-size: 11px;
+  line-height: 1.55;
+
+  color: rgba(36, 25, 28, 0.6);
+}
+
+.about-item-arrow {
+  justify-self: end;
+
+  font-size: 15px;
+  line-height: 1;
+
+  color: rgba(76, 23, 40, 0.35);
+
+  transition:
+    transform 0.3s ease,
+    color 0.3s ease;
+}
+
+.about-intelligence-item:hover .about-item-arrow {
+  transform: translate(3px, -3px);
+  color: var(--burgundy);
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.about-footer {
+  min-height: 27px;
+
+  display: flex;
+  align-items: center;
+  gap: 13px;
+
+  border-top: 1px solid rgba(76, 23, 40, 0.12);
+
+  padding-top: 10px;
+
+  font-family: "DM Mono", monospace;
+  font-size: 7px;
+  letter-spacing: 0.14em;
+
+  color: rgba(76, 23, 40, 0.43);
+}
+
+.about-footer-line {
+  flex: 1;
+  height: 1px;
+
+  background: rgba(76, 23, 40, 0.12);
+}
+
+.about-footer-mark {
+  margin-left: auto;
+
+  color: rgba(76, 23, 40, 0.58);
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1050px) {
+  .about-vogue {
+    min-height: 650px;
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
+  .about-content {
+    grid-template-columns: 60px 1fr 270px;
+    column-gap: 25px;
+  }
+
+  .about-statement h2 {
+    font-size: clamp(55px, 7vw, 80px);
+  }
+
+  .about-description {
+    padding-left: 18px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 767px) {
+  .about-vogue {
+    min-height: auto;
+    padding: 20px 20px 18px;
+  }
+
+  .about-header {
+    font-size: 7px;
+  }
+
+  .about-header-right {
+    display: none;
+  }
+
+  .about-content {
+    display: block;
+    padding: 38px 0 35px;
+  }
+
+  .about-side-label {
+    margin-bottom: 24px;
+
+    flex-direction: row;
+    align-items: center;
+
+    gap: 10px;
+  }
+
+  .about-side-line {
+    width: 28px;
+  }
+
+  .about-eyebrow {
+    font-size: 7px;
+    margin-bottom: 16px;
+  }
+
+  .about-statement h2 {
+    font-size: clamp(48px, 14vw, 68px);
+    line-height: 0.88;
+  }
+
+  .about-statement h2 em {
+    padding-left: 0.18em;
+  }
+
+  .about-statement h3 {
+    margin-top: 15px;
+    font-size: 35px;
+  }
+
+  .about-description {
+    max-width: 100%;
+    margin-top: 30px;
+    padding-left: 15px;
+  }
+
+  .about-description p {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .about-description p:first-child {
+    font-size: 13px;
+  }
+
+  .about-intelligence-heading {
+    height: 30px;
+  }
+
+  .about-intelligence-grid {
+    display: block;
+  }
+
+  .about-intelligence-item,
+  .about-intelligence-item:nth-child(2),
+  .about-intelligence-item:nth-child(3) {
+    min-height: auto;
+
+    padding: 15px 0;
+
+    grid-template-columns: 30px 1fr 18px;
+
+    border-right: none;
+    border-bottom: 1px solid rgba(76, 23, 40, 0.1);
+  }
+
+  .about-intelligence-item:last-child {
+    border-bottom: none;
+  }
+
+  .about-item-content h4 {
+    font-size: 10px;
+    margin-bottom: 5px;
+  }
+
+  .about-item-content p {
+    font-size: 10px;
+    line-height: 1.5;
+  }
+
+  .about-footer {
+    gap: 8px;
+    font-size: 6px;
+  }
+
+  .about-footer-mark {
+    display: none;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 400px) {
+  .about-vogue {
+    padding-left: 17px;
+    padding-right: 17px;
+  }
+
+  .about-statement h2 {
+    font-size: 45px;
+  }
+
+  .about-statement h3 {
+    font-size: 30px;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .about-status-dot {
+    animation: none;
+  }
+
+  .about-side-label,
+  .about-statement,
+  .about-description,
+  .about-intelligence-item {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+

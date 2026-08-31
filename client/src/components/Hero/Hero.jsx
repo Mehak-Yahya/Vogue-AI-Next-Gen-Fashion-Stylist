@@ -2,8 +2,8 @@ import { useEffect, useRef } from "react";
 import "../../styles/hero/hero.css";
 import Navbar from "./Navbar";
 
-const BG_IMAGE_1 = "/befi.png";
-const BG_IMAGE_2 = "/aft.png";
+const BG_IMAGE_1 = "/before.png";
+const BG_IMAGE_2 = "/after.png";
 
 const stats = [
   {

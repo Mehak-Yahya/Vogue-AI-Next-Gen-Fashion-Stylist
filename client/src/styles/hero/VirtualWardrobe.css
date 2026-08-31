@@ -1,0 +1,971 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap");
+
+/* =====================================================
+   SECTION
+===================================================== */
+
+.virtual-wardrobe {
+  --burgundy: #7d1f3d;
+  --burgundy-light: #9d5f64;
+  --cream: #f7f1eb;
+  --text: #22181b;
+  --muted: rgba(34, 24, 27, 0.7);
+
+  position: relative;
+
+  width: 100%;
+  min-height: 600px;
+
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+
+  background:
+    radial-gradient(circle at 76% 36%, rgba(92, 42, 56, 0.12), transparent 24%),
+    linear-gradient(135deg, #f2e5dc 0%, #e9d1c4 34%, #dcb9a8 100%);
+
+  color: var(--text);
+
+  font-family: "DM Sans", sans-serif;
+
+  isolation: isolate;
+  border-top: 1px solid rgba(29,20,23,0.06);
+  border-bottom: 1px solid rgba(29,20,23,0.06);
+}
+
+/* =====================================================
+   BACKGROUND GLOW
+===================================================== */
+
+.vw-bg-glow {
+  position: absolute;
+
+  width: 550px;
+  height: 550px;
+
+  right: -150px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  border-radius: 50%;
+
+  background: rgba(126, 42, 62, 0.12);
+
+  filter: blur(90px);
+
+  pointer-events: none;
+
+  z-index: -2;
+}
+
+/* =====================================================
+   BACKGROUND GRID
+===================================================== */
+
+.vw-grid {
+  position: absolute;
+
+  inset: 0;
+
+  background-image:
+    linear-gradient(
+      rgba(93, 16, 41, 0.03) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(93, 16, 41, 0.03) 1px,
+      transparent 1px
+    );
+
+  background-size: 80px 80px;
+
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 25%,
+    black 80%,
+    transparent
+  );
+
+  pointer-events: none;
+
+  z-index: -1;
+}
+
+/* =====================================================
+   MAIN CONTENT
+===================================================== */
+
+.vw-inner {
+  width: min(1380px, 92%);
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns: 0.8fr 1.2fr;
+
+  align-items: center;
+
+  gap: 25px;
+
+  padding: 26px 0 24px;
+}
+
+/* =====================================================
+   LEFT CONTENT
+===================================================== */
+
+.vw-copy {
+  position: relative;
+
+  z-index: 5;
+
+  max-width: 550px;
+
+  opacity: 0;
+
+  transform: translateY(35px);
+
+  transition:
+    opacity 0.9s ease,
+    transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.vw-visible .vw-copy {
+  opacity: 1;
+
+  transform: translateY(0);
+}
+
+/* =====================================================
+   EYEBROW
+===================================================== */
+
+.vw-eyebrow {
+  display: flex;
+
+  align-items: center;
+
+  gap: 11px;
+
+  margin-bottom: 20px;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  letter-spacing: 0.22em;
+
+  color: var(--burgundy);
+}
+
+.vw-eyebrow-line {
+  width: 30px;
+
+  height: 1px;
+
+  background: var(--burgundy);
+}
+
+/* =====================================================
+   TITLE
+===================================================== */
+
+.vw-title {
+  margin: 0;
+
+  font-family: "Playfair Display", serif;
+
+  font-size: clamp(64px, 5.2vw, 110px);
+
+  font-weight: 400;
+
+  line-height: 0.8;
+
+  letter-spacing: -0.06em;
+
+  color: #4a1727;
+}
+
+.vw-title em,
+.vw-title span {
+  display: block;
+  font-family: "Playfair Display", serif;
+  font-style: normal;
+  font-weight: 400;
+  color: #4a1727;
+}
+
+/* =====================================================
+   DESCRIPTION
+===================================================== */
+
+.vw-description {
+  max-width: 520px;
+
+  margin: 27px 0 30px;
+
+  font-size: 15px;
+
+  line-height: 1.72;
+
+  color: rgba(34, 24, 27, 0.74);
+}
+
+/* =====================================================
+   FEATURES
+===================================================== */
+
+.vw-bottom {
+  display: flex;
+
+  gap: 28px;
+
+  padding-top: 21px;
+
+  border-top: 1px solid rgba(93, 16, 41, 0.14);
+}
+
+.vw-feature {
+  display: flex;
+
+  gap: 10px;
+
+  min-width: 165px;
+}
+
+.vw-feature-number {
+  padding-top: 2px;
+
+  font-size: 9px;
+
+  color: var(--burgundy-light);
+
+  letter-spacing: 0.1em;
+}
+
+.vw-feature strong {
+  display: block;
+
+  margin-bottom: 3px;
+
+  font-size: 9px;
+
+  font-weight: 600;
+
+  letter-spacing: 0.13em;
+}
+
+.vw-feature span:last-child {
+  display: block;
+
+  font-size: 10px;
+
+  line-height: 1.45;
+
+  color: rgba(61, 23, 36, 0.48);
+}
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.vw-status {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: 23px;
+
+  padding: 7px 11px;
+
+  border: 1px solid rgba(93, 16, 41, 0.13);
+
+  border-radius: 100px;
+
+  background: rgba(255, 255, 255, 0.3);
+
+  backdrop-filter: blur(10px);
+
+  font-size: 8px;
+
+  letter-spacing: 0.14em;
+
+  color: rgba(61, 23, 36, 0.55);
+}
+
+.vw-status-dot {
+  width: 5px;
+
+  height: 5px;
+
+  border-radius: 50%;
+
+  background: #7d3148;
+
+  box-shadow:
+    0 0 0 3px rgba(125, 49, 72, 0.1);
+
+  animation: vwPulse 2s ease-in-out infinite;
+}
+
+@keyframes vwPulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 3px rgba(125, 49, 72, 0.1);
+  }
+
+  50% {
+    box-shadow:
+      0 0 0 6px rgba(125, 49, 72, 0.04);
+  }
+}
+
+/* =====================================================
+   VISUAL AREA
+===================================================== */
+
+.vw-visual {
+  --mouse-x: 0deg;
+  --mouse-y: 0deg;
+
+  position: relative;
+
+  width: 100%;
+
+  height: 470px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  perspective: 1400px;
+
+  opacity: 0;
+
+  transform:
+    translateX(55px)
+    scale(0.95);
+
+  transition:
+    opacity 1s ease 0.1s,
+    transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.vw-visible .vw-visual {
+  opacity: 1;
+
+  transform:
+    translateX(0)
+    scale(1);
+}
+
+/* =====================================================
+   IMAGE
+===================================================== */
+
+.vw-image-wrap {
+  position: relative;
+
+  width: min(610px, 100%);
+
+  transform:
+    rotateX(var(--mouse-y))
+    rotateY(var(--mouse-x));
+
+  animation: vwFloat 6s ease-in-out infinite;
+
+  will-change: transform;
+
+  z-index: 3;
+}
+
+@keyframes vwFloat {
+  0%,
+  100% {
+    transform:
+      translateY(0)
+      rotateX(var(--mouse-y))
+      rotateY(var(--mouse-x));
+  }
+
+  50% {
+    transform:
+      translateY(-10px)
+      rotateX(var(--mouse-y))
+      rotateY(var(--mouse-x));
+  }
+}
+
+.vw-image {
+  position: relative;
+
+  display: block;
+
+  width: 100%;
+
+  height: auto;
+
+  object-fit: contain;
+
+  filter:
+    drop-shadow(
+      0 30px 35px rgba(62, 20, 32, 0.16)
+    )
+    drop-shadow(
+      0 8px 16px rgba(62, 20, 32, 0.08)
+    );
+
+  z-index: 3;
+}
+
+/* =====================================================
+   IMAGE SHADOW
+===================================================== */
+
+.vw-image-shadow {
+  position: absolute;
+
+  width: 65%;
+
+  height: 18%;
+
+  left: 17.5%;
+
+  bottom: 3%;
+
+  border-radius: 50%;
+
+  background: rgba(62, 20, 32, 0.17);
+
+  filter: blur(28px);
+
+  animation: vwShadow 6s ease-in-out infinite;
+
+  z-index: 0;
+}
+
+@keyframes vwShadow {
+  0%,
+  100% {
+    transform: scale(1);
+
+    opacity: 0.7;
+  }
+
+  50% {
+    transform: scale(0.85);
+
+    opacity: 0.4;
+  }
+}
+
+/* =====================================================
+   LIGHT SWEEP
+===================================================== */
+
+.vw-light-sweep {
+  position: absolute;
+
+  top: -10%;
+
+  left: -50%;
+
+  width: 25%;
+
+  height: 120%;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+
+  transform: skewX(-18deg);
+
+  filter: blur(7px);
+
+  z-index: 6;
+
+  pointer-events: none;
+
+  animation: vwSweep 5.5s ease-in-out infinite;
+}
+
+@keyframes vwSweep {
+  0% {
+    left: -50%;
+
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  45% {
+    left: 120%;
+
+    opacity: 0;
+  }
+
+  100% {
+    left: 120%;
+
+    opacity: 0;
+  }
+}
+
+/* =====================================================
+   ORBITS
+===================================================== */
+
+.vw-orbit {
+  position: absolute;
+
+  border: 1px solid rgba(93, 16, 41, 0.1);
+
+  border-radius: 50%;
+
+  pointer-events: none;
+}
+
+.vw-orbit-one {
+  width: 520px;
+
+  height: 520px;
+
+  transform:
+    rotate(-25deg)
+    scaleY(0.32);
+
+  animation:
+    vwOrbitOne 14s linear infinite;
+}
+
+.vw-orbit-two {
+  width: 430px;
+
+  height: 430px;
+
+  transform:
+    rotate(50deg)
+    scaleY(0.24);
+
+  border-color: rgba(93, 16, 41, 0.07);
+
+  animation:
+    vwOrbitTwo 18s linear infinite reverse;
+}
+
+@keyframes vwOrbitOne {
+  from {
+    transform:
+      rotate(-25deg)
+      scaleY(0.32);
+  }
+
+  to {
+    transform:
+      rotate(335deg)
+      scaleY(0.32);
+  }
+}
+
+@keyframes vwOrbitTwo {
+  from {
+    transform:
+      rotate(50deg)
+      scaleY(0.24);
+  }
+
+  to {
+    transform:
+      rotate(410deg)
+      scaleY(0.24);
+  }
+}
+
+/* =====================================================
+   ORBS
+===================================================== */
+
+.vw-orb {
+  position: absolute;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  animation:
+    vwOrbFloat 5s ease-in-out infinite;
+}
+
+.vw-orb-one {
+  width: 8px;
+
+  height: 8px;
+
+  top: 17%;
+
+  left: 17%;
+
+  background: #8a3e4b;
+
+  box-shadow:
+    0 0 20px rgba(138, 62, 75, 0.45);
+}
+
+.vw-orb-two {
+  width: 6px;
+
+  height: 6px;
+
+  right: 14%;
+
+  bottom: 19%;
+
+  background: #6e273b;
+
+  animation-delay: 1.5s;
+}
+
+@keyframes vwOrbFloat {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(8px, -15px);
+  }
+}
+
+/* =====================================================
+   FLOATING CARDS
+===================================================== */
+
+.vw-floating-card {
+  position: absolute;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 10px 13px;
+
+  border: 1px solid rgba(255, 255, 255, 0.65);
+
+  border-radius: 10px;
+
+  background: rgba(255, 250, 246, 0.72);
+
+  backdrop-filter: blur(16px);
+
+  box-shadow:
+    0 12px 25px rgba(70, 25, 35, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+
+  z-index: 10;
+
+  animation:
+    vwCardFloat 5s ease-in-out infinite;
+}
+
+.vw-card-top {
+  top: 13%;
+
+  right: 3%;
+}
+
+.vw-card-bottom {
+  bottom: 13%;
+
+  left: 2%;
+
+  animation-delay: 1.3s;
+}
+
+@keyframes vwCardFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+.vw-card-icon {
+  width: 26px;
+
+  height: 26px;
+
+  display: grid;
+
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: #5d1029;
+
+  color: white;
+
+  font-size: 10px;
+}
+
+.vw-floating-card small {
+  display: block;
+
+  margin-bottom: 2px;
+
+  font-size: 7px;
+
+  letter-spacing: 0.13em;
+
+  color: rgba(61, 23, 36, 0.5);
+}
+
+.vw-floating-card strong {
+  display: block;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  letter-spacing: 0.04em;
+}
+
+/* =====================================================
+   MINI CIRCLE
+===================================================== */
+
+.vw-mini-circle {
+  width: 26px;
+
+  height: 26px;
+
+  display: grid;
+
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: #ead7d3;
+
+  color: #5d1029;
+
+  font-size: 10px;
+}
+
+/* =====================================================
+   FLOATING LABELS
+===================================================== */
+
+.vw-floating-label {
+  position: absolute;
+
+  font-size: 7px;
+
+  letter-spacing: 0.2em;
+
+  color: rgba(93, 16, 41, 0.38);
+
+  writing-mode: vertical-rl;
+
+  z-index: 5;
+}
+
+.vw-label-left {
+  left: 1%;
+
+  top: 38%;
+}
+
+.vw-label-right {
+  right: 1%;
+
+  top: 53%;
+}
+
+/* =====================================================
+   BOTTOM LINE
+===================================================== */
+
+.vw-bottom-line {
+  position: absolute;
+
+  left: 4%;
+
+  right: 4%;
+
+  bottom: 18px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 16px;
+
+  font-size: 7px;
+
+  letter-spacing: 0.18em;
+
+  color: rgba(61, 23, 36, 0.38);
+}
+
+.vw-line {
+  flex: 1;
+
+  height: 1px;
+
+  background: rgba(93, 16, 41, 0.12);
+}
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 1100px) {
+  .virtual-wardrobe {
+    min-height: auto;
+  }
+
+  .vw-inner {
+    grid-template-columns: 1fr;
+
+    padding: 38px 0 34px;
+  }
+
+  .vw-copy {
+    max-width: 700px;
+  }
+
+  .vw-visual {
+    height: 500px;
+
+    margin-top: -15px;
+  }
+
+  .vw-title {
+    font-size: clamp(54px, 8vw, 75px);
+  }
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 700px) {
+  .virtual-wardrobe {
+    min-height: auto;
+  }
+
+  .vw-inner {
+    width: 90%;
+
+    padding: 28px 0 32px;
+
+    gap: 5px;
+  }
+
+  .vw-eyebrow {
+    margin-bottom: 17px;
+  }
+
+  .vw-title {
+    font-size: 52px;
+  }
+
+  .vw-description {
+    margin: 23px 0 28px;
+
+    font-size: 13px;
+  }
+
+  .vw-bottom {
+    flex-direction: column;
+
+    gap: 15px;
+  }
+
+  .vw-status {
+    margin-top: 20px;
+  }
+
+  .vw-visual {
+    height: 370px;
+
+    margin-top: 10px;
+  }
+
+  .vw-image-wrap {
+    width: 105%;
+  }
+
+  .vw-orbit-one {
+    width: 350px;
+
+    height: 350px;
+  }
+
+  .vw-orbit-two {
+    width: 290px;
+
+    height: 290px;
+  }
+
+  .vw-card-top {
+    top: 4%;
+
+    right: -2%;
+  }
+
+  .vw-card-bottom {
+    bottom: 5%;
+
+    left: -2%;
+  }
+
+  .vw-floating-label {
+    display: none;
+  }
+
+  .vw-bottom-line {
+    display: none;
+  }
+}
+
+/* =====================================================
+   REDUCED MOTION
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .vw-image-wrap,
+  .vw-image-shadow,
+  .vw-floating-card,
+  .vw-orbit,
+  .vw-orb,
+  .vw-light-sweep,
+  .vw-status-dot {
+    animation: none;
+  }
+
+  .vw-copy,
+  .vw-visual {
+    transition: none;
+  }
+}
