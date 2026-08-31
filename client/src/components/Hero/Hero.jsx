@@ -439,16 +439,6 @@ export default function Hero() {
         {/* HERO COPY */}
         <div className="hero-copy">
 
-          <div
-            className="hero-eyebrow hero-rise"
-            style={{
-              animationDelay: ".15s",
-            }}
-          >
-            Your style,{" "}
-            <em>intelligently redefined</em>
-          </div>
-
           <h1
             className="hero-title hero-rise"
             style={{
@@ -461,6 +451,16 @@ export default function Hero() {
               Next Gen Fashion Stylist
             </span>
           </h1>
+          
+          <div
+            className="hero-eyebrow hero-rise"
+            style={{
+              animationDelay: ".15s",paddingTop: "15px",
+            }}
+          >
+            Your style,{" "}
+            <em>intelligently redefined</em>
+          </div>
 
           <p
             className="hero-description hero-rise"

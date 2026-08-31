@@ -1416,7 +1416,7 @@
 @media (max-width: 650px) {
 
   .vogue-ai-hero {
-    min-height: 1000px;
+    min-height: 100svh;
   }
 
   .vogue-header {
@@ -1433,60 +1433,49 @@
   }
 
   .vogue-hero-main {
-    min-height: 1000px;
-
+    min-height: 100svh;
     display: flex;
     flex-direction: column;
-
-    padding: 105px 18px 80px;
-
-    gap: 0;
+    padding: 90px 18px 18px;
+    gap: 10px;
   }
 
   .editorial-copy {
     width: 100%;
-
     text-align: left;
-
     transform: none;
   }
 
   .editorial-kicker {
-    margin-bottom: 18px;
+    margin-bottom: 14px;
   }
 
   .editorial-copy h1 {
-    font-size: clamp(46px, 14vw, 62px);
-
-    line-height: 0.94;
+    font-size: clamp(38px, 12vw, 52px);
+    line-height: 0.9;
   }
 
   .editorial-copy p {
-    max-width: 310px;
-
-    margin: 20px 0 22px;
-
+    max-width: 290px;
+    margin: 16px 0 18px;
     font-size: 10px;
   }
 
   .editorial-cta {
-    height: 43px;
+    height: 42px;
   }
 
   .fashion-stage {
     order: 2;
-
     width: 100%;
-    height: 300px;
-
-    margin-top: 20px;
-
+    height: 250px;
+    margin-top: 0;
     transform: none;
   }
 
   .fashion-image {
-    width: 55%;
-    height: 88%;
+    width: 54%;
+    height: 86%;
   }
 
   .stage-ring {
@@ -1494,7 +1483,7 @@
   }
 
   .image-placeholder span {
-    font-size: 24px;
+    font-size: 22px;
   }
 
   .visual-caption {
@@ -1503,42 +1492,67 @@
 
   .vogue-chat {
     order: 3;
-
     width: 100%;
     max-width: none;
-
-    height: 390px;
-
-    margin-top: -5px;
+    height: 310px;
+    margin-top: 0;
   }
 
   .chat-header {
-    min-height: 62px;
+    min-height: 58px;
+  }
+
+  .chat-header .chat-brand {
+    gap: 8px;
+  }
+
+  .chat-live {
+    font-size: 6px;
   }
 
   .chat-start {
-    padding: 24px 20px;
+    padding: 18px 18px 14px;
   }
 
   .chat-start h2 {
-    font-size: 26px;
+    font-size: 21px;
+    line-height: 1.05;
+  }
+
+  .chat-start p {
+    font-size: 10px;
+    line-height: 1.5;
+    margin-top: 8px;
   }
 
   .chat-prompts {
-    left: 20px;
-    right: 20px;
-    bottom: 18px;
+    left: 18px;
+    right: 18px;
+    bottom: 14px;
+    gap: 8px;
+  }
+
+  .chat-prompts button {
+    min-height: 28px;
+    padding: 7px 10px;
+    font-size: 8px;
   }
 
   .chat-input {
-    margin: 0 14px 14px;
+    margin: 0 12px 12px;
+    min-height: 42px;
+  }
+
+  .chat-input button {
+    width: 42px;
+    height: 42px;
+    font-size: 11px;
   }
 
   .vogue-footer {
     left: 18px;
     right: 18px;
     bottom: 15px;
-
     display: flex;
     justify-content: center;
   }

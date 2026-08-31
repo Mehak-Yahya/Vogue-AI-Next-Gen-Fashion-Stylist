@@ -871,73 +871,105 @@
 
 @media (max-width: 700px) {
   .virtual-wardrobe {
-    min-height: auto;
+    min-height: 100svh;
   }
 
   .vw-inner {
-    width: 90%;
+    width: 92%;
+    padding: 22px 0 18px;
+    gap: 8px;
+  }
 
-    padding: 28px 0 32px;
-
-    gap: 5px;
+  .vw-copy {
+    max-width: 100%;
   }
 
   .vw-eyebrow {
-    margin-bottom: 17px;
+    margin-bottom: 12px;
+    font-size: 8px;
+    letter-spacing: 0.16em;
   }
 
   .vw-title {
-    font-size: 52px;
+    font-size: 42px;
+    line-height: 0.82;
   }
 
   .vw-description {
-    margin: 23px 0 28px;
-
-    font-size: 13px;
+    margin: 16px 0 18px;
+    font-size: 12px;
+    line-height: 1.55;
   }
 
   .vw-bottom {
     flex-direction: column;
+    gap: 12px;
+    padding-top: 14px;
+  }
 
-    gap: 15px;
+  .vw-feature {
+    min-width: 0;
+  }
+
+  .vw-feature strong {
+    font-size: 8px;
+    letter-spacing: 0.11em;
+  }
+
+  .vw-feature span:last-child {
+    font-size: 9px;
   }
 
   .vw-status {
-    margin-top: 20px;
+    margin-top: 16px;
+    padding: 6px 10px;
+    font-size: 7px;
   }
 
   .vw-visual {
-    height: 370px;
-
-    margin-top: 10px;
+    height: 300px;
+    margin-top: 2px;
   }
 
   .vw-image-wrap {
-    width: 105%;
+    width: 96%;
   }
 
   .vw-orbit-one {
-    width: 350px;
-
-    height: 350px;
+    width: 300px;
+    height: 300px;
   }
 
   .vw-orbit-two {
-    width: 290px;
-
-    height: 290px;
+    width: 250px;
+    height: 250px;
   }
 
   .vw-card-top {
-    top: 4%;
-
-    right: -2%;
+    top: 5%;
+    right: 2%;
+    padding: 8px 10px;
   }
 
   .vw-card-bottom {
-    bottom: 5%;
+    bottom: 6%;
+    left: 1%;
+    padding: 8px 10px;
+  }
 
-    left: -2%;
+  .vw-floating-card small {
+    font-size: 6px;
+  }
+
+  .vw-floating-card strong {
+    font-size: 9px;
+  }
+
+  .vw-card-icon,
+  .vw-mini-circle {
+    width: 22px;
+    height: 22px;
+    font-size: 9px;
   }
 
   .vw-floating-label {

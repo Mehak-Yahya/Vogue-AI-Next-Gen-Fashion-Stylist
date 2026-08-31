@@ -237,7 +237,7 @@ export default function SkinAnalysis() {
             </div>
 
             <div className="palette-hint">
-              <span>HOVER A COLOR</span>
+              <span>HOVER A COLOR </span>
               <i />
               <span>EXPLORE THE LOOK</span>
             </div>
@@ -249,8 +249,6 @@ export default function SkinAnalysis() {
         ================================================= */}
 
         <div className="skin-intro">
-          <div className="intro-number">01 / 04</div>
-
           <h2>
             Your
             <br />

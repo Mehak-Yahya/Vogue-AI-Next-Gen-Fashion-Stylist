@@ -700,23 +700,23 @@ select {
 @media (max-width: 767px) {
   .base-image {
     width: 112%;
-    height: 112%;
+    height: 100%;
 
     left: 8%;
-    top: 8%;
+    top: 4%;
   }
 
   .hero-reveal .hero-image {
     width: 112%;
-    height: 112%;
+    height: 100%;
 
     left: 8%;
-    top: 8%;
+    top: 4%;
   }
 
   .hero-copy {
     left: 20px;
-    bottom: 48px;
+    bottom: 3px;
 
     width: calc(100% - 40px);
     max-width: none;
@@ -725,6 +725,10 @@ select {
   .hero-eyebrow {
     font-size: 9px;
     letter-spacing: 0.1em;
+  }
+  .hero-eyebrow.hero-rise {
+    animation-delay: 0.2s;
+    color: #fff;
   }
  
 
@@ -738,6 +742,8 @@ select {
 
     line-height: 0.92;
     letter-spacing: -0.055em;
+    color: #f7f2f4;
+    border: 1px solid rgba(17, 17, 17, 0.12);
   }
 
   .title-line-one {
@@ -767,7 +773,7 @@ select {
   }
 
   .reserve-button {
-    margin-top: 20px;
+    margin-top: 4px;
 
     padding: 11px 23px;
 
