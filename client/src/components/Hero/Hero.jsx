@@ -475,18 +475,16 @@ export default function Hero() {
             you.
           </p>
 
-          <button
-            className="reserve-button hero-rise"
-            style={{
-              animationDelay: ".7s",
-            }}
-          >
-            <span>
-              Discover Your Style
-            </span>
-
-            <i />
-          </button>
+          <a
+  href="/signup"
+  className="reserve-button hero-rise"
+  style={{
+    animationDelay: ".7s",
+  }}
+>
+  <span>Discover Your Style</span>
+  <i />
+</a>
 
         </div>
 
