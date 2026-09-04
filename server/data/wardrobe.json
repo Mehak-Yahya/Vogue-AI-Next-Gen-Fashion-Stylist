@@ -1,0 +1,47 @@
+[
+  {
+    "id": "1788469260815",
+    "filename": "1788469260692_1st_dress.png",
+    "filepath": "/uploads/wardrobe/1788469260692_1st_dress.png",
+    "category": "top",
+    "color": "black",
+    "season": "all-season",
+    "occasion": "casual",
+    "brand": "",
+    "purchase_date": "",
+    "price": 0,
+    "times_worn": 1,
+    "last_worn": "2026-09-04T20:27:50.136Z",
+    "upload_date": "2026-09-03T21:01:00.815Z"
+  },
+  {
+    "id": "1788547877811",
+    "filename": "1788547877763_dnd.jpg",
+    "filepath": "/uploads/wardrobe/1788547877763_dnd.jpg",
+    "category": "top",
+    "color": "black",
+    "season": "all-season",
+    "occasion": "casual",
+    "brand": "",
+    "purchase_date": "",
+    "price": 0,
+    "times_worn": 0,
+    "last_worn": null,
+    "upload_date": "2026-09-04T18:51:17.811Z"
+  },
+  {
+    "id": "1788555718738",
+    "filename": "1788555718671_JuVXityrudpQw6D9lqa0x0jg0wcjjLXCwRkwCgfnht9kNxghCaIPb65uP6GFA8Ww_4g5hR3d0cHe1HEuSqvjpTLx3JX0pzcmRViL2ENGPDRCItqOUc75XAbQ7CTCVFcX4VqKVSe9mJ7DiE5_1Fnf0ss3S5VGHqSAsElcYXsSVvv_9yCUyyDJw_UqvtBrItj_.jfif",
+    "filepath": "/uploads/wardrobe/1788555718671_JuVXityrudpQw6D9lqa0x0jg0wcjjLXCwRkwCgfnht9kNxghCaIPb65uP6GFA8Ww_4g5hR3d0cHe1HEuSqvjpTLx3JX0pzcmRViL2ENGPDRCItqOUc75XAbQ7CTCVFcX4VqKVSe9mJ7DiE5_1Fnf0ss3S5VGHqSAsElcYXsSVvv_9yCUyyDJw_UqvtBrItj_.jfif",
+    "category": "Bottom",
+    "color": "Black",
+    "season": "all-season",
+    "occasion": "Casual",
+    "brand": "",
+    "purchase_date": "",
+    "price": 0,
+    "times_worn": 0,
+    "last_worn": null,
+    "upload_date": "2026-09-04T21:01:58.739Z"
+  }
+]

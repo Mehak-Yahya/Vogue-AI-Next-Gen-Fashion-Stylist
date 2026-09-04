@@ -1,0 +1,47 @@
+.login-page {
+  grid-template-columns: minmax(0, 0.98fr) minmax(0, 1fr);
+}
+
+.login-form-panel {
+  grid-column: 2;
+}
+
+.login-story-panel {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.login-back {
+  position: absolute;
+  bottom: 88px;
+  left: 28px;
+  z-index: 3;
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 50%;
+  background: rgba(20, 10, 8, 0.32);
+  color: #fff;
+  transition: background 180ms ease, transform 180ms ease;
+}
+
+.login-back:hover {
+  background: rgba(20, 10, 8, 0.62);
+  text-decoration: none;
+  transform: translateX(-3px);
+}
+
+@media (max-width: 760px) {
+  .login-form-panel,
+  .login-story-panel {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .login-back {
+    bottom: 28px;
+    left: 24px;
+  }
+}

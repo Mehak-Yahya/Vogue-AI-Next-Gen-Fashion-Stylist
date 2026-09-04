@@ -1,0 +1,157 @@
+.app-navbar {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 28px;
+  min-height: 52px;
+  border-bottom: 1px solid #d6ccc4;
+}
+
+.app-navbar-brand {
+  color: inherit;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+}
+
+.app-navbar-brand span {
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.app-navbar-links {
+  display: flex;
+  align-items: stretch;
+  gap: 26px;
+  height: 52px;
+  justify-self: center;
+}
+
+.app-navbar-links a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: #665d59;
+  font-size: 11px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.app-navbar-links a:hover,
+.app-navbar-links a.is-active {
+  color: #9c4a39;
+}
+
+.app-navbar-links a.is-active::after {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  background: #9c4a39;
+  content: "";
+}
+
+.app-navbar-profile {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.app-navbar-profile-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  background: transparent;
+  color: #4f4946;
+  cursor: pointer;
+  font: inherit;
+  font-size: 11px;
+}
+
+.app-navbar-avatar {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid #cbbda8;
+  border-radius: 50%;
+  background: #f1e9dc;
+  color: #7c4b3d;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.app-navbar-menu {
+  position: absolute;
+  top: 46px;
+  right: 0;
+  z-index: 20;
+  display: grid;
+  min-width: 168px;
+  overflow: hidden;
+  border: 1px solid #e0d8d0;
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(34, 27, 24, 0.12);
+}
+
+.app-navbar-menu a,
+.app-navbar-menu button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  border: 0;
+  border-bottom: 1px solid #eee8e2;
+  padding: 0 12px;
+  background: transparent;
+  color: #514945;
+  cursor: pointer;
+  font: inherit;
+  font-size: 11px;
+  text-align: left;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.app-navbar-menu a:hover,
+.app-navbar-menu button:hover {
+  background: #f8f4ef;
+  color: #9c4a39;
+}
+
+.app-navbar-menu button {
+  width: 100%;
+  border-bottom: 0;
+}
+
+@media (max-width: 700px) {
+  .app-navbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .app-navbar-profile {
+    right: 0;
+  }
+
+  .app-navbar-links {
+    order: 3;
+    width: 100%;
+    height: 40px;
+    gap: 18px;
+    overflow-x: auto;
+  }
+
+  .app-navbar-links a.is-active::after {
+    bottom: -1px;
+  }
+}

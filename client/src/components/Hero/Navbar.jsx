@@ -76,9 +76,9 @@ export default function Navbar() {
             </button>
           ))}
 
-          <button className="connect-button">
+          <a className="connect-button" href="/signup">
             Get Styled
-          </button>
+          </a>
         </div>
 
         {/* Mobile */}
@@ -105,12 +105,13 @@ export default function Navbar() {
           </button>
         ))}
 
-        <button
+        <a
           className="mobile-connect"
+          href="/signup"
           onClick={closeMenu}
         >
           Get Styled
-        </button>
+        </a>
       </div>
     </>
   );
