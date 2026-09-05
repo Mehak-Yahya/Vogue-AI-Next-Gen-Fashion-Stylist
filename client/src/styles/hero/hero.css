@@ -492,6 +492,8 @@ select {
 
   border: 0;
 
+  text-decoration: none;
+
   padding: 12px 27px;
 
   border-radius: 999px;
