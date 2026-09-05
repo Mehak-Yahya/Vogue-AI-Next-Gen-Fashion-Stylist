@@ -119,6 +119,8 @@
 
 .mobile-nav {
   display: none;
+
+  pointer-events: auto;
 }
 
 .mobile-logo,
