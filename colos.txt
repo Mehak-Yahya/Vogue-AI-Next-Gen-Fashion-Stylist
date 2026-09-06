@@ -1,0 +1,900 @@
+bright spring 
+#ebc5b0 Penelope
+#dcba63 Equator
+#3c5e43 Tom Thumb
+#447f3b Chameleon Green
+#649c45 Pea Green
+#a0bc58 Bok Choy Green
+#c7d685 Celery
+#1c4a3d Brunswick Green
+#1d8466 Dark Jungle Green
+#073d25 Zuccini
+#106c3d Jewel
+#32b573 Caribbean Green
+#136c7e Sports Teal
+#2595ba Neptune
+#1b888b Simple Teal
+#1d94aa Turquoise Jasper
+#4fd3e8 Uranus Blue
+#0a4fc6 Sapphire
+#4191f0 Alexandra
+#23277e Tech Navy Blue
+#46339c Gigas
+#7960c6 Blue Marguerite
+#882c5f Anthocyanin
+#ce558b Pacific Pink
+#de9fbc Classy Pink
+#be1150 Pictorial Carmine
+#ed4c98 Sport Pink
+#d93b85 Plain Magenta
+#f071b6 Unique Pink
+#fc8bbf Full Pink
+#ca7e40 Peru
+#dc9835 Dark Amber
+#f1bb63 Abstract Yellow
+#fad46f Gold Aura
+#a8b7f0 Perano
+#a2dffb Diana
+#a5e3e2 Pastel Blue-green
+#fac1c7 Tender Pink
+#e8e8aa Acid Yellow
+#f5f3f6 Tech White
+#e9dfdd Serum
+#beb6a9 Bright Stone
+#b6b5bb Beautiful Silver
+#e0e0d4 Silver Feather
+#042876 Dark Cobalt
+#28557f Boho Blue
+#524b43 Weathered Taupe
+#83766d Americano Coffee
+#bdb7b7 Tech Grey
+#373936 Strong Grey
+#494c45 Charred
+#686a5d Detroit
+#828c81 Greenplay Gray
+#a9ab9e Bud
+#c2c1bc Polar Grey
+#d6cabe Sisal
+#ecdccd Fair
+#e9dfdd Serum
+#f5f3f6 Tech White
+
+
+bright winter
+#c11c68 Magenta Daisy
+#60822b Algae
+#9acd32 Yellow Green
+#085751 Authentic Teal
+#117984 Trendy Teal
+#17371f Night Green
+#0c8132 Australia Green
+#3bc37b Trendy Blue Green
+#147ca1 Autumn Blue
+#6dc0ce Sea
+#b4eef0 Pale Turquoise
+#40c0fd Spring Sky
+#0624a8 Israel Blue
+#030d6f Phthalo Blue
+#0959d6 Perfect Blue
+#5aa7f7 Adonis
+#2c3472 Majestic Blue
+#1c2572 Persian Blue
+#0b1a9b American Sapphire
+#2657d0 Brilliant Blue
+#2329a5 Precious Blue
+#4d5aca Balance Blue
+#05054b Rich Dark Blue
+#241c93 Jacksons Purple
+#30054d Cherry Pie
+#6f137e Violet Rose
+#bd43c2 Blooming Orchids
+#612848 Cherry Cola
+#9b2f63 Vin Rouge
+#b62290 Fandango
+#e95ac3 Lillian
+#921734 Spinel
+#c40628 Upbeat Crimson
+#de1752 Ruby
+#d71764 Sensational Pink
+#f557a4 Neon Hot Pink
+#902044 Velvet
+#d50e4f Atomic Raspberry
+#d30c22 Attractive Red
+#e71e42 Cranberry
+#f55873 American Maple
+#f5d872 Sunshine
+#eed980 Flax
+#ede084 Light Goldenrod (Xona)
+#cfcdfe Lavender Blue
+#facffc Cute Lilac
+#b3eef2 Soft Cyan
+#f4d2e3 Traditional Pastel Pink
+#f4e89c Sunlight
+#000000 African Turquoise
+#2f2120 Cocoa Dark Brown
+#35302c Silent Black
+#252fa2 Precious Blue
+#e52145 Cranberry
+#ffffff Full White
+#373d53 Tranquil Black
+#353b5f Faded Navy
+#11114f Beyond Navy
+#062568 Blue Devil
+#222a3f Ebony Clay
+#373d53 Tranquil Black
+#868a93 Oslo Gray
+#bbbfca Glossy Silver
+#dcdce6 Pure Silicon
+#3a333b Neutral Purple
+#9c959c Aesthetic Gray
+#dbd7d8 Sweet Grey
+#f9f3f7 Bianco
+
+
+cool summer 
+
+#abc7d5 Delicate Blue
+#e0e0d4 Silver Feather
+#beb6a9 Bright Stone
+#b7b6bc Mercury
+#284d5f Polynesian Blue
+#1d7684 Elm
+#195b5a Dark Teal Green
+#37827b Calming Blue-Green
+#84c1b1 Muted Turquoise
+#344946 Heather Forest
+#235343 Plantation
+#207465 Vintage Blue Green
+#287e7f Paradiso
+#69c9c7 Special Turquoise
+#265573 Boho Blue
+#187597 Mineral Blue
+#44a7c7 Light Sea Blue
+#2076b1 Earth Blue
+#61bff3 Waterfall
+#2b4075 Astronaut
+#1a539a Deep Marine
+#3c73ab Poison Dart Frog
+#60a3d8 Azul Mystic
+#87bbf4 Jordy Blue
+#3a377a Classic Navy
+#313b82 Classic Navy
+#5b66a8 Light Navy
+#8897d0 California Lilac
+#8c2658 Aphrodite
+#ab4a80 Bella
+#c57195 Mauve Pink
+#e393b8 Cosmic Pink
+#eebdd2 Blushing Heart
+#7c2e48 Crushed Berry
+#a72a52 Coral Rose
+#d66289 Livid Pink
+#e44e74 Metallic Rose
+#f07490 Jelly
+#d6d592 Winter Hazel
+#e6e5a5 Aromatic Bergamot
+#eee8e8 Dirty White
+#3a3f42 Charcoal Heather
+#224a6d Atlanta
+#2a7094 Dubai
+#5c91b0 Air Force Blue 
+#697a8a Dark Metallic Blue Grey
+#a2b3c5 Matte Light Blue
+#404958 River Bed
+#707282 Heather
+#afb0c4 Pewter
+#6f7a96 Dusty Heather
+#a4acc1 Light Blue Gray
+#564444 Weathered Taupe
+#644d5f Lady Violet
+#99848d Clay Rose
+#bea6a2 Balanced Beige
+#e0d3cb Jocelyn
+#57515f Scarpa Flow
+#6d5c6e Salt Box
+#83767f Old Mauve
+#c7bab4 Rhodium
+#d6caca Ancient Marble
+#565050 Abstract Grey
+#787973 Carbon Grey
+#adacaa Chalice
+#90877e Magma Gray
+#a0978e Tan Gray
+#bfb5b6 Pink Swan
+#d9cfd8 American Lilac
+#e7e1e1 Bon Jour
+
+cool winter
+#19191b Casual Black
+#3f3d3e Meteorite
+#b6bac5 Cloud Gray
+#b7bac1 Shimmer Silver
+#232148 Port Gore
+#214541 Te Papa Green
+#255853 Abstract Teal
+#257a63 Rich Teal
+#44b589 Mint
+#6bc591 Chrysoprase
+#236484 Dark Steel Blue
+#4cb5d3 Tropical Blue
+#144c4d Rich Blue Green
+#308182 Paradiso
+#4bc1b3 Natural Blue-green
+#286bc2 Blue Dash
+#518bdf Comfort Lagoon Blue
+#2267a0 Arabian Sea
+#46a6f0 Pretty Blue
+#2763a2 Arabian Sea
+#76c3f9 Bright Sky Blue
+#1e4394 Mary
+#4574ce Chinese Blue
+#323467 Deep Koamaru
+#313f88 King
+#58437e Cyber Grape
+#7d4376 Dull Plum
+#8f5ba3 Comfort Purple
+#483b81 Muted Indigo
+#8d71bb Autumn Violet
+#9e92d0 Grace
+#85345d Boysenberry
+#9c4073 Deep Rouge
+#ce5c9a Sky Magenta
+#e098c6 Dahlia Pink
+#a83f77 Camouflage Pink
+#e35fab Royal Pink
+#e377b1 Sasha
+#f2a3d0 Sweeter
+#f9c7ec Fresh Baby Pink
+#af3858 Elegant Rose
+#e34665 Funky Rose
+#fbe345 Apollo
+#f6e662 Portica
+#f2ec7e Sunny
+#d4dafe Polestar Blue
+#c4f0fd Soft Sky Blue
+#c5e7c6 Subtle Mint
+#fcf7a6 Pale Lemon
+#fddcef Pink Lace
+#8d052d Deep Paprika
+#47052b Barossa
+#681825 Wine
+#6b0648 Nightclub
+#353439 Vintage Charcoal
+#4f455e Mulled Wine
+#1c2f59 Turnbull\'s Blue
+#1c3053 Prussian Blue
+#463667 Acai Berry
+#472f45 Aubergine
+#222a3f Ebony Clay
+#363e53 Tranquil Black
+#868a93 Oslo Gray
+#bbbfca Glossy Silver
+#dcdce6 Pure Silicon
+#383138 Neutral Purple
+#9c959c Aesthetic Gray
+#dbd7d8 Sweet Grey
+#faf3f7 Bianco
+#ffffff Full White
+
+dark autumn
+#ad612d Burnt Caramel
+#ac7c2a Boy Gold
+#333029 Dark Taupe
+#684724 Deep Brown
+#725f35 Yellow Metal
+#23241f Dusty Black
+#393421 Birch
+#6b6b2d Camouflage
+#989f38 Garlic Green
+#8e9c69 Moss Green
+#1a252b Dark Gunmetal Grey
+#133733 Gable Green
+#296269 Casal
+#217788 Royal Turquoise
+#43adb0 Copper Blue
+#1a2430 Dark Space
+#12415b Tsunami
+#11557c Petrol Blue
+#1e7eb8 Horizon
+#4ea6ca Light Cerulean
+#182142 Nautical Navy
+#4b1433 Rare Bordeaux
+#7a255f Shocking Violet
+#9f4c84 Bella
+#c18ead Old Pink
+#3c2431 Thunder
+#6b112a Luxury Burgundy
+#a61040 Cool Red
+#cb1545 Extreme Rose
+#c25046 Grapefruit
+#451722 Black Raspberry
+#7c1e38 Coral Burgundy
+#ad2a4a Grape Red
+#e3616b Secret
+#eb8286 Pastel Light Red
+#571f2c Tucson Red
+#a82d3f Deep Ruby
+#ce514f Muted Red
+#c52b4f French Raspberry
+#e38482 Pale Red
+#9c3a34 Lady Guinevere
+#c68255 Trendy Brown
+#97623a Basic Brown
+#b58d50 Cardboard Brown
+#cfab61 Mckenna
+#95c3c9 Simple Turquoise
+#e9a1a2 Rich Pastel Red
+#d5ca8c Dark Vanilla
+#d6d2a2 Cool Khaki
+#d5cba8 Cool Khaki
+#7b7575 Tapa
+#9d513a Swiss Chocolate
+#ab9853 Golden Steel
+#4e3c30 Dark Truffle
+#224d6f Olympian Blue
+#2a2a32 Crow
+#493c36 Taupe
+#202952 Leila
+#304242 Neutral Dark Green
+#4a3d44 Tundora
+#5f4d49 Dark Brown Camo
+#84726e Americano Coffee
+#5c4e46 Dark Brown Camo
+#9a8f89 Pig Iron
+#a9a49e Neutral Stone
+#af8869 Hazel Brown
+#d6af84 Kylie
+#e0c3a1 Light Tan
+#ccb5a5 Dark Nude
+#ecdbc9 Satin
+
+
+dark winter
+#212121 Black Charcoal
+#2e0f52 Jagger
+#46235b Astronomy
+#480025 Barossa
+#690d00 Warm Burgundy
+#1d4841 Brunswick Green
+#236050 Mallard
+#439d84 Mediterranean Green
+#1d3a48 Nebula
+#24607a Boho Blue
+#3f8bad Boston Blue
+#297376 Attractive Teal
+#56a4c7 Fountain Blue
+#215d93 Deep Sea Blue
+#1b4867 Polynesian Blue
+#2c78aa Arabic Blue
+#6bb2dc King\'s Blue
+#1f4993 Deep Marine
+#659bdb Iceland
+#2763a2 Arabian Sea
+#75b3e6 Skylar
+#353148 Deep Space
+#453359 Acai Berry
+#7e629f Classique
+#9783b4 Pastel Purple
+#86335d Boysenberry
+#c976a4 Love Potion
+#92334b Burgundy Mist
+#d45171 Punch
+#d76a81 Rouge
+#562f42 Winterberry
+#7a283f Dried Burgundy
+#9f2d44 Ruby Wine
+#972a4a Coral Rose
+#b22a4e Temptation
+#742842 Nobel Burgundy
+#d0477d Bossy Pink
+#db709a Java Plum
+#d64c70 Cabaret
+#d3435c Raspberry Passion
+#466239 Flat Dark Green
+#8baf58 Brielle
+#e1c965 Soft Gold
+#f4de79 Sunshine Yellow
+#fbeb94 Halo Effect
+#cbc9df Icy Lilac
+#b9d3e2 Paper Blue
+#c7dcd3 Paris White
+#f3d6da Pink Cloud
+#faeea4 Cute Yellow
+#5c2a35 Country Wine
+#482f33 Woody Brown
+#342637 Blackcurrant (Xona)
+#192d4e Prussian Blue
+#422841 Eggplant
+#20354a Nebula
+#422f2b Abstract Coffee
+#29351f Green Kelp
+#37050e Extreme Burgundy
+#5c2a35 Country Wine
+#2b2b35 Charade
+#3e4852 Dark Grey-Blue
+#9a9aa4 Mystic Gray
+#c5c4ca Tender Grey
+#cdccd2 Silver Glitter
+#716569 Pink Ash brown
+#9d9799 Super Grey
+#c8c2c6 French Gray
+#dad3da American Lilac
+#ffffff Full White
+
+
+
+light spring 
+#9fdb91 Feijoa
+#c0e296 Citrusy Lime
+#398a81 Antique Green
+#36b7b2 Still Blue
+#85d7cb Monte Carlo
+#4ecbdd Dark Ice Blue
+#89dcea Shallow Water
+#358da5 Rare Blue
+#31a7d5 Peacock
+#7cc8ec Seagull
+#71ace5 Flat Blue
+#91caf7 Simple Baby Blue
+#4162a5 New York Blue
+#3167b1 Light Cobalt Blue
+#3d5ec9 Balance Blue
+#6486dd Kennedy
+#92c1f9 Isla
+#8064a1 Oakley
+#908cea Nicole
+#b9b8fe Electric Lavender
+#f5305e Attractive Pink
+#f96692 Lollipop
+#f84890 Go To Pink
+#f96fa3 French Pink
+#fbb2c6 English Rose
+#f34673 Watermelon
+#f75d7f Brink Pink
+#fe8095 Watermelon Pink
+#fea8b5 Soothing Baby Pink
+#fec1c6 Digital Pink
+#f1444a Pretty Red
+#f76067 Comforting Light Red
+#fe8f86 Subtle Red
+#f4b186 Rich Apricot
+#fccda1 Bright Peach
+#ffc875 Amber Glow
+#fbd48f Grandis
+#f2d369 Calm Gold
+#fcde88 Caramel Yellow
+#fceb7f Tranquil Yellow
+#288960 Eucalyptus
+#a4d383 Feijoa
+#beb6a9 Bright Stone
+#b7b6bc Mercury
+#e0e0d4 Silver Feather
+#ebc5b2 Penelope
+#d9b86b Broken Yellow
+#4b4e47 Basalt
+#8d6b5f Nutmeg
+#a98f7e Earthy Beige
+#80504e Rosewood Rouge
+#78644c Rustic Brown
+#5d636f Mid Gray
+#817e89 Cold Grey
+#b7b6be Beautiful Silver
+#90796b Truffle
+#645e60 Old Bamboo
+#756a72 Graphite Shimmer
+#b0a6a4 Summer Gray
+#d3c9c7 Ancient Marble
+#81827a Friar Gray
+#b8b292 Heathered Gray
+#ddd5b0 Pale Beige
+#f6bbab Fresh Coral
+#fccccc Pale Pink
+#d6bd9f Fur
+#f8e4c1 Givry
+#feebcb Blanched Almond
+#e8d6d6 Pink Oxford
+#ecdfd9 Bizarre
+
+
+light summer
+#beb6a9 Bright Stone
+#b7b6bc Mercury
+#436b60 Natural Jade
+#2a8876 Wintergreen
+#29888a Sea Foam Blue
+#3ec7b3 Fine Turquoise
+#9cefd5 Smooth Blue Green
+#38747e Ming
+#36a2ac Solid Turquoise
+#41c0cf Sea Serpent
+#40c9c2 Ariel
+#8dc6b3 Pale Sea Green
+#3b6d88 Unique Blue
+#2d99b3 Solid Turquoise
+#40c5d4 Sea Serpent
+#4bbbe3 Mosaic Blue
+#8ed7f7 Morning Glory Blue
+#375394 Best Blue
+#2965ae Light Cobalt Blue
+#4b91ef Blueberry
+#7cadd6 Summer Blue
+#93c8e7 Nashville
+#254f8b Aesthetic Blue
+#4969a6 San Marino
+#6473ac Matte Blue
+#8897d0 California Lilac
+#bfcaea Kendall
+#7d76aa Alayna
+#9c94c5 Grace
+#d1ceed Tender Violet
+#a5336f Royal Heath
+#cb3e83 Facinating Magenta
+#ed73b0 Party Pink
+#f099c6 Pretty Pink
+#f5b3ce Pink Love
+#de3e62 Rosalie
+#e65775 American Maple
+#ea6e8a Pastel Cherry
+#ee8198 Pastel Berry
+#eeafba Cream Rouge
+#be2663 Pinkish Magenta
+#da4a63 Dark Tulip
+#e74165 Watermelon
+#f1617c Light Red Rose
+#fb89a2 Watermelon Pink
+#e6c274 Rob Roy
+#f5d487 Flower Yellow
+#e7d581 Comfort Yellow
+#f0d9ac Rich Beige
+#f5e4b6 Gold Stone
+#e4c5d5 Brianna
+#745b70 Antique Lilac
+#71616c Antique Lilac
+#8c7481 Earthy Purple
+#bda2b1 Mauve Mist
+#e4c5d5 Brianna
+#5d5855 Dark Greyish Brown
+#7e8480 Special Grey
+#a0a2a1 Transparent Grey
+#bdbfbe Gray (X11)
+#506b88 American Denim
+#8a9ab4 Neutral Light Blue
+#707281 Heather
+#9195a0 Selena
+#c3c3cb Haze
+#998b8a Pig Iron
+#bfbab6 Greyhound
+#d5d0cd Blackish White
+#dbd8c9 Summer Pearl
+#ede9dd Dull White
+
+
+
+muted autumn
+#e0d4c8 Jocelyn
+#b2b0bd Hadley
+#325d56 Stromboli
+#448a82 Antique Green
+#5e7e7b Teal Grey
+#89b4a1 Kailani
+#abcec8 Wintergreen Mint
+#415353 Sloth
+#49746a Hooker\'s Green
+#2f5d6d Casal
+#539093 Light Teal Blue
+#74baba Aztec Turquoise
+#355681 Flat Dark Blue
+#4c7baf Metro Blue
+#7dabcd Urban Sky Blue
+#364063 Heather Navy
+#6675ae Matte Blue
+#393f63 Heather Navy
+#616595 Misty Navy
+#8d99c3 Faded Blue
+#98474e Boy Red
+#bd5475 Frosted Red
+#de829b Pale Ruby
+#eea0b0 Cupcake Pink
+#f2b8c6 Perfect Pink
+#9f494c Heather Red
+#bf6763 Faded Red
+#de7c89 Pastel Red Rose
+#f49fa6 Shimmer Rojo
+#f6bdc4 Tender Pink
+#b0615a Matrix
+#d67a85 Charm
+#bc6168 Exotique
+#e58586 Pale Red
+#e99da1 Japanese Pink
+#b59e72 Alloy Gold
+#c7ab7c Light French Beige
+#dec38e Misty Gold
+#e8caa8 Pastel Tan
+#e4d5aa Aster
+#ddc293 Brandy
+#c39f55 Yukon
+#cc8a7a Campfire
+#a05447 Vintage Rust
+#3f3f41 Shadowy Gray
+#674d4c Liver
+#6c514a Antique Brown
+#80554f Best Brown
+#9f6a64 Toast Brown
+#9f7664 Chocolate Ice Cream
+#63524a Retro Brown
+#7d6561 Pink Brown
+#988173 Stonewall
+#bb9683 Red Oak
+#d3b497 Casual Peach
+#535756 Atomic Grey
+#8c9584 Garden Stone
+#6d6654 Coffee (Xona)
+#8e8d79 Weathered Oak
+#b5af99 Heathered Gray
+#575d59 Carbon Steel
+#8e8e84 Bitter
+#7e756e Romantic Grey
+#aca2a3 Neutral Stone
+#cccacb Muted Silver
+#bab3a1 Nomad
+#cdc5ba Greige
+#e0d4c6 Champagne Silver
+#eae5d1 Ivory Porcelain
+#e8e7d3 White Rock
+
+
+muted summer
+
+#e0e0d4 Silver Feather
+#b7b6bc Mercury
+#49675f Stormcloud
+#6f9886 Zen Green
+#a9c5af Holyrood Green
+#3a615e Mineral Green (Xona)
+#57838e Smalt Blue
+#47696a Deep Space Sparkle
+#6ba29d Dull Cyan
+#a2c6c2 Moonstone Blue
+#365f61 Casal
+#5f8590 Rough Denim
+#4e728a American Denim
+#659cb0 Blue Blood
+#94c9db River
+#354461 Night Movies
+#5776a4 Big Boy Blue
+#507ca1 Wedgewood
+#82b9cd Casual Denim
+#a7cae0 Maya
+#3c3d5b Military Navy
+#525686 Purple Navy
+#7475ad Alayna
+#8b97c1 Neutral Light Blue
+#4e415b Mulled Wine
+#adaabf Misty Grape
+#69485b Neutral Burgundy
+#8e466e Cannon Pink
+#be7b9c Wild Flower
+#d69fbc Charming Pink
+#e4a6b5 Paris
+#694052 Passionfruit
+#ae3d68 Soft Maroon
+#be4d6b Rustic Cherry
+#d06d81 Rouge
+#e79aae Pastel Blush
+#a33b52 Rosebud
+#cd466e Persian Rose
+#e05e76 Flirty Pink
+#ea8192 Pink-Red
+#f7aec2 English Rose
+#773c52 Cosmic
+#bd8592 Peachy Purple
+#d193a2 Dusky Pink
+#e6adb4 Naked Rose
+#f2c0c1 Baby Pink
+#d9cf91 Winter Hazel
+#ecdfab Double Colonial White
+#edddce Fair
+#c3c2bd Gray Nickel
+#ada9ba Spun Pearl
+#e9c877 Cute Gold
+#443a3b Board Brown
+#565551 Camouflage Gray
+#746963 Taupe Haze
+#8c857a Clay Beige
+#878a83 Greenplay Gray
+#c3c2bd Gray Nickel
+#674f4d Antique Brown
+#9c7e73 Brownish
+#9e8b84 Dusty Brown
+#bbaaa2 Balanced Beige
+#d4c3bb Pink Ivory
+#766961 Taupe Haze
+#aa9991 Mushroom
+#c9c1ac Pastel Stone
+#ecdccc Satin
+#f2f0f1 Medium Seashell
+
+warm autumn
+
+#f7ebd5 Kawaii Cream
+#e4dcc7 Vintage Lace
+#e1cfc3 Nude Neutral
+#e8d6be Cream Skin
+#e1c595 Caramel Tan
+#f8dbcb Peach Glow
+#f4c6af Mandys Pink
+#c4bab8 Rhodium
+#868283 Battleship Gray
+#594551 Don Juan
+#95908a Abstract Gray
+#716b6d Dove Gray
+#a29e92 Clay
+#7c715d Spanish Bistre
+#615e4d Black Pepper
+#c9a58b Best Beige
+#9e8173 Brownish
+#8d7b63 Beige Taupe
+#69574b Twig
+#5e4a4b Dark Brown Camo
+#e5a694 Tonys Pink
+#da937f Copper Blush
+#b47b68 Matte Copper
+#ae575f Dusky Red
+#613b3a Intense Cocoa
+#32222d Thunder
+#c0993a Original Gold
+#b46547 Brown Skin
+#c57339 Dusky Orange
+#98704c Boho Beige
+#f1ba67 Clear Honey
+#e5a156 Deep Topaz
+#d19a59 Pastel Ochre
+#92543d Giraffe Brown
+#553834 Congo Brown
+#eb9e68 Sultan
+#d48250 Bright Ginger
+#d46047 Vintage Coral
+#af2e42 Libido
+#742431 Coral Burgundy
+#f18672 Coral Waltz
+#ea7f77 Coral Sunset
+#eb6363 Gemma
+#da5f4d Rich Coral
+#c23838 Noelle
+#dc818a Pale Ruby
+#e1717d Tango Pink
+#992a54 Coral Rose
+#712238 Nobel Burgundy
+#58323d Congo Brown
+#594b88 Anna
+#62385c Grape Purple
+#587fb6 Glaucous
+#253870 Astronaut
+#4fb0d1 Shakespeare
+#165c75 Blumine
+#204756 Blue Dianne
+#4bb1bd Copper Blue
+#24727e Attractive Teal
+#84aa6d Brielle
+#5a8140 Thanksgiving Green
+#366837 Deep Moss Green
+#2d6d4b Juniper Green
+#193c36 Sherwood Green
+#b2ac70 Alloy Gold
+#8a8b5f Khaki Green
+#90873a Highball
+#857f45 Olive Green
+#4e3c2e Dark Truffle
+#98704c Boho Beige
+
+
+
+
+
+warm spring
+#fae4d9 Clara
+#edd1c5 Peach Vodka
+#f1cb9a Manhattan Sunset
+#d9b26f Apple Pie
+#d5a277 American Copper
+#cccab3 Foggy Gray
+#bcbeb1 Green Spring
+#a5a992 Dusty Sage
+#77786a Romantic Grey
+#736a5b Crocodile
+#d6cc8e Dark Vanilla
+#d0b48c Tan
+#bc9e68 Pecan
+#886f51 Dark Khaki Green
+#675042 Antique Brown
+#ebaf8b Abstract Peach
+#c98463 Vintage Salmon
+#9e694a Traditional Brown
+#8d6750 Campire
+#735145 Vintage Brown
+#244c6f Olympian Blue
+#564d44 Abstract Brown
+#ebc5b2 Penelope
+#ebb052 Caramel Gold
+#e0e0d4 Silver Feather
+#9ab930 Yellow Green
+#7c8d23 Dark Wasabi
+#309245 Gamma Green
+#125a2a Dark Emerald Green
+#4367c7 Chinese Blue
+#e6bc80 Gold Pizzazz
+#e6c775 Rob Roy
+#e6bf62 Shimmer and Shine
+#d7a542 San Antonio
+#cf9438 Mystic Bronze
+#e8997b Dark Salmon
+#e95f52 Red Sun
+#e9405d Romantic Rose
+#db1e3a Valentine Red
+#eb6472 Heavenly Red
+#e1404f Milani
+#e02b3e New Rose
+#e24864 Appeal
+#d5204b Cosmic Red
+#a381cb Dark Lavender
+#755ab9 Prince
+#523188 Egyptian Purple
+#342f93 Lapis Lazuli
+#8ea8e1 Madison
+#5f89db Havelock Blue
+#4164c8 Chinese Blue
+#0d45a6 True Blue
+#0d2e75 Dark Cobalt
+#5ac2a7 Matte Turquoise
+#3ca69a Keppel
+#32acaf Turquoise Amethyst
+#217081 Metropolis
+#043e64 Astronaut Blue
+#58bea8 Matte Turquoise
+#218176 Forest Bluegreen
+#09544d Royal Blue Green
+#56c46d Paradise Green
+#40b368 Medium Sea Green
+#73d36f Atomic Green
+#4cbb43 American Green
+#167e31 Deep Emerald
+#155940 Earth Green
+#0b574a Royal Blue Green
+#c1d365 Light Lime Green
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
