@@ -7,8 +7,8 @@ const navItems = [
   { id: "wardrobe", label: "Virtual Wardrobe", href: "/wardrobe" },
   { id: "outfits", label: "Outfits", href: "/outfits" },
   { id: "colors", label: "Color Analysis", href: "/skintone" },
-  { id: "trends", label: "Trend Scouting", href: "/dashboard" },
-  { id: "lookbooks", label: "Saved Lookbooks", href: "/dashboard" },
+  { id: "trends", label: "Trend Scouting", href: "/trends" },
+  { id: "chatbot", label: "Chatbot", href: "/chatbot" },
 ];
 
 export default function AppNavbar({ activeItem = "" }) {
@@ -19,6 +19,7 @@ export default function AppNavbar({ activeItem = "" }) {
 
   const logout = () => {
     localStorage.removeItem("vogue-ai-user");
+    localStorage.removeItem("vogue-ai-token");
     window.location.href = "/login";
   };
 
