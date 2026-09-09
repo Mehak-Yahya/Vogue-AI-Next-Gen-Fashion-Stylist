@@ -3,8 +3,35 @@ import axios from 'axios';
 import { Camera, CheckCircle2, Image as ImageIcon, ScanFace, Sun, UserRound } from 'lucide-react';
 import AppNavbar from '../components/AppNavbar';
 import '../styles/Skintone.css';
+import { authHeaders } from '../utils/auth';
+import brightSpringPalette from '../assets/colorpalletes/bright spring.PNG';
+import brightWinterPalette from '../assets/colorpalletes/bright winter.PNG';
+import coolSummerPalette from '../assets/colorpalletes/cool summer.PNG';
+import coolWinterPalette from '../assets/colorpalletes/cool winter.PNG';
+import darkAutumnPalette from '../assets/colorpalletes/dark autumn.PNG';
+import darkWinterPalette from '../assets/colorpalletes/dark winter.PNG';
+import lightSpringPalette from '../assets/colorpalletes/light spring.PNG';
+import lightSummerPalette from '../assets/colorpalletes/light summer.PNG';
+import mutedAutumnPalette from '../assets/colorpalletes/muted autumn.PNG';
+import mutedSummerPalette from '../assets/colorpalletes/muted summer.PNG';
+import warmAutumnPalette from '../assets/colorpalletes/warm autumn.PNG';
+import warmSpringPalette from '../assets/colorpalletes/warm spring.PNG';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const paletteAssets = {
+  'bright spring': brightSpringPalette,
+  'bright winter': brightWinterPalette,
+  'cool summer': coolSummerPalette,
+  'cool winter': coolWinterPalette,
+  'dark autumn': darkAutumnPalette,
+  'dark winter': darkWinterPalette,
+  'light spring': lightSpringPalette,
+  'light summer': lightSummerPalette,
+  'muted autumn': mutedAutumnPalette,
+  'muted summer': mutedSummerPalette,
+  'warm autumn': warmAutumnPalette,
+  'warm spring': warmSpringPalette,
+};
 
 export default function Skintone() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -13,6 +40,7 @@ export default function Skintone() {
   const [showingResult, setShowingResult] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
+  const [paletteSaved, setPaletteSaved] = useState(false);
 
   useEffect(() => {
     if (!showingResult) return undefined;
@@ -47,10 +75,29 @@ export default function Skintone() {
       const formData = new FormData();
       formData.append('image', selectedFile);
 
-      const response = await axios.post(`${API_BASE_URL}/api/analyze-skin`, formData);
+      const response = await axios.post(`${API_BASE_URL}/api/analyze-skin`, formData, { headers: authHeaders() });
 
       if (response.data && response.data.success) {
-        setResult(response.data.data);
+        const analysis = response.data.data;
+        const season = analysis.season_analysis?.season || '';
+        const user = JSON.parse(localStorage.getItem('vogue-ai-user') || '{}');
+        const paletteAsset = paletteAssets[season.toLowerCase()];
+        setResult(analysis);
+        setPaletteSaved(false);
+        if (season && user.id) {
+          const profile = {
+            ...(user.profile || {}),
+            colorAnalysis: {
+              ...(user.profile?.colorAnalysis || {}),
+              season,
+              paletteAsset: season.toLowerCase(),
+              paletteSavedAt: new Date().toISOString(),
+            },
+          };
+          const profileResponse = await axios.put(`${API_BASE_URL}/api/auth/profile`, { profile }, { headers: authHeaders() });
+          localStorage.setItem('vogue-ai-user', JSON.stringify(profileResponse.data.user));
+          setPaletteSaved(Boolean(paletteAsset));
+        }
         setShowingResult(true);
       } else {
         setShowingResult(false);
@@ -120,6 +167,14 @@ export default function Skintone() {
             </div>
             {result.extracted_features && <div className="skintone-features">
               {[['Skin Tone', result.feature_hexes?.skin || result.overall_rgb?.hex || '#ccc', result.extracted_features.skin_lab?.L], ['Hair Color', result.feature_hexes?.hair || '#555', result.extracted_features.hair_lab?.L], ['Iris Tone', result.feature_hexes?.iris || '#777', result.extracted_features.iris_lab?.L]].map(([label, color, lightness]) => <div className="skintone-feature" key={label}><span style={{ backgroundColor: color }} /><strong>{label}</strong><small>L*: {lightness ?? '—'}</small></div>)}
+            </div>}
+            {paletteAssets[result.season_analysis?.season?.toLowerCase()] && <div className="skintone-palette">
+              <div className="skintone-palette-head">
+                <div><span className="skintone-panel-kicker">YOUR PALETTE</span><h3>{result.season_analysis.season}</h3></div>
+                {paletteSaved && <small>Saved to your profile</small>}
+              </div>
+              <img src={paletteAssets[result.season_analysis.season.toLowerCase()]} alt={`${result.season_analysis.season} color palette`} />
+              <a className="skintone-palette-download" href={paletteAssets[result.season_analysis.season.toLowerCase()]} download={`${result.season_analysis.season.toLowerCase().replace(/\s+/g, '-')}-palette.png`}>Download palette</a>
             </div>}
           </section>
         )}

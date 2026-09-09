@@ -1,3 +1,60 @@
+.skintone-palette {
+  margin-top: 28px;
+  border-top: 1px solid rgba(47, 36, 37, 0.18);
+  padding-top: 22px;
+}
+
+.skintone-palette-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 14px;
+}
+
+.skintone-palette-head h3 {
+  margin: 5px 0 0;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 28px;
+  font-weight: 400;
+}
+
+.skintone-palette-head small {
+  color: #8e334d;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.skintone-palette img {
+  display: block;
+  width: min(100%, 560px);
+  height: auto;
+  max-height: none;
+  margin: 0 auto;
+  object-fit: contain;
+  background: #f7f1eb;
+}
+
+.skintone-palette-download {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 11px 15px;
+  background: #8e334d;
+  color: #fff;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+@media (max-width: 640px) {
+  .skintone-palette-head {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
 .skintone-page {
   min-height: 100vh;
   padding: 28px 18px 64px clamp(18px, 3vw, 44px);

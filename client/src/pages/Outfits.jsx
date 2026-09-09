@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import AppNavbar from "../components/AppNavbar";
 import "../styles/Outfits.css";
+import { authHeaders } from "../utils/auth";
 
 const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -8,9 +9,8 @@ export default function Outfits() {
   const [outfits, setOutfits] = useState([]);
   const [message, setMessage] = useState("");
   const [recommendationMode, setRecommendationMode] = useState("balanced");
-
   useEffect(() => {
-    fetch(`${API}/api/wardrobe/outfits/generate`)
+    fetch(`${API}/api/wardrobe/outfits/generate`, { headers: authHeaders() })
       .then(async (response) => {
         const result = await response.json();
         if (!response.ok) throw new Error(result.error || "Unable to load outfits.");

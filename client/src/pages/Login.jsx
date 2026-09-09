@@ -32,6 +32,7 @@ export default function Login() {
 
     try {
       const response = await axios.post(`${API_BASE_URL}/api/auth/login`, { email, password });
+      localStorage.setItem("vogue-ai-token", response.data.token);
       localStorage.setItem("vogue-ai-user", JSON.stringify(response.data.user));
       setPassword("");
       setStatus("Welcome back. Taking you to your dashboard...");

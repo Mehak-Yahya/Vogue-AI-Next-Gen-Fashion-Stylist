@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import AppNavbar from "../components/AppNavbar";
 import "../styles/Wardrobe.css";
+import { authHeaders } from "../utils/auth";
 
 const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
 const categories = ["Top", "Bottom", "Dress", "Jacket", "Shoes", "Accessory"];
@@ -40,9 +41,8 @@ export default function Wardrobe() {
   const [loading, setLoading] = useState(false);
   const [isUploadOpen, setIsUploadOpen] = useState(false);
   const [previewUrl, setPreviewUrl] = useState("");
-
   const load = async () => {
-    const wardrobeResponse = await fetch(`${API}/api/wardrobe`);
+    const wardrobeResponse = await fetch(`${API}/api/wardrobe`, { headers: authHeaders() });
     setItems((await wardrobeResponse.json()).items || []);
   };
 
@@ -126,6 +126,7 @@ export default function Wardrobe() {
     try {
       const response = await fetch(`${API}/api/wardrobe/upload`, {
         method: "POST",
+        headers: authHeaders(),
         body: data,
       });
       const result = await response.json();
@@ -153,11 +154,11 @@ export default function Wardrobe() {
   };
 
   const markWorn = async (id) => {
-    await fetch(`${API}/api/wardrobe/${id}/worn`, { method: "POST" });
+    await fetch(`${API}/api/wardrobe/${id}/worn`, { method: "POST", headers: authHeaders() });
     await load();
   };
   const remove = async (id) => {
-    await fetch(`${API}/api/wardrobe/${id}`, { method: "DELETE" });
+    await fetch(`${API}/api/wardrobe/${id}`, { method: "DELETE", headers: authHeaders() });
     await load();
   };
   const generate = async () => {

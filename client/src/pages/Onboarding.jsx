@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
 import "../styles/Onboarding.css";
+import { authHeaders } from "../utils/auth";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -87,7 +88,7 @@ export default function Onboarding() {
     setSaving(true);
     setError("");
     try {
-      const response = await axios.put(`${API_BASE_URL}/api/auth/profile`, { userId: user.id, profile });
+      const response = await axios.put(`${API_BASE_URL}/api/auth/profile`, { profile }, { headers: authHeaders() });
       localStorage.setItem("vogue-ai-user", JSON.stringify(response.data.user));
       window.location.href = "/dashboard";
     } catch (requestError) {
