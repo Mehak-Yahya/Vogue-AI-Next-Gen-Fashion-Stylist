@@ -8,6 +8,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Onboarding from "./pages/Onboarding";
 import Profile from "./pages/Profile";
 import Outfits from "./pages/Outfits";
+import Chatbot from "./pages/Chatbot";
+import Trends from "./pages/Trends";
 
 export default function App() {
 	if (window.location.pathname === "/dashboard") {
@@ -19,6 +21,8 @@ export default function App() {
 	if (window.location.pathname === "/onboarding") return <ProtectedRoute><Onboarding /></ProtectedRoute>;
 	if (window.location.pathname === "/profile") return <ProtectedRoute><Profile /></ProtectedRoute>;
 	if (window.location.pathname === "/outfits") return <ProtectedRoute><Outfits /></ProtectedRoute>;
+	if (window.location.pathname === "/chatbot") return <ProtectedRoute><Chatbot /></ProtectedRoute>;
+	if (window.location.pathname === "/trends") return <ProtectedRoute><Trends /></ProtectedRoute>;
 	if (window.location.pathname === "/signup") return <Signup />;
 	if (window.location.pathname === "/login") return <Login />;
 	if (window.location.pathname === "/skintone") return <ProtectedRoute><Skintone /></ProtectedRoute>;
