@@ -1,14 +1,16 @@
 const jwt = require('jsonwebtoken');
 
-const jwtSecret = process.env.JWT_SECRET || 'vogue-ai-development-secret';
+const jwtSecret = process.env.JWT_SECRET;
+const authCookieName = 'vogue_session';
 
-if (process.env.NODE_ENV === 'production' && !process.env.JWT_SECRET) {
-  throw new Error('JWT_SECRET must be configured in production.');
+if (!jwtSecret || jwtSecret.length < 32) {
+  throw new Error('JWT_SECRET must be configured with at least 32 characters.');
 }
 
 const requireAuth = (req, res, next) => {
   const authorization = req.get('Authorization') || '';
-  const token = authorization.startsWith('Bearer ') ? authorization.slice(7) : '';
+  const token = req.cookies?.[authCookieName]
+    || (authorization.startsWith('Bearer ') ? authorization.slice(7) : '');
 
   if (!token) return res.status(401).json({ error: 'Authentication is required.' });
 
@@ -20,4 +22,4 @@ const requireAuth = (req, res, next) => {
   }
 };
 
-module.exports = { jwtSecret, requireAuth };
+module.exports = { authCookieName, jwtSecret, requireAuth };
