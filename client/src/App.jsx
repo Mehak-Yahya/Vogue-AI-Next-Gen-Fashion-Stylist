@@ -10,22 +10,37 @@ import Profile from "./pages/Profile";
 import Outfits from "./pages/Outfits";
 import Chatbot from "./pages/Chatbot";
 import Trends from "./pages/Trends";
+import NotFound from "./pages/NotFound";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import CookieConsent from "./components/CookieConsent";
 
 export default function App() {
-	if (window.location.pathname === "/dashboard") {
+	const pathname = window.location.pathname;
+	let page;
+
+	if (pathname === "/dashboard") {
 		const user = JSON.parse(localStorage.getItem("vogue-ai-user") || "null");
-		if (!user) return <ProtectedRoute><Dashboard /></ProtectedRoute>;
-		if (!user.onboardingComplete) return <ProtectedRoute requireOnboarding><Onboarding /></ProtectedRoute>;
-		return <ProtectedRoute><Dashboard /></ProtectedRoute>;
+		if (!user) page = <ProtectedRoute><Dashboard /></ProtectedRoute>;
+		else if (!user.onboardingComplete) page = <ProtectedRoute requireOnboarding><Onboarding /></ProtectedRoute>;
+		else page = <ProtectedRoute><Dashboard /></ProtectedRoute>;
 	}
-	if (window.location.pathname === "/onboarding") return <ProtectedRoute><Onboarding /></ProtectedRoute>;
-	if (window.location.pathname === "/profile") return <ProtectedRoute><Profile /></ProtectedRoute>;
-	if (window.location.pathname === "/outfits") return <ProtectedRoute><Outfits /></ProtectedRoute>;
-	if (window.location.pathname === "/chatbot") return <ProtectedRoute><Chatbot /></ProtectedRoute>;
-	if (window.location.pathname === "/trends") return <ProtectedRoute><Trends /></ProtectedRoute>;
-	if (window.location.pathname === "/signup") return <Signup />;
-	if (window.location.pathname === "/login") return <Login />;
-	if (window.location.pathname === "/skintone") return <ProtectedRoute><Skintone /></ProtectedRoute>;
-	if (window.location.pathname === "/wardrobe") return <ProtectedRoute><Wardrobe /></ProtectedRoute>;
-	return <Landing />;
+	else if (pathname === "/onboarding") page = <ProtectedRoute><Onboarding /></ProtectedRoute>;
+	else if (pathname === "/profile") page = <ProtectedRoute><Profile /></ProtectedRoute>;
+	else if (pathname === "/outfits") page = <ProtectedRoute><Outfits /></ProtectedRoute>;
+	else if (pathname === "/chatbot") page = <ProtectedRoute><Chatbot /></ProtectedRoute>;
+	else if (pathname === "/trends") page = <ProtectedRoute><Trends /></ProtectedRoute>;
+	else if (pathname === "/signup") page = <Signup />;
+	else if (pathname === "/login") page = <Login />;
+	else if (pathname === "/privacy-policy") page = <PrivacyPolicy />;
+	else if (pathname === "/skintone") page = <ProtectedRoute><Skintone /></ProtectedRoute>;
+	else if (pathname === "/wardrobe") page = <ProtectedRoute><Wardrobe /></ProtectedRoute>;
+	else if (pathname === "/") page = <Landing />;
+	else page = <NotFound />;
+
+	return (
+		<>
+			{page}
+			<CookieConsent />
+		</>
+	);
 }
