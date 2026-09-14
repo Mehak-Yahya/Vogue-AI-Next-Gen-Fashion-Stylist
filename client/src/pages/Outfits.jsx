@@ -10,7 +10,7 @@ export default function Outfits() {
   const [message, setMessage] = useState("");
   const [recommendationMode, setRecommendationMode] = useState("balanced");
   useEffect(() => {
-    fetch(`${API}/api/wardrobe/outfits/generate`, { headers: authHeaders() })
+    fetch(`${API}/api/wardrobe/outfits/generate`, { headers: authHeaders(), credentials: "include" })
       .then(async (response) => {
         const result = await response.json();
         if (!response.ok) throw new Error(result.error || "Unable to load outfits.");
@@ -60,7 +60,7 @@ export default function Outfits() {
                 <div className="outfit-card-items" style={{ backgroundColor: String(outfit.items[0]?.color || "#edf0f3").toLowerCase() }}>
                   {outfit.items.map((item) => (
                     <div className="outfit-card-piece" key={item.id}>
-                      <img src={imagePath(item)} alt={`${item.color} ${item.category}`} />
+                      <img src={imagePath(item)} crossOrigin="use-credentials" alt={`${item.color} ${item.category}`} />
                     </div>
                   ))}
                 </div>

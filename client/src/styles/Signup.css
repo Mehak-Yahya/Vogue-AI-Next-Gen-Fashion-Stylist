@@ -11,7 +11,9 @@
 
 .signup-form-panel {
   min-height: 0;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
   background: #fbfaf8;
   padding: 16px clamp(24px, 4vw, 60px);
 }
@@ -44,7 +46,7 @@
 }
 .signup-form-wrap {
   width: min(100%, 490px);
-  margin: clamp(12px, 2vh, 22px) auto 0;
+  margin: clamp(4px, 1vh, 10px) auto 0;
   padding-bottom: 8px;
 }
 .signup-eyebrow {
@@ -56,7 +58,7 @@
   text-transform: uppercase;
 }
 .signup-form-wrap h1 {
-  margin: 2 0 16px;
+  margin: 2px 0 16px;
   font-family: "Playfair Display", serif;
   font-size: clamp(36px, 4vw, 50px);
   font-weight: 400;
@@ -71,11 +73,11 @@
 }
 .signup-form {
   display: grid;
-  gap: 10px;
+  gap: 8px;
 }
 .signup-form label:not(.signup-check) {
   display: grid;
-  gap: 7px;
+  gap: 6px;
   color: #888;
   font-size: 10px;
   letter-spacing: 0.08em;
@@ -83,7 +85,7 @@
 }
 .signup-form input:not([type="checkbox"]) {
   width: 100%;
-  height: 46px;
+  height: 44px;
   border: 1px solid #e5e2de;
   border-radius: 0;
   background: #f5f4f2;
@@ -99,7 +101,7 @@
   background: #fff;
 }
 .signup-password-field {
-  height: 46px;
+  height: 44px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 52px;
   align-items: stretch;
@@ -163,7 +165,7 @@
   margin: 0;
 }
 .signup-form button {
-  min-height: 46px;
+  min-height: 44px;
   border: 0;
   border-radius: 0;
   background: #100909;
@@ -213,6 +215,72 @@
   font-size: 12px;
   text-align: center;
 }
+
+.signup-social-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 14px 0 11px;
+  color: #999;
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.signup-social-divider::before,
+.signup-social-divider::after {
+  height: 1px;
+  flex: 1;
+  background: #e5e2de;
+  content: "";
+}
+
+.google-signin-button {
+  display: flex;
+  justify-content: center;
+  min-height: 40px;
+  width: 100%;
+  align-items: center;
+  border: 1px solid #e5e2de;
+  border-radius: 0;
+  background: #fff;
+  color: #111;
+  cursor: pointer;
+  font: inherit;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.google-signin-button:hover {
+  border-color: #111;
+  background: #f5f4f2;
+}
+
+.google-signin-button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.google-signin-config {
+  margin: 0;
+  color: #8a6a37;
+  font-size: 11px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+@media (min-width: 761px) and (max-height: 850px) {
+  .signup-form-panel {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .signup-form-wrap {
+    margin-top: 12px;
+  }
+}
+
 .signup-login a {
   color: #111;
   text-decoration: underline;

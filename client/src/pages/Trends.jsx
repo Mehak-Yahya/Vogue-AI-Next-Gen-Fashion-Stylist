@@ -27,8 +27,8 @@ export default function Trends() {
       }
       const seasonQuery = `?season=${encodeURIComponent(selectedSeason)}`;
       const [productsResponse, colorsResponse] = await Promise.all([
-        fetch(`${API_BASE_URL}/api/recommendations/products${seasonQuery}`),
-        fetch(`${API_BASE_URL}/api/recommendations/colors${seasonQuery}`),
+        fetch(`${API_BASE_URL}/api/recommendations/products${seasonQuery}`, { credentials: "include" }),
+        fetch(`${API_BASE_URL}/api/recommendations/colors${seasonQuery}`, { credentials: "include" }),
       ]);
       if (!productsResponse.ok) throw new Error("Unable to load scraped products.");
       const productData = await productsResponse.json();
@@ -54,7 +54,10 @@ export default function Trends() {
     setScraping(true);
     setError("");
     try {
-      const response = await fetch(`${API_BASE_URL}/api/recommendations/scrape`, { method: "POST" });
+      const response = await fetch(`${API_BASE_URL}/api/recommendations/scrape`, {
+        method: "POST",
+        credentials: "include",
+      });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Scraping failed.");
       await loadCatalog();

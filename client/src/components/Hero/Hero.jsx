@@ -206,7 +206,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <main ref={heroRef} className="cyber-hero">
+    <main id="stylist" ref={heroRef} className="cyber-hero">
 
       {/* NAVBAR — FIRST SECTION ONLY */}
       <Navbar />

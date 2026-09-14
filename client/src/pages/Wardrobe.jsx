@@ -42,7 +42,7 @@ export default function Wardrobe() {
   const [isUploadOpen, setIsUploadOpen] = useState(false);
   const [previewUrl, setPreviewUrl] = useState("");
   const load = async () => {
-    const wardrobeResponse = await fetch(`${API}/api/wardrobe`, { headers: authHeaders() });
+    const wardrobeResponse = await fetch(`${API}/api/wardrobe`, { headers: authHeaders(), credentials: "include" });
     setItems((await wardrobeResponse.json()).items || []);
   };
 
@@ -127,6 +127,7 @@ export default function Wardrobe() {
       const response = await fetch(`${API}/api/wardrobe/upload`, {
         method: "POST",
         headers: authHeaders(),
+        credentials: "include",
         body: data,
       });
       const result = await response.json();
@@ -154,11 +155,11 @@ export default function Wardrobe() {
   };
 
   const markWorn = async (id) => {
-    await fetch(`${API}/api/wardrobe/${id}/worn`, { method: "POST", headers: authHeaders() });
+    await fetch(`${API}/api/wardrobe/${id}/worn`, { method: "POST", headers: authHeaders(), credentials: "include" });
     await load();
   };
   const remove = async (id) => {
-    await fetch(`${API}/api/wardrobe/${id}`, { method: "DELETE", headers: authHeaders() });
+    await fetch(`${API}/api/wardrobe/${id}`, { method: "DELETE", headers: authHeaders(), credentials: "include" });
     await load();
   };
   const generate = async () => {
@@ -410,6 +411,7 @@ export default function Wardrobe() {
               <article className="wardrobe-card" key={item.id}>
                 <img
                   src={imagePath(item)}
+                  crossOrigin="use-credentials"
                   alt={`${item.color} ${item.category}`}
                 />
                 <div className="wardrobe-card-info">

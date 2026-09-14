@@ -43,7 +43,7 @@ const AboutVogue = () => {
   }, []);
 
   return (
-    <section className="about-vogue" ref={sectionRef}>
+    <section id="about" className="about-vogue" ref={sectionRef}>
 
       {/* MAIN */}
       <div className="about-content">

@@ -3,6 +3,7 @@ import axios from "axios";
 import { MessageCircle, Send, Sparkles } from "lucide-react";
 import AppNavbar from "../components/AppNavbar";
 import "../styles/Chatbot.css";
+import { authHeaders } from "../utils/auth";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -33,7 +34,7 @@ export default function Chatbot() {
       const response = await axios.post(`${API_BASE_URL}/api/chat-rag`, {
         question: trimmedQuestion,
         history,
-      });
+      }, { headers: authHeaders(), withCredentials: true });
 
       if (!response.data?.success) {
         throw new Error(response.data?.error || "The style assistant could not respond.");

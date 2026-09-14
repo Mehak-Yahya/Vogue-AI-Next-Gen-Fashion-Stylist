@@ -88,7 +88,7 @@ export default function Onboarding() {
     setSaving(true);
     setError("");
     try {
-      const response = await axios.put(`${API_BASE_URL}/api/auth/profile`, { profile }, { headers: authHeaders() });
+      const response = await axios.put(`${API_BASE_URL}/api/auth/profile`, { profile }, { headers: authHeaders(), withCredentials: true });
       localStorage.setItem("vogue-ai-user", JSON.stringify(response.data.user));
       window.location.href = "/dashboard";
     } catch (requestError) {

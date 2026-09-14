@@ -55,7 +55,7 @@ export default function VirtualWardrobe() {
   }, []);
 
   return (
-    <section className="virtual-wardrobe" ref={sectionRef}>
+    <section id="wardrobe" className="virtual-wardrobe" ref={sectionRef}>
       {/* Background */}
       <div className="vw-bg-glow" />
       <div className="vw-grid" />

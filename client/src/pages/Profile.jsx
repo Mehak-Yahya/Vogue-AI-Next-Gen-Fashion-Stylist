@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowLeft, Check, Edit3, LogOut, X } from "lucide-react";
+import { ArrowLeft, Check, Edit3, Eye, EyeOff, LogOut, X } from "lucide-react";
 import axios from "axios";
 import "../styles/Profile.css";
 import { authHeaders } from "../utils/auth";
@@ -53,13 +53,19 @@ export default function Profile() {
   const [passwordMessage, setPasswordMessage] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [savingPassword, setSavingPassword] = useState(false);
+  const [passwordVisibility, setPasswordVisibility] = useState({ current: false, next: false, confirm: false });
+  const [passwordFormOpen, setPasswordFormOpen] = useState(false);
   const profile = user.profile || {};
   const season = profile.colorAnalysis?.season || "";
   const palette = paletteAssets[season.toLowerCase()];
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await axios.post(`${API_BASE_URL}/api/auth/logout`, {}, { withCredentials: true });
+    } catch {
+      // Clear the local profile even when the backend is unavailable.
+    }
     localStorage.removeItem("vogue-ai-user");
-    localStorage.removeItem("vogue-ai-token");
     window.location.href = "/login";
   };
 
@@ -78,7 +84,7 @@ export default function Profile() {
     setSavingName(true);
     setNameError("");
     try {
-      const response = await axios.put(`${API_BASE_URL}/api/auth/profile`, { name: nextName, profile }, { headers: authHeaders() });
+      const response = await axios.put(`${API_BASE_URL}/api/auth/profile`, { name: nextName, profile }, { headers: authHeaders(), withCredentials: true });
       setUser(response.data.user);
       localStorage.setItem("vogue-ai-user", JSON.stringify(response.data.user));
       setEditingName(false);
@@ -91,6 +97,17 @@ export default function Profile() {
 
   const updatePassword = (event) => {
     setPasswords((current) => ({ ...current, [event.target.name]: event.target.value }));
+    setPasswordError("");
+    setPasswordMessage("");
+  };
+
+  const togglePasswordVisibility = (field) => {
+    setPasswordVisibility((current) => ({ ...current, [field]: !current[field] }));
+  };
+
+  const closePasswordForm = () => {
+    setPasswordFormOpen(false);
+    setPasswords({ current: "", next: "", confirm: "" });
     setPasswordError("");
     setPasswordMessage("");
   };
@@ -108,7 +125,7 @@ export default function Profile() {
       const response = await axios.put(`${API_BASE_URL}/api/auth/password`, {
         currentPassword: passwords.current,
         newPassword: passwords.next,
-      }, { headers: authHeaders() });
+      }, { headers: authHeaders(), withCredentials: true });
       setPasswordMessage(response.data.message);
       setPasswords({ current: "", next: "", confirm: "" });
     } catch (error) {
@@ -157,22 +174,62 @@ export default function Profile() {
           ))}
         </section>
       </section>
+      <div className="profile-actions">
+        <a className="profile-edit" href="/onboarding">Update style profile</a>
+      </div>
       <section className="profile-security">
         <div>
           <div className="profile-section-label">ACCOUNT SECURITY</div>
-          <h2>Change password</h2>
-          <p>Use a password with at least 8 characters, including uppercase, lowercase, and a number.</p>
+          <h2>Keep your account secure</h2>
+          <p>Choose a new password you do not use elsewhere. It should have at least 8 characters, including uppercase, lowercase, and a number.</p>
         </div>
-        <form className="profile-password-form" onSubmit={savePassword}>
-          <input name="current" type="password" value={passwords.current} onChange={updatePassword} placeholder="Current password" autoComplete="current-password" required />
-          <input name="next" type="password" value={passwords.next} onChange={updatePassword} placeholder="New password" autoComplete="new-password" required />
-          <input name="confirm" type="password" value={passwords.confirm} onChange={updatePassword} placeholder="Confirm new password" autoComplete="new-password" required />
-          <button type="submit" disabled={savingPassword}>{savingPassword ? "Saving..." : "Update password"}</button>
-          {passwordError && <span className="profile-security-error" role="alert">{passwordError}</span>}
-          {passwordMessage && <span className="profile-security-message" role="status">{passwordMessage}</span>}
-        </form>
+        {passwordFormOpen ? (
+          <form className="profile-password-form" onSubmit={savePassword}>
+            <div className="profile-password-form-heading">
+              <strong>Change password</strong>
+              <span>All fields are required</span>
+            </div>
+            <label className="profile-password-field">
+              Current password
+              <span className="profile-password-input">
+                <input name="current" type={passwordVisibility.current ? "text" : "password"} value={passwords.current} onChange={updatePassword} autoComplete="current-password" required />
+                <button type="button" onClick={() => togglePasswordVisibility("current")} aria-label={passwordVisibility.current ? "Hide current password" : "Show current password"} title={passwordVisibility.current ? "Hide password" : "Show password"}>
+                  {passwordVisibility.current ? <EyeOff size={16} aria-hidden="true" /> : <Eye size={16} aria-hidden="true" />}
+                </button>
+              </span>
+            </label>
+            <label className="profile-password-field">
+              New password
+              <span className="profile-password-input">
+                <input name="next" type={passwordVisibility.next ? "text" : "password"} value={passwords.next} onChange={updatePassword} autoComplete="new-password" required />
+                <button type="button" onClick={() => togglePasswordVisibility("next")} aria-label={passwordVisibility.next ? "Hide new password" : "Show new password"} title={passwordVisibility.next ? "Hide password" : "Show password"}>
+                  {passwordVisibility.next ? <EyeOff size={16} aria-hidden="true" /> : <Eye size={16} aria-hidden="true" />}
+                </button>
+              </span>
+            </label>
+            <label className="profile-password-field">
+              Confirm new password
+              <span className="profile-password-input">
+                <input name="confirm" type={passwordVisibility.confirm ? "text" : "password"} value={passwords.confirm} onChange={updatePassword} autoComplete="new-password" required />
+                <button type="button" onClick={() => togglePasswordVisibility("confirm")} aria-label={passwordVisibility.confirm ? "Hide confirmed password" : "Show confirmed password"} title={passwordVisibility.confirm ? "Hide password" : "Show password"}>
+                  {passwordVisibility.confirm ? <EyeOff size={16} aria-hidden="true" /> : <Eye size={16} aria-hidden="true" />}
+                </button>
+              </span>
+            </label>
+            <div className="profile-password-actions">
+              <button className="profile-password-submit" type="submit" disabled={savingPassword}>{savingPassword ? "Saving..." : "Update password"}</button>
+              <button className="profile-password-cancel" type="button" onClick={closePasswordForm}>Cancel</button>
+            </div>
+            {passwordError && <span className="profile-security-error" role="alert">{passwordError}</span>}
+            {passwordMessage && <span className="profile-security-message" role="status">{passwordMessage}</span>}
+          </form>
+        ) : (
+          <div className="profile-password-collapsed">
+            <p>Ready to refresh your login details?</p>
+            <button type="button" onClick={() => setPasswordFormOpen(true)}>Change password</button>
+          </div>
+        )}
       </section>
-      <a className="profile-edit" href="/onboarding">Update style profile</a>
     </main>
   );
 }

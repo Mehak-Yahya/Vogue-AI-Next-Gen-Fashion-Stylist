@@ -91,7 +91,7 @@ export default function SkinAnalysis() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="skin-analysis">
+    <section id="skin-analysis" ref={sectionRef} className="skin-analysis">
       {/* BACKGROUND */}
       <div className="skin-grid" />
       <div className="skin-glow" />

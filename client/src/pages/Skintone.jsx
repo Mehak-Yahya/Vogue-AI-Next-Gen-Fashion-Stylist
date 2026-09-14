@@ -75,7 +75,7 @@ export default function Skintone() {
       const formData = new FormData();
       formData.append('image', selectedFile);
 
-      const response = await axios.post(`${API_BASE_URL}/api/analyze-skin`, formData, { headers: authHeaders() });
+      const response = await axios.post(`${API_BASE_URL}/api/analyze-skin`, formData, { headers: authHeaders(), withCredentials: true });
 
       if (response.data && response.data.success) {
         const analysis = response.data.data;
@@ -94,7 +94,7 @@ export default function Skintone() {
               paletteSavedAt: new Date().toISOString(),
             },
           };
-          const profileResponse = await axios.put(`${API_BASE_URL}/api/auth/profile`, { profile }, { headers: authHeaders() });
+          const profileResponse = await axios.put(`${API_BASE_URL}/api/auth/profile`, { profile }, { headers: authHeaders(), withCredentials: true });
           localStorage.setItem('vogue-ai-user', JSON.stringify(profileResponse.data.user));
           setPaletteSaved(Boolean(paletteAsset));
         }

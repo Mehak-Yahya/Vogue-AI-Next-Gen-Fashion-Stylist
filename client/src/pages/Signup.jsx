@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import modelImage from "../assets/signup.png";
+import GoogleSignInButton from "../components/GoogleSignInButton";
 import "../styles/Signup.css";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
@@ -53,6 +54,22 @@ export default function Signup() {
       }, 1600);
     } catch (error) {
       setErrors({ form: error.response?.data?.error || "Unable to create your account right now." });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleGoogleCredential = async (token) => {
+    setSubmitting(true);
+    setErrors({});
+    setStatus("");
+    try {
+      const response = await axios.post(`${API_BASE_URL}/api/auth/google`, { token }, { withCredentials: true });
+      localStorage.setItem("vogue-ai-user", JSON.stringify(response.data.user));
+      sessionStorage.setItem("vogue-ai-csrf", response.data.csrfToken);
+      window.location.href = response.data.user.onboardingComplete ? "/dashboard" : "/onboarding";
+    } catch (error) {
+      setErrors({ form: error.response?.data?.error || "Unable to continue with Google right now." });
     } finally {
       setSubmitting(false);
     }
@@ -121,12 +138,15 @@ export default function Signup() {
             </label>
             <label className="signup-check">
               <input name="terms" type="checkbox" checked={form.terms} onChange={updateField} />
-              <span>I agree to the terms and privacy policy.</span>
+              <span>I agree to the terms and <a href="/privacy-policy">privacy policy</a>.</span>
               {errors.terms && <span className="signup-error">{errors.terms}</span>}
             </label>
             {errors.form && <p className="signup-error signup-form-error" role="alert">{errors.form}</p>}
             <button type="submit" disabled={submitting}>{submitting ? "Creating account..." : "Create account"}</button>
           </form>
+
+          <div className="signup-social-divider"><span>or</span></div>
+          <GoogleSignInButton onCredential={handleGoogleCredential} />
 
           {status && <p className="signup-toast" role="status">{status} Redirecting to login...</p>}
 

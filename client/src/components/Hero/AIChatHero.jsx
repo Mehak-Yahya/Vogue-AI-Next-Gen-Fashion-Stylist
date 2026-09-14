@@ -5,7 +5,7 @@ import "../../styles/hero/AIChatHero.css";
 export default function AIChatHero() {
 
   return (
-    <section className="vogue-ai-hero">
+    <section id="chat" className="vogue-ai-hero">
 
  
       

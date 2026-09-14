@@ -19,9 +19,7 @@ your wardrobe, and your world. </p> </div>
 
       <div className="footer-column">
         <span className="footer-label">VOGUE AI</span>
-        <a href="#fitme">FitMe</a>
-        <a href="#recommendations">Recommendations</a>
-        <a href="#palette">Colour Palette</a>
+        <a href="/skintone">Colour Palette</a>
         <a href="#chat">Ask Your Stylist</a>
       </div>
     </div>

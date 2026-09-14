@@ -1,6 +1,6 @@
-export const getAuthToken = () => localStorage.getItem("vogue-ai-token") || "";
-
 export const authHeaders = () => {
-  const token = getAuthToken();
-  return token ? { Authorization: `Bearer ${token}` } : {};
+	const csrfToken = sessionStorage.getItem("vogue-ai-csrf");
+	return csrfToken ? { "X-CSRF-Token": csrfToken } : {};
 };
+
+export const authFetchOptions = { credentials: "include" };

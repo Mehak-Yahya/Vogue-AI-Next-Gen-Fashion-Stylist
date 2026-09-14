@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import axios from "axios";
 import modelImage from "../assets/signup.png";
+import GoogleSignInButton from "../components/GoogleSignInButton";
 import "../styles/Signup.css";
 import "../styles/Login.css";
 
@@ -31,9 +32,9 @@ export default function Login() {
     setStatus("");
 
     try {
-      const response = await axios.post(`${API_BASE_URL}/api/auth/login`, { email, password });
-      localStorage.setItem("vogue-ai-token", response.data.token);
+      const response = await axios.post(`${API_BASE_URL}/api/auth/login`, { email, password }, { withCredentials: true });
       localStorage.setItem("vogue-ai-user", JSON.stringify(response.data.user));
+      sessionStorage.setItem("vogue-ai-csrf", response.data.csrfToken);
       setPassword("");
       setStatus("Welcome back. Taking you to your dashboard...");
       window.setTimeout(() => {
@@ -41,6 +42,25 @@ export default function Login() {
       }, 1200);
     } catch (requestError) {
       setError(requestError.response?.data?.error || "Unable to log in right now.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleGoogleCredential = async (token) => {
+    setSubmitting(true);
+    setError("");
+    setStatus("");
+    try {
+      const response = await axios.post(`${API_BASE_URL}/api/auth/google`, { token }, { withCredentials: true });
+      localStorage.setItem("vogue-ai-user", JSON.stringify(response.data.user));
+      sessionStorage.setItem("vogue-ai-csrf", response.data.csrfToken);
+      setStatus("Welcome back. Taking you to your dashboard...");
+      window.setTimeout(() => {
+        window.location.href = response.data.user.onboardingComplete ? "/dashboard" : "/onboarding";
+      }, 800);
+    } catch (requestError) {
+      setError(requestError.response?.data?.error || "Unable to sign in with Google right now.");
     } finally {
       setSubmitting(false);
     }
@@ -112,6 +132,9 @@ export default function Login() {
               {submitting ? "Logging in..." : "Log in"}
             </button>
           </form>
+
+          <div className="signup-social-divider"><span>or</span></div>
+          <GoogleSignInButton onCredential={handleGoogleCredential} />
 
           {status && <p className="signup-toast" role="status">{status}</p>}
 

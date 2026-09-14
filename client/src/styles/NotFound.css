@@ -1,0 +1,181 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap");
+
+.not-found-page {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  padding: 34px 7vw 30px;
+  display: flex;
+  flex-direction: column;
+  background: #e8e2d9;
+  color: #191817;
+  font-family: "DM Sans", sans-serif;
+}
+
+.not-found-page::before {
+  position: absolute;
+  top: 14vh;
+  right: 9vw;
+  width: min(38vw, 540px);
+  height: min(38vw, 540px);
+  border: 1px solid rgba(25, 24, 23, 0.16);
+  border-radius: 50%;
+  content: "";
+}
+
+.not-found-header,
+.not-found-footer {
+  position: relative;
+  z-index: 1;
+}
+
+.not-found-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.not-found-brand {
+  color: inherit;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.8px;
+  text-decoration: none;
+}
+
+.not-found-brand span {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.not-found-season,
+.not-found-footer,
+.not-found-kicker {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+.not-found-content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(120px, 0.8fr) minmax(280px, 1fr);
+  align-items: center;
+  width: min(980px, 100%);
+  margin: auto;
+  padding: 10vh 0 12vh;
+}
+
+.not-found-number {
+  margin: 0;
+  color: #b9aea1;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(110px, 19vw, 270px);
+  font-weight: 400;
+  letter-spacing: -0.09em;
+  line-height: 0.8;
+}
+
+.not-found-copy {
+  max-width: 480px;
+}
+
+.not-found-kicker {
+  margin: 0 0 22px;
+}
+
+.not-found-copy h1 {
+  margin: 0;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(48px, 6vw, 86px);
+  font-weight: 400;
+  letter-spacing: -3px;
+  line-height: 0.94;
+}
+
+.not-found-copy h1 em {
+  font-style: italic;
+}
+
+.not-found-description {
+  max-width: 360px;
+  margin: 30px 0 0;
+  color: #5e5953;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.not-found-home {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 30px;
+  padding: 15px 20px;
+  background: #191817;
+  color: #fff;
+  font-size: 10px;
+  letter-spacing: 1.6px;
+  text-decoration: none;
+  transition: transform 180ms ease, background 180ms ease;
+}
+
+.not-found-home:hover {
+  background: #403b36;
+  transform: translateX(4px);
+}
+
+.not-found-mark {
+  position: absolute;
+  right: 12vw;
+  bottom: 10vh;
+  color: rgba(25, 24, 23, 0.12);
+  font-family: "Playfair Display", serif;
+  font-size: clamp(180px, 30vw, 440px);
+  line-height: 0.7;
+}
+
+.not-found-footer {
+  margin: auto 0 0;
+  color: #777068;
+}
+
+@media (max-width: 640px) {
+  .not-found-page {
+    padding: 26px 24px 24px;
+  }
+
+  .not-found-season {
+    font-size: 9px;
+    letter-spacing: 1.4px;
+  }
+
+  .not-found-content {
+    display: block;
+    padding: 12vh 0 16vh;
+  }
+
+  .not-found-number {
+    margin-bottom: 38px;
+    font-size: 128px;
+  }
+
+  .not-found-copy h1 {
+    font-size: clamp(48px, 15vw, 70px);
+    letter-spacing: -2px;
+  }
+
+  .not-found-page::before {
+    top: 21vh;
+    right: -24vw;
+    width: 80vw;
+    height: 80vw;
+  }
+
+  .not-found-mark {
+    right: -3vw;
+    bottom: 13vh;
+    font-size: 240px;
+  }
+}

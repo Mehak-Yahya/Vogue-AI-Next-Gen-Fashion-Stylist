@@ -45,11 +45,10 @@ function CloseIcon() {
 }
 
 const navItems = [
-  "Style AI",
-  "Style Analysis",
-  "Collections",
-  "How It Works",
-  "Live Demo",
+  { label: "Style AI", href: "#stylist" },
+  { label: "Style Analysis", href: "#skin-analysis" },
+  { label: "How It Works", href: "#about" },
+  { label: "Live Demo", href: "#chat" },
 ];
 
 export default function Navbar() {
@@ -67,13 +66,11 @@ export default function Navbar() {
           <Logo />
 
           {navItems.map((item, index) => (
-            <button
-              key={item}
+            <a
+              key={item.label}
               className={`nav-link ${index === 0 ? "active" : ""}`}
-              onClick={closeMenu}
-            >
-              {item}
-            </button>
+              href={item.href}
+            >{item.label}</a>
           ))}
 
           <a className="connect-button" href="/signup">
@@ -101,9 +98,9 @@ export default function Navbar() {
       {/* Mobile menu */}
       <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
         {navItems.map((item) => (
-          <button key={item} onClick={closeMenu}>
-            {item}
-          </button>
+          <a key={item.label} href={item.href} onClick={closeMenu}>
+            {item.label}
+          </a>
         ))}
 
         <a
