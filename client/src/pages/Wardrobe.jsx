@@ -41,9 +41,12 @@ export default function Wardrobe() {
   const [loading, setLoading] = useState(false);
   const [isUploadOpen, setIsUploadOpen] = useState(false);
   const [previewUrl, setPreviewUrl] = useState("");
+  const [isPremium, setIsPremium] = useState(false);
   const load = async () => {
     const wardrobeResponse = await fetch(`${API}/api/wardrobe`, { headers: authHeaders(), credentials: "include" });
-    setItems((await wardrobeResponse.json()).items || []);
+    const result = await wardrobeResponse.json();
+    setItems(result.items || []);
+    setIsPremium(Boolean(result.isPremium));
   };
 
   useEffect(() => {
@@ -107,6 +110,10 @@ export default function Wardrobe() {
   const uploadItem = async (event) => {
     event.preventDefault();
     if (!file) return setMessage("Choose an image first.");
+    if (!isPremium && items.length >= 5) {
+      setMessage("Your free wardrobe includes 5 items. Upgrade to add unlimited pieces.");
+      return;
+    }
     setLoading(true);
     setMessage("");
     const data = new FormData();
@@ -164,6 +171,21 @@ export default function Wardrobe() {
   };
   const generate = async () => {
     window.location.href = "/outfits";
+  };
+  const upgrade = async () => {
+    setMessage("");
+    try {
+      const response = await fetch(`${API}/api/billing/create-checkout-session`, {
+        method: "POST",
+        headers: authHeaders(),
+        credentials: "include",
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || "Unable to start checkout.");
+      window.location.href = result.url;
+    } catch (error) {
+      setMessage(error.message);
+    }
   };
 
   return (
@@ -397,6 +419,7 @@ export default function Wardrobe() {
               >
                 + ADD A PIECE
               </button>
+              {!isPremium && <button className="wardrobe-generate-button" type="button" onClick={upgrade}>UPGRADE TO PRO</button>}
               <button
                 className="wardrobe-generate-button"
                 type="button"

@@ -4,11 +4,13 @@ const fs = require('fs');
 const path = require('path');
 const { requireAuth } = require('../middleware/requireAuth');
 const { validateImage } = require('../utils/validateImage');
+const User = require('../models/User');
 
 const router = express.Router();
 const dataDirectory = path.join(__dirname, '..', 'data');
 const uploadDirectory = path.join(__dirname, '..', 'uploads', 'wardrobe');
 const dataFile = path.join(dataDirectory, 'wardrobe.json');
+const FREE_WARDROBE_LIMIT = 5;
 
 fs.mkdirSync(dataDirectory, { recursive: true });
 fs.mkdirSync(uploadDirectory, { recursive: true });
@@ -47,8 +49,12 @@ const colorMatches = (first, second) => {
   return pairs[a]?.includes(b) || pairs[b]?.includes(a);
 };
 
-router.get('/', requireAuth, (req, res) => {
-  return res.json({ items: itemsForUser(req.user.id) });
+router.get('/', requireAuth, async (req, res) => {
+  const user = await User.findById(req.user.id).select('profile').lean();
+  return res.json({
+    items: itemsForUser(req.user.id),
+    isPremium: user?.profile?.subscriptionStatus === 'active',
+  });
 });
 
 router.get('/image/:filename', requireAuth, (req, res) => {
@@ -62,6 +68,16 @@ router.get('/image/:filename', requireAuth, (req, res) => {
 
 router.post('/upload', requireAuth, upload.single('file'), async (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'Please upload an image file.' });
+
+  const user = await User.findById(req.user.id).select('profile').lean();
+  const isPremium = user?.profile?.subscriptionStatus === 'active';
+  if (!isPremium && itemsForUser(req.user.id).length >= FREE_WARDROBE_LIMIT) {
+    return res.status(402).json({
+      code: 'WARDROBE_LIMIT_REACHED',
+      error: 'Your free wardrobe includes 5 items. Upgrade to add unlimited pieces.',
+    });
+  }
+
   try {
     await validateImage(req.file.buffer);
   } catch (error) {
