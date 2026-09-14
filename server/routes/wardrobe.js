@@ -2,6 +2,8 @@ const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
+const { requireAuth } = require('../middleware/requireAuth');
+const { validateImage } = require('../utils/validateImage');
 
 const router = express.Router();
 const dataDirectory = path.join(__dirname, '..', 'data');
@@ -12,13 +14,7 @@ fs.mkdirSync(dataDirectory, { recursive: true });
 fs.mkdirSync(uploadDirectory, { recursive: true });
 if (!fs.existsSync(dataFile)) fs.writeFileSync(dataFile, '[]');
 
-const storage = multer.diskStorage({
-  destination: uploadDirectory,
-  filename: (req, file, callback) => {
-    const safeName = file.originalname.replace(/[^a-zA-Z0-9._-]/g, '_');
-    callback(null, `${Date.now()}_${safeName}`);
-  },
-});
+const storage = multer.memoryStorage();
 const upload = multer({
   storage,
   limits: { fileSize: 16 * 1024 * 1024 },
@@ -27,9 +23,13 @@ const upload = multer({
   },
 });
 
-const readItems = () => JSON.parse(fs.readFileSync(dataFile, 'utf8'));
+const readItems = () => JSON.parse(fs.readFileSync(dataFile, 'utf8')).map((item) => ({
+  ...item,
+  filepath: item.filename ? imageUrl(item.filename) : item.filepath,
+}));
 const writeItems = (items) => fs.writeFileSync(dataFile, JSON.stringify(items, null, 2));
-const imageUrl = (filename) => `/uploads/wardrobe/${filename}`;
+const imageUrl = (filename) => `/api/wardrobe/image/${encodeURIComponent(filename)}`;
+const itemsForUser = (userId) => readItems().filter((item) => item.userId === userId);
 const categoryGroups = {
   tops: ['top', 'shirt', 'blouse', 'sweater', 't-shirt', 'tank'],
   bottoms: ['bottom', 'pants', 'jeans', 'skirt', 'shorts'],
@@ -47,14 +47,35 @@ const colorMatches = (first, second) => {
   return pairs[a]?.includes(b) || pairs[b]?.includes(a);
 };
 
-router.get('/', (req, res) => res.json({ items: readItems() }));
+router.get('/', requireAuth, (req, res) => {
+  return res.json({ items: itemsForUser(req.user.id) });
+});
 
-router.post('/upload', upload.single('file'), (req, res) => {
+router.get('/image/:filename', requireAuth, (req, res) => {
+  const filename = path.basename(req.params.filename);
+  const item = itemsForUser(req.user.id).find((entry) => entry.filename === filename);
+
+  if (!item) return res.status(404).json({ error: 'Image not found.' });
+
+  return res.sendFile(filename, { root: uploadDirectory });
+});
+
+router.post('/upload', requireAuth, upload.single('file'), async (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'Please upload an image file.' });
+  try {
+    await validateImage(req.file.buffer);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+
+  const safeName = req.file.originalname.replace(/[^a-zA-Z0-9._-]/g, '_');
+  const filename = `${Date.now()}_${safeName}`;
+  fs.writeFileSync(path.join(uploadDirectory, filename), req.file.buffer);
   const item = {
     id: String(Date.now()),
-    filename: req.file.filename,
-    filepath: imageUrl(req.file.filename),
+    userId: req.user.id,
+    filename,
+    filepath: imageUrl(filename),
     category: req.body.category || 'top',
     color: req.body.color || 'unknown',
     season: req.body.season || 'all-season',
@@ -72,18 +93,20 @@ router.post('/upload', upload.single('file'), (req, res) => {
   res.status(201).json({ success: true, item });
 });
 
-router.delete('/:itemId', (req, res) => {
+router.delete('/:itemId', requireAuth, (req, res) => {
+  const userId = req.user.id;
   const items = readItems();
-  const item = items.find((entry) => entry.id === req.params.itemId);
+  const item = items.find((entry) => entry.id === req.params.itemId && entry.userId === userId);
   if (!item) return res.status(404).json({ error: 'Item not found.' });
-  writeItems(items.filter((entry) => entry.id !== req.params.itemId));
+  writeItems(items.filter((entry) => !(entry.id === req.params.itemId && entry.userId === userId)));
   if (item.filename) fs.rmSync(path.join(uploadDirectory, item.filename), { force: true });
   res.json({ success: true });
 });
 
-router.post('/:itemId/worn', (req, res) => {
+router.post('/:itemId/worn', requireAuth, (req, res) => {
+  const userId = req.user.id;
   const items = readItems();
-  const item = items.find((entry) => entry.id === req.params.itemId);
+  const item = items.find((entry) => entry.id === req.params.itemId && entry.userId === userId);
   if (!item) return res.status(404).json({ error: 'Item not found.' });
   item.times_worn = (item.times_worn || 0) + 1;
   item.last_worn = new Date().toISOString();
@@ -91,8 +114,8 @@ router.post('/:itemId/worn', (req, res) => {
   res.json({ success: true, item });
 });
 
-router.get('/stats/summary', (req, res) => {
-  const items = readItems();
+router.get('/stats/summary', requireAuth, (req, res) => {
+  const items = itemsForUser(req.user.id);
   const categories = {};
   const colors = {};
   items.forEach((item) => {
@@ -127,8 +150,8 @@ const buildOutfits = (items, limit = 15) => {
   return outfits.slice(0, limit);
 };
 
-router.get('/outfits/generate', (req, res) => {
-  const outfits = buildOutfits(readItems());
+router.get('/outfits/generate', requireAuth, (req, res) => {
+  const outfits = buildOutfits(itemsForUser(req.user.id));
   if (!outfits.length) {
     return res.json({
       outfits: [],

@@ -1,1 +1,4 @@
 node_modules
+data/mongodb
+data/mongodb.log
+config/firebase-service-account.json

@@ -17,6 +17,7 @@ const analyzeSkinAndSeason = async (imageBuffer, filename = 'selfie.png') => {
       headers: {
         ...formData.getHeaders(),
       },
+      timeout: 60_000,
     });
 
     return response.data;

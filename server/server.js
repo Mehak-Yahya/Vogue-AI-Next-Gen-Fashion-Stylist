@@ -1,6 +1,8 @@
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const helmet = require('helmet');
 const multer = require('multer');
 const mongoose = require('mongoose');
 const { rateLimit } = require('express-rate-limit');
@@ -10,10 +12,17 @@ const wardrobeRoutes = require('./routes/wardrobe');
 const authRoutes = require('./routes/auth');
 const recommendationRoutes = require('./routes/recommendations');
 const { requireAuth } = require('./middleware/requireAuth');
+const { csrfProtection } = require('./middleware/csrf');
+const { validateImage } = require('./utils/validateImage');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 const RAG_SERVICE_URL = process.env.RAG_SERVICE_URL || 'http://127.0.0.1:8001';
+const MONGODB_RETRY_DELAY_MS = 5000;
+const clientOrigins = (process.env.CLIENT_URL || 'http://localhost:5173,http://localhost:5174')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -22,13 +31,31 @@ const apiLimiter = rateLimit({
   legacyHeaders: false,
   message: { error: 'Too many requests. Please try again later.' },
 });
+const chatLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 30,
+  standardHeaders: 'draft-8',
+  legacyHeaders: false,
+  message: { error: 'Too many assistant requests. Please try again later.' },
+});
 
 // Middleware
-app.use(cors());
+app.use(helmet());
+app.use(cors({
+  origin: (requestOrigin, callback) => {
+    if (!requestOrigin || clientOrigins.includes(requestOrigin)) {
+      callback(null, true);
+      return;
+    }
+    callback(new Error('Origin is not allowed by CORS'));
+  },
+  credentials: true,
+}));
+app.use(cookieParser());
 app.use('/api', apiLimiter);
+app.use('/api', csrfProtection);
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true, limit: '1mb' }));
-app.use('/uploads', express.static('uploads'));
 app.use('/api/wardrobe', wardrobeRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/recommendations', recommendationRoutes);
@@ -54,14 +81,21 @@ app.get('/api/health', (req, res) => {
 });
 
 // Forward RAG requests through the same gateway used by the React client.
-app.post('/api/chat-rag', async (req, res) => {
+app.post('/api/chat-rag', requireAuth, chatLimiter, async (req, res) => {
   try {
     const { season, question, history } = req.body;
+    const trimmedQuestion = String(question || '').trim();
+    const safeHistory = Array.isArray(history) ? history.slice(-20) : [];
+
+    if (!trimmedQuestion || trimmedQuestion.length > 1000) {
+      return res.status(400).json({ error: 'Question must be between 1 and 1000 characters.' });
+    }
+
     const response = await axios.post(`${RAG_SERVICE_URL}/chat-rag`, {
       season: season || '',
-      question: question || '',
-      history: Array.isArray(history) ? history : [],
-    });
+      question: trimmedQuestion,
+      history: safeHistory,
+    }, { timeout: 30_000 });
 
     return res.json(response.data);
   } catch (error) {
@@ -80,6 +114,8 @@ app.post('/api/analyze-skin', requireAuth, upload.single('image'), async (req, r
       return res.status(400).json({ success: false, error: 'Please upload an image file.' });
     }
 
+    await validateImage(req.file.buffer);
+
     const visionResults = await analyzeSkinAndSeason(
       req.file.buffer,
       req.file.originalname,
@@ -88,34 +124,56 @@ app.post('/api/analyze-skin', requireAuth, upload.single('image'), async (req, r
     return res.status(200).json({ success: true, data: visionResults });
   } catch (error) {
     console.error('Bridge Error:', error.response?.data || error.message);
-    return res.status(500).json({ success: false, error: error.message });
+    if (error.message.includes('image') || error.message.includes('Image')) {
+      return res.status(400).json({ success: false, error: error.message });
+    }
+    return res.status(500).json({ success: false, error: 'Skin analysis service unavailable.' });
   }
 });
-const startServer = async () => {
-  try {
-    const MONGODB_URI =
-      process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/vogue-ai';
 
-    console.log('Connecting to local MongoDB...');
-
-    await mongoose.connect(MONGODB_URI, {
-      serverSelectionTimeoutMS: 5000,
-      maxPoolSize: 20,
-      minPoolSize: 2,
-    });
-
-    console.log('Connected to local MongoDB');
-
-    app.listen(PORT, () => {
-      console.log(
-        `Vogue AI Express Backend running on http://localhost:${PORT}`,
-      );
-    });
-  } catch (error) {
-    console.error('MongoDB connection fai<ArrowUp2 />led:', error.message);
-    console.error('Make sure MongoDB is running on 127.0.0.1:27017');
-    process.exit(1);
+app.use((error, req, res, next) => {
+  if (error instanceof multer.MulterError) {
+    const message = error.code === 'LIMIT_FILE_SIZE'
+      ? 'The uploaded image is too large.'
+      : 'The uploaded image could not be processed.';
+    return res.status(400).json({ error: message });
   }
+  if (error.message === 'Only image files are allowed!') {
+    return res.status(400).json({ error: error.message });
+  }
+  console.error('Unhandled server error:', error.message);
+  return res.status(500).json({ error: 'An unexpected server error occurred.' });
+});
+const startServer = async () => {
+  const MONGODB_URI =
+    process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/vogue-ai';
+
+  while (mongoose.connection.readyState !== 1) {
+    try {
+      console.log('Connecting to local MongoDB...');
+
+      await mongoose.connect(MONGODB_URI, {
+        serverSelectionTimeoutMS: MONGODB_RETRY_DELAY_MS,
+        maxPoolSize: 20,
+        minPoolSize: 2,
+      });
+
+      console.log('Connected to local MongoDB');
+    } catch (error) {
+      console.warn(
+        `MongoDB unavailable. Retrying in ${MONGODB_RETRY_DELAY_MS / 1000}s: ${error.message}`,
+      );
+      await new Promise((resolve) => setTimeout(resolve, MONGODB_RETRY_DELAY_MS));
+    }
+  }
+
+  app.listen(PORT, () => {
+    console.log(
+      `Vogue AI Express Backend running on http://localhost:${PORT}`,
+    );
+  });
 };
 
-startServer();
+if (require.main === module) startServer();
+
+module.exports = { app, startServer };
