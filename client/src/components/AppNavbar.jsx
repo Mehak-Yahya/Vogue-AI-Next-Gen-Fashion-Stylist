@@ -1,6 +1,8 @@
 import { ChevronDown, LogOut } from "lucide-react";
 import { useState } from "react";
+import axios from "axios";
 import "../styles/AppNavbar.css";
+import { authHeaders } from "../utils/auth";
 
 const navItems = [
   { id: "dashboard", label: "Dashboard", href: "/dashboard" },
@@ -17,9 +19,13 @@ export default function AppNavbar({ activeItem = "" }) {
   const initials = user.name?.trim().split(/\s+/).map((part) => part[0]).join("").slice(0, 2).toUpperCase() || "V";
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await axios.post(`${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/auth/logout`, {}, { headers: authHeaders(), withCredentials: true });
+    } catch {
+      // Clear the local profile even when the backend is unavailable.
+    }
     localStorage.removeItem("vogue-ai-user");
-    localStorage.removeItem("vogue-ai-token");
     window.location.href = "/login";
   };
 
