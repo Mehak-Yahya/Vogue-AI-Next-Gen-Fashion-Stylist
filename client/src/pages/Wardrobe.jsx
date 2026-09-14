@@ -429,6 +429,12 @@ export default function Wardrobe() {
               </button>
             </div>
           </div>
+          {!isPremium && items.length >= 5 && (
+            <div className="wardrobe-message wardrobe-limit-notice" role="status">
+              <span>Your free wardrobe includes 5 items.</span>
+              <button type="button" onClick={upgrade}>Upgrade to add unlimited pieces</button>
+            </div>
+          )}
           <section className="wardrobe-grid">
             {visibleItems.map((item) => (
               <article className="wardrobe-card" key={item.id}>

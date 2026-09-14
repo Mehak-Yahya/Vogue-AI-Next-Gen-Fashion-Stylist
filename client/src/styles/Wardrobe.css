@@ -729,6 +729,33 @@
   gap: 10px !important;
 }
 
+.wardrobe-refined .wardrobe-limit-notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: -4px 0 18px;
+  border: 1px solid #e2c8cf;
+  border-radius: 8px;
+  background: #fff8f9;
+  padding: 10px 14px;
+  color: #5c2738;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.wardrobe-refined .wardrobe-limit-notice button {
+  flex: 0 0 auto;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: #8e334d;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
 @media (max-width: 700px) {
   .wardrobe-refined .wardrobe-head,
   .wardrobe-refined .wardrobe-controls {
@@ -747,5 +774,11 @@
   .wardrobe-refined .wardrobe-actions-bar button,
   .wardrobe-refined .wardrobe-actions-bar select {
     flex: 1;
+  }
+
+  .wardrobe-refined .wardrobe-limit-notice {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
   }
 }
