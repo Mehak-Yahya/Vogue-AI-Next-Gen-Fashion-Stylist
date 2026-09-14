@@ -21,7 +21,7 @@ const RAG_SERVICE_URL = process.env.RAG_SERVICE_URL || 'http://127.0.0.1:8001';
 const MONGODB_RETRY_DELAY_MS = 5000;
 const clientOrigins = (process.env.CLIENT_URL || 'http://localhost:5173,http://localhost:5174')
   .split(',')
-  .map((origin) => origin.trim())
+  .map((origin) => origin.trim().replace(/\/$/, ''))
   .filter(Boolean);
 
 const apiLimiter = rateLimit({
@@ -40,10 +40,13 @@ const chatLimiter = rateLimit({
 });
 
 // Middleware
-app.use(helmet());
+app.use(helmet({
+  crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
+}));
 app.use(cors({
   origin: (requestOrigin, callback) => {
-    if (!requestOrigin || clientOrigins.includes(requestOrigin)) {
+    const normalizedOrigin = requestOrigin?.replace(/\/$/, '');
+    if (!normalizedOrigin || clientOrigins.includes(normalizedOrigin)) {
       callback(null, true);
       return;
     }
