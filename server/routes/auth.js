@@ -41,16 +41,27 @@ const resetAttemptLimiter = rateLimit({
   legacyHeaders: false,
   message: { error: 'Too many password reset attempts. Please try again later.' },
 });
-const smtpConfigured = Boolean(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASSWORD);
+const readEnv = (name) => {
+  const value = String(process.env[name] || '').trim();
+  return value.replace(/^(['"])(.*)\1$/, '$2').trim();
+};
+const smtpHost = readEnv('SMTP_HOST');
+const smtpPort = Number(readEnv('SMTP_PORT') || 587);
+const smtpSecureValue = readEnv('SMTP_SECURE').toLowerCase();
+const smtpSecure = smtpSecureValue ? smtpSecureValue === 'true' : smtpPort === 465;
+const smtpUser = readEnv('SMTP_USER');
+const smtpPassword = readEnv('SMTP_PASSWORD');
+const smtpFrom = readEnv('SMTP_FROM') || smtpUser;
+const smtpConfigured = Boolean(smtpHost && smtpUser && smtpPassword);
 const mailTransport = smtpConfigured ? nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT || 465),
-  secure: process.env.SMTP_SECURE === 'true' || Number(process.env.SMTP_PORT || 465) === 465,
+  host: smtpHost,
+  port: smtpPort,
+  secure: smtpSecure,
   family: 4,
   connectionTimeout: 8_000,
   greetingTimeout: 8_000,
   socketTimeout: 8_000,
-  auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASSWORD },
+  auth: { user: smtpUser, pass: smtpPassword },
 }) : null;
 const hashOtp = (otp) => crypto.createHash('sha256').update(otp).digest('hex');
 const cookieOptions = {
@@ -188,7 +199,7 @@ router.post('/forgot-password', resetAttemptLimiter, async (req, res) => {
     await user.save();
 
     await mailTransport.sendMail({
-      from: process.env.SMTP_FROM || process.env.SMTP_USER,
+      from: smtpFrom,
       to: user.email,
       subject: 'Your Vogue AI password reset code',
       text: `Your Vogue AI password reset code is ${otp}. It expires in 10 minutes. If you did not request this, ignore this email.`,
@@ -196,7 +207,16 @@ router.post('/forgot-password', resetAttemptLimiter, async (req, res) => {
     });
     return res.json(genericResponse);
   } catch (error) {
-    console.error('Password Reset Request Error:', error.message);
+    console.error('Password Reset Request Error:', {
+      code: error.code,
+      command: error.command,
+      responseCode: error.responseCode,
+      response: error.response,
+      message: error.message,
+      host: smtpHost,
+      port: smtpPort,
+      secure: smtpSecure,
+    });
     return res.status(502).json({ error: 'The reset email could not be sent. Check the email service configuration and try again.' });
   }
 });
