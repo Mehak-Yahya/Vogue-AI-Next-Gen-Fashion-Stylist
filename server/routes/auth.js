@@ -1,4 +1,5 @@
 const express = require('express');
+const axios = require('axios');
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
@@ -55,6 +56,8 @@ const smtpUser = readEnv('SMTP_USER');
 const smtpPassword = readEnv('SMTP_PASSWORD');
 const smtpFrom = readEnv('SMTP_FROM') || smtpUser;
 const smtpConfigured = Boolean(smtpHost && smtpUser && smtpPassword);
+const resendApiKey = readEnv('RESEND_API_KEY');
+const resendFrom = readEnv('RESEND_FROM') || smtpFrom;
 const getIpv4Socket = (options, callback) => {
   dns.resolve4(options.host, (dnsError, addresses) => {
     if (dnsError || !addresses?.length) {
@@ -84,6 +87,26 @@ const mailTransport = smtpConfigured ? nodemailer.createTransport({
   socketTimeout: 8_000,
   auth: { user: smtpUser, pass: smtpPassword },
 }) : null;
+const sendResetEmail = async ({ to, otp }) => {
+  const message = {
+    from: resendFrom,
+    to,
+    subject: 'Your Vogue AI password reset code',
+    text: `Your Vogue AI password reset code is ${otp}. It expires in 10 minutes. If you did not request this, ignore this email.`,
+    html: `<p>Your Vogue AI password reset code is:</p><p style="font-size:24px;font-weight:bold;letter-spacing:6px">${otp}</p><p>This code expires in 10 minutes.</p>`,
+  };
+
+  if (resendApiKey) {
+    await axios.post('https://api.resend.com/emails', message, {
+      headers: { Authorization: `Bearer ${resendApiKey}` },
+      timeout: 8_000,
+    });
+    return;
+  }
+
+  if (!mailTransport) throw new Error('No email provider is configured.');
+  await mailTransport.sendMail({ ...message, from: smtpFrom });
+};
 const hashOtp = (otp) => crypto.createHash('sha256').update(otp).digest('hex');
 const cookieOptions = {
   httpOnly: true,
@@ -207,7 +230,7 @@ router.post('/forgot-password', resetAttemptLimiter, async (req, res) => {
   const genericResponse = { message: 'If an account exists for that email, a reset code has been sent.' };
 
   if (!/^\S+@\S+\.\S+$/.test(email) || databaseUnavailable()) return res.json(genericResponse);
-  if (!smtpConfigured) return res.status(503).json({ error: 'Password reset email is not configured.' });
+  if (!smtpConfigured && !resendApiKey) return res.status(503).json({ error: 'Password reset email is not configured.' });
 
   try {
     const user = await User.findOne({ email }).select('+passwordResetOtpHash +passwordResetOtpExpiresAt +passwordResetOtpAttempts');
@@ -219,13 +242,7 @@ router.post('/forgot-password', resetAttemptLimiter, async (req, res) => {
     user.passwordResetOtpAttempts = 0;
     await user.save();
 
-    await mailTransport.sendMail({
-      from: smtpFrom,
-      to: user.email,
-      subject: 'Your Vogue AI password reset code',
-      text: `Your Vogue AI password reset code is ${otp}. It expires in 10 minutes. If you did not request this, ignore this email.`,
-      html: `<p>Your Vogue AI password reset code is:</p><p style="font-size:24px;font-weight:bold;letter-spacing:6px">${otp}</p><p>This code expires in 10 minutes.</p>`,
-    });
+    await sendResetEmail({ to: user.email, otp });
     return res.json(genericResponse);
   } catch (error) {
     console.error('Password Reset Request Error:', {
@@ -237,6 +254,7 @@ router.post('/forgot-password', resetAttemptLimiter, async (req, res) => {
       host: smtpHost,
       port: smtpPort,
       secure: smtpSecure,
+      resendConfigured: Boolean(resendApiKey),
     });
     return res.status(502).json({ error: 'The reset email could not be sent. Check the email service configuration and try again.' });
   }
