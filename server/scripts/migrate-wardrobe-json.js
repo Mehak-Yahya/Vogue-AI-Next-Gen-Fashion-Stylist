@@ -3,9 +3,32 @@ require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
+const { v2: cloudinary } = require('cloudinary');
 const WardrobeItem = require('../models/WardrobeItem');
 
 const dataFile = path.join(__dirname, '..', 'data', 'wardrobe.json');
+const uploadDirectory = path.join(__dirname, '..', 'uploads', 'wardrobe');
+const cloudinaryConfigured = Boolean(
+  process.env.CLOUDINARY_CLOUD_NAME
+  && process.env.CLOUDINARY_API_KEY
+  && process.env.CLOUDINARY_API_SECRET,
+);
+
+if (cloudinaryConfigured) {
+  cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+  });
+}
+
+const uploadImage = (buffer, userId) => new Promise((resolve, reject) => {
+  const stream = cloudinary.uploader.upload_stream(
+    { folder: `vogue-ai/wardrobe/${userId}`, resource_type: 'image' },
+    (error, result) => (error ? reject(error) : resolve(result)),
+  );
+  stream.end(buffer);
+});
 
 const migrate = async () => {
   if (!fs.existsSync(dataFile)) {
@@ -23,6 +46,15 @@ const migrate = async () => {
       continue;
     }
 
+    let filepath = item.filepath || '';
+    let cloudinaryPublicId = item.cloudinaryPublicId;
+    const localImage = item.filename && path.join(uploadDirectory, item.filename);
+    if (cloudinaryConfigured && !cloudinaryPublicId && localImage && fs.existsSync(localImage)) {
+      const uploaded = await uploadImage(fs.readFileSync(localImage), item.userId);
+      filepath = uploaded.secure_url;
+      cloudinaryPublicId = uploaded.public_id;
+    }
+
     await WardrobeItem.updateOne(
       { id: String(item.id) },
       {
@@ -30,8 +62,8 @@ const migrate = async () => {
           id: String(item.id),
           userId: item.userId,
           filename: item.filename,
-          cloudinaryPublicId: item.cloudinaryPublicId,
-          filepath: item.filepath || '',
+          cloudinaryPublicId,
+          filepath,
           category: item.category,
           color: item.color,
           season: item.season,

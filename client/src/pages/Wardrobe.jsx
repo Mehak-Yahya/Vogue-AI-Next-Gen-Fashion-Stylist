@@ -443,7 +443,6 @@ export default function Wardrobe() {
               <article className="wardrobe-card" key={item.id}>
                 <img
                   src={imagePath(item)}
-                  crossOrigin="use-credentials"
                   alt={`${item.color} ${item.category}`}
                 />
                 <div className="wardrobe-card-info">
