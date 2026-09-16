@@ -41,18 +41,16 @@ const resetAttemptLimiter = rateLimit({
   legacyHeaders: false,
   message: { error: 'Too many password reset attempts. Please try again later.' },
 });
-const mailTransport = process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASSWORD
-  ? nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT || 465),
-    secure: process.env.SMTP_SECURE === 'true' || Number(process.env.SMTP_PORT || 465) === 465,
-    family: 4,
-    connectionTimeout: 8_000,
-    greetingTimeout: 8_000,
-    socketTimeout: 8_000,
-    auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASSWORD },
-  })
-  : null;
+const smtpConfigured = Boolean(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASSWORD);
+const mailTransport = smtpConfigured ? nodemailer.createTransport({
+  host: process.env.SMTP_HOST,
+  port: Number(process.env.SMTP_PORT || 465),
+  secure: process.env.SMTP_SECURE === 'true' || Number(process.env.SMTP_PORT || 465) === 465,
+  connectionTimeout: 8_000,
+  greetingTimeout: 8_000,
+  socketTimeout: 8_000,
+  auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASSWORD },
+}) : null;
 const hashOtp = (otp) => crypto.createHash('sha256').update(otp).digest('hex');
 const cookieOptions = {
   httpOnly: true,
@@ -176,7 +174,7 @@ router.post('/forgot-password', resetAttemptLimiter, async (req, res) => {
   const genericResponse = { message: 'If an account exists for that email, a reset code has been sent.' };
 
   if (!/^\S+@\S+\.\S+$/.test(email) || databaseUnavailable()) return res.json(genericResponse);
-  if (!mailTransport) return res.status(503).json({ error: 'Password reset email is not configured.' });
+  if (!smtpConfigured) return res.status(503).json({ error: 'Password reset email is not configured.' });
 
   try {
     const user = await User.findOne({ email }).select('+passwordResetOtpHash +passwordResetOtpExpiresAt +passwordResetOtpAttempts');
