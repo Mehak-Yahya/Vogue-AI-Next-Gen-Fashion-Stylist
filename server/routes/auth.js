@@ -44,8 +44,11 @@ const resetAttemptLimiter = rateLimit({
 const mailTransport = process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASSWORD
   ? nodemailer.createTransport({
     host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT || 587),
-    secure: Number(process.env.SMTP_PORT || 587) === 465,
+    port: Number(process.env.SMTP_PORT || 465),
+    secure: process.env.SMTP_SECURE === 'true' || Number(process.env.SMTP_PORT || 465) === 465,
+    connectionTimeout: 8_000,
+    greetingTimeout: 8_000,
+    socketTimeout: 8_000,
     auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASSWORD },
   })
   : null;
@@ -194,7 +197,7 @@ router.post('/forgot-password', resetAttemptLimiter, async (req, res) => {
     return res.json(genericResponse);
   } catch (error) {
     console.error('Password Reset Request Error:', error.message);
-    return res.json(genericResponse);
+    return res.status(502).json({ error: 'The reset email could not be sent. Check the email service configuration and try again.' });
   }
 });
 
