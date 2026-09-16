@@ -3,6 +3,8 @@ const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const dns = require('dns');
+const net = require('net');
 const nodemailer = require('nodemailer');
 const { applicationDefault, cert, getApps, initializeApp } = require('firebase-admin/app');
 const { getAuth } = require('firebase-admin/auth');
@@ -53,11 +55,30 @@ const smtpUser = readEnv('SMTP_USER');
 const smtpPassword = readEnv('SMTP_PASSWORD');
 const smtpFrom = readEnv('SMTP_FROM') || smtpUser;
 const smtpConfigured = Boolean(smtpHost && smtpUser && smtpPassword);
+const getIpv4Socket = (options, callback) => {
+  dns.resolve4(options.host, (dnsError, addresses) => {
+    if (dnsError || !addresses?.length) {
+      callback(dnsError || new Error(`No IPv4 address found for ${options.host}`));
+      return;
+    }
+
+    const socket = net.connect({ host: addresses[0], port: options.port });
+    const handleError = (socketError) => {
+      socket.destroy();
+      callback(socketError);
+    };
+    socket.once('error', handleError);
+    socket.once('connect', () => {
+      socket.removeListener('error', handleError);
+      callback(null, { connection: socket });
+    });
+  });
+};
 const mailTransport = smtpConfigured ? nodemailer.createTransport({
   host: smtpHost,
   port: smtpPort,
   secure: smtpSecure,
-  family: 4,
+  getSocket: getIpv4Socket,
   connectionTimeout: 8_000,
   greetingTimeout: 8_000,
   socketTimeout: 8_000,
