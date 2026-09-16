@@ -3,7 +3,7 @@ const crypto = require('crypto');
 const csrfCookieName = 'vogue_csrf';
 const csrfHeaderName = 'x-csrf-token';
 const safeMethods = new Set(['GET', 'HEAD', 'OPTIONS']);
-const exemptPaths = new Set(['/auth/login', '/auth/signup', '/auth/google', '/auth/csrf-token', '/billing/webhook']);
+const exemptPaths = new Set(['/auth/login', '/auth/signup', '/auth/google', '/auth/forgot-password', '/auth/verify-reset-otp', '/auth/reset-password', '/auth/csrf-token', '/billing/webhook']);
 
 const cookieOptions = {
   httpOnly: false,

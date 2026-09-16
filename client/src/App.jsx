@@ -1,6 +1,7 @@
 import Landing from "./pages/Landing";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
+import ForgotPassword from "./pages/ForgotPassword";
 import Dashboard from "./pages/Dashboard";
 import Skintone from "./pages/Skintone";
 import Wardrobe from "./pages/Wardrobe";
@@ -31,6 +32,7 @@ export default function App() {
 	else if (pathname === "/trends") page = <ProtectedRoute><Trends /></ProtectedRoute>;
 	else if (pathname === "/signup") page = <Signup />;
 	else if (pathname === "/login") page = <Login />;
+	else if (pathname === "/forgot-password") page = <ForgotPassword />;
 	else if (pathname === "/privacy-policy") page = <PrivacyPolicy />;
 	else if (pathname === "/skintone") page = <ProtectedRoute><Skintone /></ProtectedRoute>;
 	else if (pathname === "/wardrobe") page = <ProtectedRoute><Wardrobe /></ProtectedRoute>;

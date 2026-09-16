@@ -2,6 +2,8 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
 const { applicationDefault, cert, getApps, initializeApp } = require('firebase-admin/app');
 const { getAuth } = require('firebase-admin/auth');
 const { rateLimit } = require('express-rate-limit');
@@ -32,6 +34,22 @@ const authAttemptLimiter = rateLimit({
   legacyHeaders: false,
   message: { error: 'Too many signup or login attempts. Please try again later.' },
 });
+const resetAttemptLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 5,
+  standardHeaders: 'draft-8',
+  legacyHeaders: false,
+  message: { error: 'Too many password reset attempts. Please try again later.' },
+});
+const mailTransport = process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASSWORD
+  ? nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT || 587),
+    secure: Number(process.env.SMTP_PORT || 587) === 465,
+    auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASSWORD },
+  })
+  : null;
+const hashOtp = (otp) => crypto.createHash('sha256').update(otp).digest('hex');
 const cookieOptions = {
   httpOnly: true,
   secure: process.env.NODE_ENV === 'production',
@@ -147,6 +165,82 @@ router.post('/google', authAttemptLimiter, async (req, res) => {
     console.error('Google Login Error:', error.message);
     return res.status(401).json({ error: 'Unable to verify your Google account.' });
   }
+});
+
+router.post('/forgot-password', resetAttemptLimiter, async (req, res) => {
+  const email = String(req.body.email || '').trim().toLowerCase();
+  const genericResponse = { message: 'If an account exists for that email, a reset code has been sent.' };
+
+  if (!/^\S+@\S+\.\S+$/.test(email) || databaseUnavailable()) return res.json(genericResponse);
+  if (!mailTransport) return res.status(503).json({ error: 'Password reset email is not configured.' });
+
+  try {
+    const user = await User.findOne({ email }).select('+passwordResetOtpHash +passwordResetOtpExpiresAt +passwordResetOtpAttempts');
+    if (!user) return res.json(genericResponse);
+
+    const otp = String(crypto.randomInt(100000, 1000000));
+    user.passwordResetOtpHash = hashOtp(otp);
+    user.passwordResetOtpExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
+    user.passwordResetOtpAttempts = 0;
+    await user.save();
+
+    await mailTransport.sendMail({
+      from: process.env.SMTP_FROM || process.env.SMTP_USER,
+      to: user.email,
+      subject: 'Your Vogue AI password reset code',
+      text: `Your Vogue AI password reset code is ${otp}. It expires in 10 minutes. If you did not request this, ignore this email.`,
+      html: `<p>Your Vogue AI password reset code is:</p><p style="font-size:24px;font-weight:bold;letter-spacing:6px">${otp}</p><p>This code expires in 10 minutes.</p>`,
+    });
+    return res.json(genericResponse);
+  } catch (error) {
+    console.error('Password Reset Request Error:', error.message);
+    return res.json(genericResponse);
+  }
+});
+
+router.post('/verify-reset-otp', resetAttemptLimiter, async (req, res) => {
+  const email = String(req.body.email || '').trim().toLowerCase();
+  const otp = String(req.body.otp || '').trim();
+  if (!/^\S+@\S+\.\S+$/.test(email) || !/^\d{6}$/.test(otp) || databaseUnavailable()) {
+    return res.status(400).json({ error: 'Invalid or expired reset code.' });
+  }
+
+  const user = await User.findOne({ email }).select('+passwordResetOtpHash +passwordResetOtpExpiresAt +passwordResetOtpAttempts');
+  const valid = user
+    && user.passwordResetOtpHash
+    && user.passwordResetOtpExpiresAt > new Date()
+    && user.passwordResetOtpAttempts < 5
+    && crypto.timingSafeEqual(Buffer.from(user.passwordResetOtpHash), Buffer.from(hashOtp(otp)));
+  if (!valid) {
+    if (user) await User.updateOne({ _id: user._id }, { $inc: { passwordResetOtpAttempts: 1 } });
+    return res.status(400).json({ error: 'Invalid or expired reset code.' });
+  }
+  return res.json({ message: 'Code verified.' });
+});
+
+router.post('/reset-password', resetAttemptLimiter, async (req, res) => {
+  const email = String(req.body.email || '').trim().toLowerCase();
+  const otp = String(req.body.otp || '').trim();
+  const newPassword = String(req.body.newPassword || '');
+  if (!/^\S+@\S+\.\S+$/.test(email) || !/^\d{6}$/.test(otp) || !/(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}/.test(newPassword)) {
+    return res.status(400).json({ error: 'Enter a valid code and a password with 8+ characters, uppercase, lowercase, and a number.' });
+  }
+  if (databaseUnavailable()) return res.status(503).json({ error: 'Password storage is unavailable.' });
+
+  const user = await User.findOne({ email }).select('+passwordResetOtpHash +passwordResetOtpExpiresAt +passwordResetOtpAttempts +passwordHash');
+  const valid = user
+    && user.passwordResetOtpHash
+    && user.passwordResetOtpExpiresAt > new Date()
+    && user.passwordResetOtpAttempts < 5
+    && crypto.timingSafeEqual(Buffer.from(user.passwordResetOtpHash), Buffer.from(hashOtp(otp)));
+  if (!valid) return res.status(400).json({ error: 'Invalid or expired reset code.' });
+
+  user.passwordHash = await bcrypt.hash(newPassword, 12);
+  user.passwordResetOtpHash = undefined;
+  user.passwordResetOtpExpiresAt = undefined;
+  user.passwordResetOtpAttempts = 0;
+  await user.save();
+  return res.json({ message: 'Password reset successfully. You can now log in.' });
 });
 
 router.get('/csrf-token', (req, res) => res.json({ csrfToken: req.csrfToken() }));

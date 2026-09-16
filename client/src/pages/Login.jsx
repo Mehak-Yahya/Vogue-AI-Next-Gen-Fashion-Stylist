@@ -127,6 +127,7 @@ export default function Login() {
                 </button>
               </span>
             </label>
+            <p className="signup-login"><a href="/forgot-password">Forgot password?</a></p>
             {error && <p className="signup-error signup-form-error" role="alert">{error}</p>}
             <button type="submit" disabled={submitting}>
               {submitting ? "Logging in..." : "Log in"}

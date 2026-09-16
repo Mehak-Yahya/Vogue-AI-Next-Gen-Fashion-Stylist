@@ -5,6 +5,9 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true, lowercase: true, trim: true },
   passwordHash: { type: String, required: false, select: false },
   googleId: { type: String, unique: true, sparse: true, select: false },
+  passwordResetOtpHash: { type: String, select: false },
+  passwordResetOtpExpiresAt: { type: Date, select: false },
+  passwordResetOtpAttempts: { type: Number, default: 0, select: false },
   profile: {
     type: mongoose.Schema.Types.Mixed,
     default: () => ({ onboardingComplete: false }),
