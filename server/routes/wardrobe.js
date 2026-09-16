@@ -2,19 +2,30 @@ const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
+const { v2: cloudinary } = require('cloudinary');
+const WardrobeItem = require('../models/WardrobeItem');
 const { requireAuth } = require('../middleware/requireAuth');
 const { validateImage } = require('../utils/validateImage');
 const User = require('../models/User');
 
 const router = express.Router();
-const dataDirectory = path.join(__dirname, '..', 'data');
 const uploadDirectory = path.join(__dirname, '..', 'uploads', 'wardrobe');
-const dataFile = path.join(dataDirectory, 'wardrobe.json');
 const FREE_WARDROBE_LIMIT = 5;
+const cloudinaryConfigured = Boolean(
+  process.env.CLOUDINARY_CLOUD_NAME
+  && process.env.CLOUDINARY_API_KEY
+  && process.env.CLOUDINARY_API_SECRET
+);
 
-fs.mkdirSync(dataDirectory, { recursive: true });
+if (cloudinaryConfigured) {
+  cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+  });
+}
+
 fs.mkdirSync(uploadDirectory, { recursive: true });
-if (!fs.existsSync(dataFile)) fs.writeFileSync(dataFile, '[]');
 
 const storage = multer.memoryStorage();
 const upload = multer({
@@ -25,13 +36,23 @@ const upload = multer({
   },
 });
 
-const readItems = () => JSON.parse(fs.readFileSync(dataFile, 'utf8')).map((item) => ({
-  ...item,
-  filepath: item.filename ? imageUrl(item.filename) : item.filepath,
-}));
-const writeItems = (items) => fs.writeFileSync(dataFile, JSON.stringify(items, null, 2));
 const imageUrl = (filename) => `/api/wardrobe/image/${encodeURIComponent(filename)}`;
-const itemsForUser = (userId) => readItems().filter((item) => item.userId === userId);
+const serializeItem = (item) => {
+  const serialized = { ...item };
+  delete serialized._id;
+  if (serialized.filename && !serialized.filepath.startsWith('http')) {
+    serialized.filepath = imageUrl(serialized.filename);
+  }
+  return serialized;
+};
+const itemsForUser = (userId) => WardrobeItem.find({ userId }).sort({ upload_date: -1 }).lean();
+const uploadToCloudinary = (buffer, userId) => new Promise((resolve, reject) => {
+  const stream = cloudinary.uploader.upload_stream(
+    { folder: `vogue-ai/wardrobe/${userId}`, resource_type: 'image' },
+    (error, result) => (error ? reject(error) : resolve(result)),
+  );
+  stream.end(buffer);
+});
 const categoryGroups = {
   tops: ['top', 'shirt', 'blouse', 'sweater', 't-shirt', 'tank'],
   bottoms: ['bottom', 'pants', 'jeans', 'skirt', 'shorts'],
@@ -52,14 +73,14 @@ const colorMatches = (first, second) => {
 router.get('/', requireAuth, async (req, res) => {
   const user = await User.findById(req.user.id).select('profile').lean();
   return res.json({
-    items: itemsForUser(req.user.id),
+    items: (await itemsForUser(req.user.id)).map(serializeItem),
     isPremium: user?.profile?.subscriptionStatus === 'active',
   });
 });
 
-router.get('/image/:filename', requireAuth, (req, res) => {
+router.get('/image/:filename', requireAuth, async (req, res) => {
   const filename = path.basename(req.params.filename);
-  const item = itemsForUser(req.user.id).find((entry) => entry.filename === filename);
+  const item = await WardrobeItem.findOne({ userId: req.user.id, filename }).lean();
 
   if (!item) return res.status(404).json({ error: 'Image not found.' });
 
@@ -71,7 +92,8 @@ router.post('/upload', requireAuth, upload.single('file'), async (req, res) => {
 
   const user = await User.findById(req.user.id).select('profile').lean();
   const isPremium = user?.profile?.subscriptionStatus === 'active';
-  if (!isPremium && itemsForUser(req.user.id).length >= FREE_WARDROBE_LIMIT) {
+  const itemCount = await WardrobeItem.countDocuments({ userId: req.user.id });
+  if (!isPremium && itemCount >= FREE_WARDROBE_LIMIT) {
     return res.status(402).json({
       code: 'WARDROBE_LIMIT_REACHED',
       error: 'Your free wardrobe includes 5 items. Upgrade to add unlimited pieces.',
@@ -84,14 +106,29 @@ router.post('/upload', requireAuth, upload.single('file'), async (req, res) => {
     return res.status(400).json({ error: error.message });
   }
 
-  const safeName = req.file.originalname.replace(/[^a-zA-Z0-9._-]/g, '_');
-  const filename = `${Date.now()}_${safeName}`;
-  fs.writeFileSync(path.join(uploadDirectory, filename), req.file.buffer);
-  const item = {
-    id: String(Date.now()),
+  let filename;
+  let filepath;
+  let cloudinaryPublicId;
+  if (cloudinaryConfigured) {
+    try {
+      const uploaded = await uploadToCloudinary(req.file.buffer, req.user.id);
+      filepath = uploaded.secure_url;
+      cloudinaryPublicId = uploaded.public_id;
+    } catch (error) {
+      console.error('Cloudinary wardrobe upload failed:', error.message);
+      return res.status(502).json({ error: 'Image storage is temporarily unavailable.' });
+    }
+  } else {
+    const safeName = req.file.originalname.replace(/[^a-zA-Z0-9._-]/g, '_');
+    filename = `${Date.now()}_${safeName}`;
+    filepath = imageUrl(filename);
+    fs.writeFileSync(path.join(uploadDirectory, filename), req.file.buffer);
+  }
+  const item = await WardrobeItem.create({
     userId: req.user.id,
-    filename,
-    filepath: imageUrl(filename),
+    ...(filename ? { filename } : {}),
+    ...(cloudinaryPublicId ? { cloudinaryPublicId } : {}),
+    filepath,
     category: req.body.category || 'top',
     color: req.body.color || 'unknown',
     season: req.body.season || 'all-season',
@@ -101,37 +138,41 @@ router.post('/upload', requireAuth, upload.single('file'), async (req, res) => {
     price: Number(req.body.price) || 0,
     times_worn: 0,
     last_worn: null,
-    upload_date: new Date().toISOString(),
-  };
-  const items = readItems();
-  items.push(item);
-  writeItems(items);
-  res.status(201).json({ success: true, item });
+    upload_date: new Date(),
+  });
+  res.status(201).json({ success: true, item: serializeItem(item.toObject()) });
 });
 
-router.delete('/:itemId', requireAuth, (req, res) => {
+router.delete('/:itemId', requireAuth, async (req, res) => {
   const userId = req.user.id;
-  const items = readItems();
-  const item = items.find((entry) => entry.id === req.params.itemId && entry.userId === userId);
+  const item = await WardrobeItem.findOne({ id: req.params.itemId, userId }).lean();
   if (!item) return res.status(404).json({ error: 'Item not found.' });
-  writeItems(items.filter((entry) => !(entry.id === req.params.itemId && entry.userId === userId)));
+  if (item.cloudinaryPublicId && cloudinaryConfigured) {
+    try {
+      await cloudinary.uploader.destroy(item.cloudinaryPublicId, { resource_type: 'image' });
+    } catch (error) {
+      console.error('Cloudinary wardrobe deletion failed:', error.message);
+      return res.status(502).json({ error: 'Image storage is temporarily unavailable.' });
+    }
+  }
+  await WardrobeItem.deleteOne({ id: req.params.itemId, userId });
   if (item.filename) fs.rmSync(path.join(uploadDirectory, item.filename), { force: true });
   res.json({ success: true });
 });
 
-router.post('/:itemId/worn', requireAuth, (req, res) => {
+router.post('/:itemId/worn', requireAuth, async (req, res) => {
   const userId = req.user.id;
-  const items = readItems();
-  const item = items.find((entry) => entry.id === req.params.itemId && entry.userId === userId);
+  const item = await WardrobeItem.findOneAndUpdate(
+    { id: req.params.itemId, userId },
+    { $inc: { times_worn: 1 }, $set: { last_worn: new Date() } },
+    { new: true, lean: true },
+  );
   if (!item) return res.status(404).json({ error: 'Item not found.' });
-  item.times_worn = (item.times_worn || 0) + 1;
-  item.last_worn = new Date().toISOString();
-  writeItems(items);
-  res.json({ success: true, item });
+  res.json({ success: true, item: serializeItem(item) });
 });
 
-router.get('/stats/summary', requireAuth, (req, res) => {
-  const items = itemsForUser(req.user.id);
+router.get('/stats/summary', requireAuth, async (req, res) => {
+  const items = await itemsForUser(req.user.id);
   const categories = {};
   const colors = {};
   items.forEach((item) => {
@@ -141,7 +182,7 @@ router.get('/stats/summary', requireAuth, (req, res) => {
   res.json({
     total_items: items.length,
     total_value: items.reduce((sum, item) => sum + (Number(item.price) || 0), 0),
-    most_worn: items.reduce((best, item) => (!best || item.times_worn > best.times_worn ? item : best), null),
+    most_worn: items.reduce((best, item) => (!best || item.times_worn > best.times_worn ? serializeItem(item) : best), null),
     category_breakdown: categories,
     color_breakdown: colors,
   });
@@ -166,8 +207,8 @@ const buildOutfits = (items, limit = 15) => {
   return outfits.slice(0, limit);
 };
 
-router.get('/outfits/generate', requireAuth, (req, res) => {
-  const outfits = buildOutfits(itemsForUser(req.user.id));
+router.get('/outfits/generate', requireAuth, async (req, res) => {
+  const outfits = buildOutfits((await itemsForUser(req.user.id)).map(serializeItem));
   if (!outfits.length) {
     return res.json({
       outfits: [],

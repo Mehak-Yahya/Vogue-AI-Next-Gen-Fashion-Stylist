@@ -45,6 +45,9 @@ export default function Wardrobe() {
   const load = async () => {
     const wardrobeResponse = await fetch(`${API}/api/wardrobe`, { headers: authHeaders(), credentials: "include" });
     const result = await wardrobeResponse.json();
+    if (!wardrobeResponse.ok) {
+      throw new Error(result.error || "Unable to load your wardrobe.");
+    }
     setItems(result.items || []);
     setIsPremium(Boolean(result.isPremium));
   };
