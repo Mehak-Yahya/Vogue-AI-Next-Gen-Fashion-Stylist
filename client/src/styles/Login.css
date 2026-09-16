@@ -6,6 +6,11 @@
   grid-column: 2;
 }
 
+.login-forgot {
+  margin-top: 0;
+  text-align: right;
+}
+
 .login-story-panel {
   grid-column: 1;
   grid-row: 1;
