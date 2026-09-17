@@ -56,8 +56,10 @@ const smtpUser = readEnv('SMTP_USER');
 const smtpPassword = readEnv('SMTP_PASSWORD');
 const smtpFrom = readEnv('SMTP_FROM') || smtpUser;
 const smtpConfigured = Boolean(smtpHost && smtpUser && smtpPassword);
+const emailProvider = readEnv('EMAIL_PROVIDER').toLowerCase();
 const resendApiKey = readEnv('RESEND_API_KEY');
 const resendFrom = readEnv('RESEND_FROM') || smtpFrom;
+const resendConfigured = Boolean(resendApiKey && emailProvider !== 'smtp');
 const getIpv4Socket = (options, callback) => {
   dns.resolve4(options.host, (dnsError, addresses) => {
     if (dnsError || !addresses?.length) {
@@ -89,14 +91,14 @@ const mailTransport = smtpConfigured ? nodemailer.createTransport({
 }) : null;
 const sendResetEmail = async ({ to, otp }) => {
   const message = {
-    from: resendFrom,
+    from: emailProvider === 'smtp' ? smtpFrom : resendFrom,
     to,
     subject: 'Your Vogue AI password reset code',
     text: `Your Vogue AI password reset code is ${otp}. It expires in 10 minutes. If you did not request this, ignore this email.`,
     html: `<p>Your Vogue AI password reset code is:</p><p style="font-size:24px;font-weight:bold;letter-spacing:6px">${otp}</p><p>This code expires in 10 minutes.</p>`,
   };
 
-  if (resendApiKey) {
+  if (resendConfigured) {
     await axios.post('https://api.resend.com/emails', message, {
       headers: { Authorization: `Bearer ${resendApiKey}` },
       timeout: 8_000,
@@ -105,7 +107,7 @@ const sendResetEmail = async ({ to, otp }) => {
   }
   
 
-  if (!mailTransport) throw new Error('No email provider is configured.');
+  if (!mailTransport) throw new Error('SMTP email is not configured.');
   await mailTransport.sendMail({ ...message, from: smtpFrom });
 };
 const hashOtp = (otp) => crypto.createHash('sha256').update(otp).digest('hex');
@@ -231,7 +233,7 @@ router.post('/forgot-password', resetAttemptLimiter, async (req, res) => {
   const genericResponse = { message: 'If an account exists for that email, a reset code has been sent.' };
 
   if (!/^\S+@\S+\.\S+$/.test(email) || databaseUnavailable()) return res.json(genericResponse);
-  if (!smtpConfigured && !resendApiKey) return res.status(503).json({ error: 'Password reset email is not configured.' });
+  if (!smtpConfigured && !resendConfigured) return res.status(503).json({ error: 'Password reset email is not configured.' });
 
   try {
     const user = await User.findOne({ email }).select('+passwordResetOtpHash +passwordResetOtpExpiresAt +passwordResetOtpAttempts');
