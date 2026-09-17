@@ -7,6 +7,7 @@
     "dev": "nodemon server.js",
     "start": "node server.js",
     "scrape:brands": "node services/scrapeSkinToneBrands.js",
+    "catalog:refresh": "node scripts/refresh-catalog.js",
     "test": "node --test tests/security.test.js"
   },
   "keywords": [],

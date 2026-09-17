@@ -414,20 +414,26 @@ const scrapeBrandsInternal = async (requestedBrand) => {
 
   const existingProducts = readProducts();
   const products = [];
+  const completedBrands = [];
   for (const [brand, urls] of Object.entries(selected)) {
+    let completed = true;
     for (const url of urls) {
       try {
         products.push(...await scrapeBrand(brand, url, palettes));
         const checkpoint = saveProducts([...products, ...existingProducts]);
         console.log(`${brand}: scraped ${checkpoint.length} products so far`);
       } catch (error) {
+        completed = false;
         console.warn(`${brand}: ${error.message}`);
       }
       await new Promise((resolve) => setTimeout(resolve, 750));
     }
+    if (completed) completedBrands.push(brand);
   }
   if (!products.length) throw new Error('No products were scraped; existing data was preserved.');
   const uniqueProducts = saveProducts([...products, ...existingProducts]);
+  uniqueProducts.freshProducts = products;
+  uniqueProducts.completedBrands = completedBrands;
   return uniqueProducts;
 };
 

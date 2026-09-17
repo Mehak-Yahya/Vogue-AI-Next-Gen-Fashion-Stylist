@@ -16,6 +16,8 @@ const billingRoutes = require('./routes/billing');
 const { requireAuth } = require('./middleware/requireAuth');
 const { csrfProtection } = require('./middleware/csrf');
 const { validateImage } = require('./utils/validateImage');
+const { scrapeBrands } = require('./services/scrapeSkinToneBrands');
+const { persistCatalogProducts, seedCatalogIfEmpty } = require('./services/productCatalogService');
 
 const app = express();
 app.set('trust proxy', 1);
@@ -166,6 +168,7 @@ const startServer = async () => {
       });
 
       console.log('Connected to local MongoDB');
+      await seedCatalogIfEmpty();
     } catch (error) {
       console.warn(
         `MongoDB unavailable. Retrying in ${MONGODB_RETRY_DELAY_MS / 1000}s: ${error.message}`,
@@ -178,7 +181,26 @@ const startServer = async () => {
     console.log(
       `Vogue AI Express Backend running on http://localhost:${PORT}`,
     );
+    scheduleCatalogRefresh();
   });
+};
+
+const scheduleCatalogRefresh = () => {
+  const intervalHours = Number(process.env.SCRAPE_INTERVAL_HOURS || 24);
+  if (!Number.isFinite(intervalHours) || intervalHours <= 0) return;
+
+  const refresh = async () => {
+    try {
+      const products = await scrapeBrands();
+      const persisted = await persistCatalogProducts(products);
+      console.log(`Catalog refresh complete: ${persisted} products persisted.`);
+    } catch (error) {
+      console.error('Scheduled catalog refresh failed:', error.message);
+    }
+  };
+
+  setInterval(refresh, intervalHours * 60 * 60 * 1000);
+  console.log(`Catalog refresh scheduled every ${intervalHours} hour(s).`);
 };
 
 if (require.main === module) startServer();

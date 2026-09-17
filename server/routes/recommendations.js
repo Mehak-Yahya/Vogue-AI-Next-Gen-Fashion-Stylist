@@ -1,7 +1,8 @@
 const express = require('express');
 const { rateLimit } = require('express-rate-limit');
 const { getRecommendedColors } = require('../services/recommendationService');
-const { readProducts, scrapeBrands } = require('../services/scrapeSkinToneBrands');
+const { scrapeBrands } = require('../services/scrapeSkinToneBrands');
+const { persistCatalogProducts, readCatalogProducts } = require('../services/productCatalogService');
 const { requireAuth } = require('../middleware/requireAuth');
 
 const router = express.Router();
@@ -21,8 +22,8 @@ router.get('/colors', (req, res) => {
   return res.json({ success: true, palettes });
 });
 
-router.get('/products', (req, res) => {
-  const products = readProducts();
+router.get('/products', async (req, res) => {
+  const products = await readCatalogProducts();
   const season = req.query.season?.toLowerCase();
   const palettes = season ? Object.values(getRecommendedColors(req.query.season)).flat() : [];
   const colors = palettes.map((color) => color.toLowerCase());
@@ -35,7 +36,8 @@ router.get('/products', (req, res) => {
 router.post('/scrape', requireAuth, scrapeLimiter, async (req, res) => {
   try {
     const products = await scrapeBrands(req.body?.brand);
-    return res.json({ success: true, count: products.length });
+    const persisted = await persistCatalogProducts(products);
+    return res.json({ success: true, count: products.length, persisted });
   } catch (error) {
     return res.status(500).json({ success: false, error: error.message });
   }
