@@ -49,7 +49,7 @@ const readEnv = (name) => {
   return value.replace(/^(['"])(.*)\1$/, '$2').trim();
 };
 const smtpHost = readEnv('SMTP_HOST');
-const smtpPort = Number(readEnv('SMTP_PORT') || 465);
+const smtpPort = Number(readEnv('SMTP_PORT') || 587);
 const smtpSecureValue = readEnv('SMTP_SECURE').toLowerCase();
 const smtpSecure = smtpSecureValue ? smtpSecureValue === 'true' : smtpPort === 465;
 const smtpUser = readEnv('SMTP_USER');
