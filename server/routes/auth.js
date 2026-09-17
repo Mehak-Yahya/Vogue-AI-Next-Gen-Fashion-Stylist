@@ -103,6 +103,7 @@ const sendResetEmail = async ({ to, otp }) => {
     });
     return;
   }
+  
 
   if (!mailTransport) throw new Error('No email provider is configured.');
   await mailTransport.sendMail({ ...message, from: smtpFrom });
