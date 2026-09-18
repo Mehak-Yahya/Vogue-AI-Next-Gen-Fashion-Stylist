@@ -16,9 +16,14 @@ processor = SegformerImageProcessor.from_pretrained("jonathandinu/face-parsing")
 model = SegformerForSemanticSegmentation.from_pretrained("jonathandinu/face-parsing")
 model.eval()
 
+@app.get("/")
+def health_check():
+    return {"status": "Skin-tone analysis service is active and running."}
+
+
 def rgb_to_cielab(r: int, g: int, b: int):
     """Converts RGB color values to CIELAB (L*, a*, b*)."""
-    rgb_pixel = np.uint8([[[r, g, b]]])
+    rgb_pixel = np.array([[[r, g, b]]], dtype=np.uint8)
     lab_pixel = cv2.cvtColor(rgb_pixel, cv2.COLOR_RGB2LAB)
     return {
         "L": round((float(lab_pixel[0][0][0]) * 100.0) / 255.0, 2),
