@@ -5,9 +5,10 @@ import math
 import numpy as np
 import torch
 
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, HTTPException, UploadFile
 from PIL import Image
 from transformers import SegformerImageProcessor, SegformerForSemanticSegmentation
+from skin_sampling import estimate_skin_rgb
 
 app = FastAPI(title="Vogue AI 12-Season Engine", version="1.0.0")
 
@@ -103,12 +104,7 @@ def extract_precise_feature_colors(img_np, labels):
     hsv_np = cv2.cvtColor(img_np, cv2.COLOR_RGB2HSV)
 
     skin_mask = labels == 1
-    skin_pixels = img_np[skin_mask]
-    if skin_pixels.size > 0:
-        valid_skin = skin_pixels[(np.mean(skin_pixels, axis=1) > 30) & (np.mean(skin_pixels, axis=1) < 235)]
-        mean_skin_rgb = np.mean(valid_skin, axis=0) if valid_skin.size > 0 else np.mean(skin_pixels, axis=0)
-    else:
-        mean_skin_rgb = np.array([210, 170, 140])
+    mean_skin_rgb = estimate_skin_rgb(img_np, skin_mask)
 
     eye_mask = (labels == 4) | (labels == 5)
     eye_pixels_rgb = img_np[eye_mask]
@@ -193,8 +189,7 @@ def extract_features_with_ai(image_path):
             "chroma": chroma
         },
         "season_analysis": {
-            "season": season,
-            "confidence": 0.98
+            "season": season
         },
         "message": "Automated segmentation and 12-season analysis complete."
     }
@@ -209,7 +204,10 @@ async def analyze_season(file: UploadFile = File(...)):
             temporary_file.write(await file.read())
             temporary_path = temporary_file.name
 
-        return extract_features_with_ai(temporary_path)
+        try:
+            return extract_features_with_ai(temporary_path)
+        except ValueError as error:
+            raise HTTPException(status_code=422, detail=str(error)) from error
     finally:
         if temporary_path:
             os.unlink(temporary_path)

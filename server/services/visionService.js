@@ -23,7 +23,9 @@ const analyzeSkinAndSeason = async (imageBuffer, filename = 'selfie.png') => {
     return response.data;
   } catch (error) {
     console.error('Error communicating with Python Vision service:', error.message);
-    throw new Error('Vision analysis service failed.');
+    const serviceError = new Error(error.response?.data?.detail || 'Vision analysis service failed.');
+    serviceError.status = error.response?.status || 500;
+    throw serviceError;
   }
 };
 

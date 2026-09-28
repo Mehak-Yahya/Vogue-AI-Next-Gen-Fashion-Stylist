@@ -26,10 +26,7 @@ router.post('/analyze-skin', upload.single('image'), async (req, res) => {
       data: visionResults
     });
   } catch (error) {
-    if (error.message.includes('image') || error.message.includes('Image')) {
-      return res.status(400).json({ success: false, error: error.message });
-    }
-    return res.status(500).json({
+    return res.status(error.status || 500).json({
       success: false,
       error: error.message
     });
