@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import AppNavbar from "../components/AppNavbar";
 import "../styles/Wardrobe.css";
 import { authHeaders } from "../utils/auth";
@@ -42,6 +42,8 @@ export default function Wardrobe() {
   const [isUploadOpen, setIsUploadOpen] = useState(false);
   const [previewUrl, setPreviewUrl] = useState("");
   const [isPremium, setIsPremium] = useState(false);
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const checkoutInFlight = useRef(false);
   const load = async () => {
     const wardrobeResponse = await fetch(`${API}/api/wardrobe`, { headers: authHeaders(), credentials: "include" });
     const result = await wardrobeResponse.json();
@@ -176,18 +178,32 @@ export default function Wardrobe() {
     window.location.href = "/outfits";
   };
   const upgrade = async () => {
+    if (checkoutInFlight.current) return;
+    checkoutInFlight.current = true;
+    setCheckoutLoading(true);
     setMessage("");
+    const storageKey = "vogue-ai-checkout-idempotency-key";
     try {
+      let idempotencyKey = sessionStorage.getItem(storageKey);
+      if (!idempotencyKey) {
+        idempotencyKey = crypto.randomUUID();
+        sessionStorage.setItem(storageKey, idempotencyKey);
+      }
+
       const response = await fetch(`${API}/api/billing/create-checkout-session`, {
         method: "POST",
-        headers: authHeaders(),
+        headers: { ...authHeaders(), "Idempotency-Key": idempotencyKey },
         credentials: "include",
       });
       const result = await response.json();
       if (!response.ok) throw new Error(result.error || "Unable to start checkout.");
+      sessionStorage.removeItem(storageKey);
       window.location.href = result.url;
     } catch (error) {
       setMessage(error.message);
+    } finally {
+      checkoutInFlight.current = false;
+      setCheckoutLoading(false);
     }
   };
 
@@ -422,7 +438,7 @@ export default function Wardrobe() {
               >
                 + ADD A PIECE
               </button>
-              {!isPremium && <button className="wardrobe-generate-button" type="button" onClick={upgrade}>UPGRADE TO PRO</button>}
+              {!isPremium && <button className="wardrobe-generate-button" type="button" onClick={upgrade} disabled={checkoutLoading}>{checkoutLoading ? "STARTING CHECKOUT..." : "UPGRADE TO PRO"}</button>}
               <button
                 className="wardrobe-generate-button"
                 type="button"
@@ -435,7 +451,7 @@ export default function Wardrobe() {
           {!isPremium && items.length >= 5 && (
             <div className="wardrobe-message wardrobe-limit-notice" role="status">
               <span>Your free wardrobe includes 5 items.</span>
-              <button type="button" onClick={upgrade}>Upgrade to add unlimited pieces</button>
+              <button type="button" onClick={upgrade} disabled={checkoutLoading}>{checkoutLoading ? "Starting checkout..." : "Upgrade to add unlimited pieces"}</button>
             </div>
           )}
           <section className="wardrobe-grid">
