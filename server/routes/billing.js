@@ -11,6 +11,11 @@ router.post('/create-checkout-session', requireAuth, async (req, res) => {
     return res.status(503).json({ error: 'Billing is not configured yet.' });
   }
 
+  const requestKey = req.get('Idempotency-Key') || '';
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(requestKey)) {
+    return res.status(400).json({ error: 'A valid checkout idempotency key is required.' });
+  }
+
   try {
     const user = await User.findById(req.user.id).lean();
     if (!user) return res.status(404).json({ error: 'User account was not found.' });
@@ -23,6 +28,8 @@ router.post('/create-checkout-session', requireAuth, async (req, res) => {
       subscription_data: { metadata: { userId: user._id.toString() } },
       success_url: `${process.env.CLIENT_URL}/wardrobe?subscription=success`,
       cancel_url: `${process.env.CLIENT_URL}/wardrobe?subscription=cancelled`,
+    }, {
+      idempotencyKey: `checkout:${user._id.toString()}:${requestKey}`,
     });
 
     return res.json({ url: session.url });
