@@ -11,7 +11,6 @@ Vogue AI is an AI-powered fashion styling platform focused on Pakistani and Sout
 - **Personal Color Analysis:** Analysis of skin tone, undertone, eye color, and hair color for personalized color suggestions.
 - **Pakistani Fashion Integration:** Styling inspiration tailored to Pakistani clothing, brands, and trends.
 - **Outfit Coordination:** Suggestions for complementary colors, clothing combinations, and accessories.
-- **Fashion Discovery:** Explore fashion items and styling ideas for different occasions.
 - **Responsive Interface:** Interactive and user-friendly fashion styling experience.
 
 ## Technology Stack
