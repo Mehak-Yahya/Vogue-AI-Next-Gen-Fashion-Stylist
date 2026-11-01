@@ -51,6 +51,3 @@ My primary focus is backend development and AI integration.
 
 Currently under development. Features and integrations may evolve as development progresses.
 
-## License
-
-This project is intended for educational and portfolio purposes.
