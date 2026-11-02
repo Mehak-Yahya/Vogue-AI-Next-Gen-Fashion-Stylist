@@ -2,7 +2,7 @@
 
 ## Overview
 
-Vogue AI is an AI-powered fashion styling platform focused on Pakistani and South Asian fashion. It combines web development, artificial intelligence, and computer vision to provide personalized styling recommendations based on individual preferences and color characteristics.
+Vogue AI is an AI-powered fashion styling platform focused on Pakistani fashion. It combines web development, artificial intelligence, and computer vision to provide personalized styling recommendations based on individual preferences and color characteristics.
 
 ## Features
 
