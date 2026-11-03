@@ -16,7 +16,7 @@ Vogue AI is an AI-powered fashion styling platform focused on Pakistani fashion.
 ## Technology Stack
 
 - **Frontend:** React.js, JavaScript, HTML5, CSS3, Vite
-- **Backend:** Node.js, Express.js
+- **Backend:** Node.js, Express.js, Stripe
 - **Database:** MongoDB, Mongoose
 - **AI and Computer Vision:** Python, OpenCV
 - **API Development:** REST APIs
