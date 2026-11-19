@@ -1,6 +1,4 @@
-# Vogue AI – Next Gen Fashion Stylist
-
-## Overview
+# Vogue AI – Next Gen Fashion Stylish
 
 Vogue AI is an AI-powered fashion styling platform focused on Pakistani fashion. It combines web development, artificial intelligence, and computer vision to provide personalized styling recommendations based on individual preferences and color characteristics.
 
