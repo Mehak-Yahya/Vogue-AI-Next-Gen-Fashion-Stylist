@@ -41,7 +41,6 @@ My primary focus is backend development and AI integration.
 
 - Advanced seasonal color analysis.
 - Retrieval-Augmented Generation (RAG) for context-aware fashion assistance.
-- English and Roman Urdu chatbot support.
 - Enhanced fashion product discovery.
 - Improved personalization based on user preferences.
 
